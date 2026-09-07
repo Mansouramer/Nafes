@@ -280,11 +280,11 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة المخصص لصفحة A4 واحدة */
+        /* تنسيق الطباعة المخصص لصفحة A4 واحدة مُحكمة */
         @media print {
             @page {
-                size: A4;
-                margin: 1cm;
+                size: A4 portrait;
+                margin: 0.5cm;
             }
             body * {
                 visibility: hidden;
@@ -297,7 +297,6 @@
                 left: 0;
                 top: 0;
                 width: 100%;
-                font-size: 11pt;
             }
             .no-print { 
                 display: none !important; 
@@ -311,38 +310,50 @@
                 margin: 0 !important;
                 display: block !important;
             }
+            #tenQuestionsContainer {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            }
             .question-card { 
                 background: #ffffff !important; 
-                border: 1px solid #cbd5e1 !important; 
+                border: 1px solid #94a3b8 !important; 
                 color: black !important; 
-                padding: 8px !important;
-                margin-bottom: 8px !important;
+                padding: 4px 8px !important;
+                margin-bottom: 4px !important;
                 page-break-inside: avoid;
                 break-inside: avoid;
             }
             .question-title {
                 color: #0f172a !important;
-                font-size: 10.5pt !important;
-                margin-bottom: 6px !important;
+                font-size: 8.5pt !important;
+                margin-bottom: 3px !important;
+                line-height: 1.2 !important;
+            }
+            .options-container {
+                gap: 2px !important;
             }
             .option-label { 
                 background: #f8fafc !important; 
                 border: 1px solid #cbd5e1 !important; 
                 color: #1e293b !important; 
-                padding: 5px 8px !important;
-                font-size: 10pt !important;
+                padding: 2px 6px !important;
+                font-size: 8pt !important;
             }
             .domain-tag { 
                 background: #e2e8f0 !important; 
                 color: #1e293b !important; 
-                font-size: 8pt !important;
-                padding: 2px 6px !important;
-                margin-bottom: 4px !important;
+                font-size: 7pt !important;
+                padding: 1px 4px !important;
+                margin-bottom: 2px !important;
             }
-            h2 { 
-                color: black !important; 
-                font-size: 12pt !important;
-                margin: 5px 0 !important;
+            #print-section > div:first-child {
+                padding-bottom: 4px !important;
+                margin-bottom: 6px !important;
+                font-size: 9pt !important;
+            }
+            #print-section p {
+                margin: 2px 0 !important;
             }
         }
     </style>
@@ -721,3 +732,4 @@
 
 </body>
 </html>
+
