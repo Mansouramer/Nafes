@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام تقييم وتحليل مهارات العلوم - الصف السادس</title>
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --success-color: #198754;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #212529;
+            --border-color: #dee2e6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background-color: #e2e8f0;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .section-panel {
+            display: none;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .section-panel.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        button.action-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button.action-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* أسئلة الاختبار والطباعة */
+        .print-area {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .question-card {
+            background: #fdfdfd;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .option-item {
+            background: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* تنسيق التصحيح */
+        .grading-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 0;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .grading-option input {
+            cursor: pointer;
+        }
+        .correct-answer-badge {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* التحليلات والإحصائيات */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f1f5f9;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-section, #print-section * {
+                visibility: visible;
+            }
+            #print-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>نظام مهارات العلوم - الصف السادس الابتدائي</h1>
+    
+    <!-- الأزرار الرئيسية -->
+    <div class="tabs no-print">
+        <button class="tab-btn active" onclick="switchTab('exam-gen')">توليد وطباعة الاختبار</button>
+        <button class="tab-btn" onclick="switchTab('grading')">تصحيح ورصد الدرجات</button>
+        <button class="tab-btn" onclick="switchTab('analytics')">تحليل الأداء وإتقان المهارات</button>
+    </div>
+
+    <!-- القسم الأول: توليد وطباعة الاختبار -->
+    <div id="exam-gen" class="section-panel active">
+        <h2>توليد نموذج اختبار حسب المهارة</h2>
+        <div class="form-group">
+            <label for="skillSelect">اختر المهارة المستهدفة:</label>
+            <select id="skillSelect" onchange="generateExamPreview()">
+                <!-- تُعبأ برمجياً -->
+            </select>
+        </div>
+        <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 20px;">طباعة ورقة الاختبار</button>
+        
+        <div id="print-section" class="print-area">
+            <h3 style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px;">اختبار مادة العلوم - مدرسة داؤود بن عروة الثقفي الابتدائية</h3>
+            <p><strong>اسم الطالب:</strong> .............................................................. &nbsp;&nbsp;&nbsp;&nbsp; <strong>الصف:</strong> السادس الابتدائي</p>
+            <div id="examQuestionsContainer">
+                <!-- تعرض أسئلة المهارة المختارة -->
+            </div>
+        </div>
+    </div>
+
+    <!-- القسم الثاني: تصحيح ورصد الدرجات -->
+    <div id="grading" class="section-panel">
+        <h2>تصحيح الاختبار ورصد النتيجة</h2>
+        <div class="form-group">
+            <label for="studentNameInput">اسم الطالب:</label>
+            <input type="text" id="studentNameInput" placeholder="أدخل اسم الطالب الثلاثي">
+        </div>
+        <div class="form-group">
+            <label for="gradeSkillSelect">اختر المهارة المراد تقييمها:</label>
+            <select id="gradeSkillSelect" onchange="loadGradingQuestions()">
+                <!-- تُعبأ برمجياً -->
+            </select>
+        </div>
+
+        <div id="gradingQuestionsContainer">
+            <!-- أسئلة مع خيارات تفاعلية للتصحيح الفوري -->
+        </div>
+
+        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد النتيجة</button>
+    </div>
+
+    <!-- القسم الثالث: تحليل الأداء -->
+    <div id="analytics" class="section-panel">
+        <h2>لوحة تحليل الأداء ونسب الإتقان</h2>
+        <div class="stats-container">
+            <div class="stat-box">
+                <div>إجمالي الطلاب المرصودين</div>
+                <div class="stat-number" id="totalStudentsCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div>متوسط إتقان المادة العام</div>
+                <div class="stat-number" id="overallAvgRate">0%</div>
+            </div>
+        </div>
+
+        <h3>سجل الطلاب ونتيجة الإتقان</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>اسم الطالب</th>
+                    <th>المهارة المقيمة</th>
+                    <th>الدرجة المستحقة</th>
+                    <th>نسبة الإتقان</th>
+                </tr>
+            Ref</thead>
+            <tbody id="resultsTableBody">
+                <!-- تُعبأ برمجياً -->
+            </tbody>
+        </table>
+        <button class="action-btn" onclick="clearData()" style="background-color: #dc3545; margin-top: 15px;">إعادة ضبط السجل</button>
+    </div>
+
+</div>
+
+<script>
+    // قائمة الـ 21 مهارة الأساسية لمادة العلوم للصف السادس
+    const skillsList = [
+        "1. توضيح مفهوم نظرية الخلية وأهميتها",
+        "2. التمييز بين تركيب الخلية النباتية والخلية الحيوانية",
+        "3. شرح مراحل انقسام الخلايا (الانقسام المتساوي)",
+        "4. تحديد الصفات السائدة والصفات المتنحية وانتقالها",
+        "5. تفسير عمليتي البناء الضوئي والتنفس الخلوي في النباتات",
+        "6. توضيح طرائق تكاثر النباتات ودور المخلوقات الدقيقة",
+        "7. تتبع وظائف أجهزة الجسم الأساسية (الهضم، الإخراج، التنفس، الدوران)",
+        "8. وصف آليات عمل الهيكلي، العضلي، العصبي وأجهزة الإحساس",
+        "9. تتبع مسار الطاقة عبر السلاسل والشبكات الغذائية وهرم الطاقة",
+        "10. تحديد أدوار الكائنات (المنتجات، المستهلكات، والمحللات)",
+        "11. تحليل خصائص التربة ومكوناتها وطرق المحافظة عليها",
+        "12. توضيح أساليب حماية البيئة وترشيد استهلاك الموارد",
+        "13. تصنيف حالات المادة المختلفة وخصائصها الفيزيائية والكيميائية",
+        "14. وصف مفاهيم الموقع، الحركة، السرعة، والتسارع",
+        "15. التمييز بين القوى المتزنة وغير المتزنة وأثر الجاذبية والاحتكاك",
+        "16. استكشاف أشكال الطاقة المختلفة وتحولاتها",
+        "17. فهم خصائص الأمواج والضوء والصوت وتطبيقاتها العملية",
+        "18. توضيح ظاهرة تعاقب الليل والنهار والفصول الأربعة",
+        "19. المقارنة بين الكواكب الداخلية والكواكب الخارجية",
+        "20. وصف النجوم والمجرات والأجرام السماوية في الفضاء",
+        "21. تطبيق مهارات عمليات العلم الأساسية (الملاحظة، الاستنتاج، القياس)"
+    ];
+
+    // بنك أسئلة افتراضي لكل مهارة (يتضمن سؤالين لكل مهارة للاختبار)
+    const questionBank = {};
+    skillsList.forEach((skill, index) => {
+        questionBank[index] = [
+            {
+                q: `السؤال الأول لقياس مهارة: (${skill})؟`,
+                options: ["الخيار الأول النموذجي", "الخيار الثاني", "الخيار الثالث", "الخيار الرابع"],
+                correct: 0
+            },
+            {
+                q: `السؤال الثاني لقياس مهارة: (${skill})؟`,
+                options: ["الخيار الأول", "الخيار الثاني النموذجي", "الخيار الثالث", "الخيار الرابع"],
+                correct: 1
+            }
+        ];
+    });
+
+    // تهيئة القوائم المنسدلة عند التحميل
+    window.onload = function() {
+        const skillSelect = document.getElementById('skillSelect');
+        const gradeSkillSelect = document.getElementById('gradeSkillSelect');
+        
+        skillsList.forEach((skill, index) => {
+            let opt1 = document.createElement('option');
+            opt1.value = index;
+            opt1.textContent = skill;
+            skillSelect.appendChild(opt1);
+
+            let opt2 = document.createElement('option');
+            opt2.value = index;
+            opt2.textContent = skill;
+            gradeSkillSelect.appendChild(opt2);
+        });
+
+        generateExamPreview();
+        loadGradingQuestions();
+        loadAnalyticsData();
+    };
+
+    // التبديل بين التبويبات
+    function switchTab(tabId) {
+        document.querySelectorAll('.section-panel').forEach(panel => panel.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // توليد معاينة الاختبار للطباعة
+    function generateExamPreview() {
+        const skillId = document.getElementById('skillSelect').value;
+        const questions = questionBank[skillId];
+        let container = document.getElementById('examQuestionsContainer');
+        container.innerHTML = '';
+
+        questions.forEach((item, idx) => {
+            let html = `
+                <div class="question-card">
+                    <p><strong>س${idx+1}:</strong> ${item.q}</p>
+                    <div class="options-grid">
+                        <div class="option-item">أ) ${item.options[0]}</div>
+                        <div class="option-item">ب) ${item.options[1]}</div>
+                        <div class="option-item">جـ) ${item.options[2]}</div>
+                        <div class="option-item">د) ${item.options[3]}</div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+    }
+
+    // تحميل أسئلة التصحيح ورصد الدرجات
+    function loadGradingQuestions() {
+        const skillId = document.getElementById('gradeSkillSelect').value;
+        const questions = questionBank[skillId];
+        let container = document.getElementById('gradingQuestionsContainer');
+        container.innerHTML = '';
+
+        questions.forEach((item, idx) => {
+            let optionsHtml = '';
+            item.options.forEach((opt, optIdx) => {
+                let isCorrectBadge = optIdx === item.correct ? `<span class="correct-answer-badge"> (الإجابة الصحيحة)</span>` : '';
+                optionsHtml += `
+                    <label class="grading-option">
+                        <input type="radio" name="q_${idx}" value="${optIdx}">
+                        <span>${opt}</span>${isCorrectBadge}
+                    </label>
+                `;
+            });
+
+            container.innerHTML += `
+                <div class="question-card" style="background:#fff;">
+                    <p><strong>السؤال ${idx+1}:</strong> ${item.q}</p>
+                    ${optionsHtml}
+                </div>
+            `;
+        });
+    }
+
+    // حفظ درجة الطالب في التخزين المحلي
+    function saveStudentGrade() {
+        const studentName = document.getElementById('studentNameInput').value.trim();
+        const skillId = document.getElementById('gradeSkillSelect').value;
+        const skillName = skillsList[skillId];
+
+        if (!studentName) {
+            alert('يرجى إدخال اسم الطالب أولاً.');
+            return;
+        }
+
+        const questions = questionBank[skillId];
+        let score = 0;
+
+        questions.forEach((item, idx) => {
+            const selectedOpt = document.querySelector(`input[name="q_${idx}"]:checked`);
+            if (selectedOpt && parseInt(selectedOpt.value) === item.correct) {
+                score++;
+            }
+        });
+
+        const totalQuestions = questions.length;
+        const percentage = Math.round((score / totalQuestions) * 100);
+
+        let records = JSON.parse(localStorage.getItem('science_exam_records') || '[]');
+        records.push({
+            name: studentName,
+            skill: skillName,
+            score: `${score} / ${totalQuestions}`,
+            percentage: percentage
+        });
+
+        localStorage.setItem('science_exam_records', JSON.stringify(records));
+        alert('تم حفظ رصد وتصحيح النتيجة بنجاح!');
+        document.getElementById('studentNameInput').value = '';
+        loadAnalyticsData();
+    }
+
+    // تحميل وعرض بيانات التحليل
+    function loadAnalyticsData() {
+        let records = JSON.parse(localStorage.getItem('science_exam_records') || '[]');
+        let tbody = document.getElementById('resultsTableBody');
+        tbody.innerHTML = '';
+
+        let totalStudentsCount = document.getElementById('totalStudentsCount');
+        let overallAvgRate = document.getElementById('overallAvgRate');
+
+        totalStudentsCount.textContent = records.length;
+
+        if (records.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="color:#777;">لا توجد سجلات رصد مسجلة حتى الآن</td></tr>`;
+            overallAvgRate.textContent = '0%';
+            return;
+        }
+
+        let sumPercentage = 0;
+        records.forEach(rec => {
+            sumPercentage += rec.percentage;
+            tbody.innerHTML += `
+                <tr>
+                    <td>${rec.name}</td>
+                    <td>${rec.skill}</td>
+                    <td>${rec.score}</td>
+                    <td><strong>${rec.percentage}%</strong></td>
+                </tr>
+            `;
+        });
+
+        let avg = Math.round(sumPercentage / records.length);
+        overallAvgRate.textContent = avg + '%';
+    }
+
+    // مسح البيانات وإعادة الضبط
+    function clearData() {
+        if (confirm('هل أنت متأكد من مسح كافة سجلات الرصد؟')) {
+            localStorage.removeItem('science_exam_records');
+            loadAnalyticsData();
+        }
+    }
+</script>
+
+</body>
+</html>
+
