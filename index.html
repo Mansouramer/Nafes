@@ -143,12 +143,13 @@
             margin-bottom: 10px;
         }
 
+        /* تنسيق كروت ورقة التصحيح بدوائر واضحة وتفاعلية */
         .grading-card {
             background: linear-gradient(to bottom, #1e293b, #1e1b4b);
             border: 1.5px solid #4338ca;
-            padding: 12px 14px;
+            padding: 14px;
             border-radius: var(--border-radius);
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .domain-tag {
@@ -159,17 +160,94 @@
             border-radius: 4px;
             font-size: 0.75rem;
             font-weight: bold;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .question-title {
             font-weight: 700;
             font-size: 0.9rem;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             line-height: 1.4;
         }
 
+        /* تنسيق الخيارات كدوائر واضحة وسهلة للنقر */
+        .options-container-grading {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .grading-option-label {
+            display: flex;
+            align-items: center;
+            background: #0f172a;
+            border: 2px solid #475569;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .grading-option-label:hover {
+            border-color: var(--primary);
+            background: #1e293b;
+        }
+
+        .grading-option-label input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border: 2px solid #94a3b8;
+            border-radius: 50%;
+            margin-left: 10px;
+            outline: none;
+            display: grid;
+            place-content: center;
+            background: #1e293b;
+            flex-shrink: 0;
+            transition: 0.2s;
+        }
+
+        .grading-option-label input[type="radio"]::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            background-color: var(--success);
+        }
+
+        .grading-option-label input[type="radio"]:checked {
+            border-color: var(--success);
+            background-color: #065f46;
+        }
+
+        .grading-option-label input[type="radio"]:checked::before {
+            transform: scale(1);
+        }
+
+        .grading-option-label input[type="radio"]:checked + span {
+            color: #34d399;
+            font-weight: bold;
+        }
+
+        .correct-indicator {
+            margin-right: auto;
+            background-color: #065f46;
+            color: #34d399;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* خيارات ورقة الاختبار العادية (أفقي للطباعة) */
         .options-container {
             display: flex;
             flex-wrap: nowrap;
@@ -183,7 +261,6 @@
             border: 1.5px solid var(--border-color);
             padding: 6px 8px;
             border-radius: 6px;
-            cursor: pointer;
             font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-main);
@@ -192,37 +269,6 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        .grading-card .option-label {
-            background: #0f172a;
-            border-color: #4f46e5;
-        }
-
-        .option-label input[type="radio"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--text-muted);
-            border-radius: 50%;
-            margin-left: 6px;
-            background: var(--card-bg);
-        }
-
-        .option-label input[type="radio"]:checked {
-            border-color: var(--success);
-            background-color: var(--success);
-        }
-
-        .correct-badge {
-            background-color: #065f46;
-            color: #34d399;
-            padding: 2px 4px;
-            border-radius: 3px;
-            font-size: 0.65rem;
-            margin-right: auto;
-            font-weight: bold;
         }
 
         .chart-container {
@@ -316,85 +362,21 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة الصارم لضمان ورقة A4 واحدة محكمة */
         @media print {
-            @page { 
-                size: A4 portrait; 
-                margin: 0.3cm; 
-            }
-            body * { 
-                visibility: hidden; 
-            }
-            #print-section, #print-section * { 
-                visibility: visible; 
-            }
-            #print-section { 
-                position: absolute; 
-                left: 0; 
-                top: 0; 
-                width: 100%; 
-            }
-            .no-print { 
-                display: none !important; 
-            }
-            .section-panel { 
-                background: white !important; 
-                color: black !important; 
-                box-shadow: none !important; 
-                border: none !important; 
-                padding: 0 !important; 
-                margin: 0 !important;
-                display: block !important; 
-            }
-            .exam-header { 
-                background: #f8fafc !important; 
-                border: 1px solid #cbd5e1 !important; 
-                color: black !important; 
-                padding: 6px 10px !important;
-                margin-bottom: 6px !important;
-            }
-            .exam-header p { 
-                color: black !important; 
-                font-size: 8pt !important;
-                margin: 2px 0 !important;
-            }
-            #tenQuestionsContainer {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 4px;
-            }
-            .question-card { 
-                background: #ffffff !important; 
-                border: 1px solid #94a3b8 !important; 
-                color: black !important; 
-                padding: 4px 6px !important;
-                margin-bottom: 0 !important;
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-            .question-title { 
-                color: #0f172a !important; 
-                font-size: 7.5pt !important; 
-                margin-bottom: 3px !important;
-                line-height: 1.1 !important;
-            }
-            .domain-tag {
-                background: #e2e8f0 !important;
-                color: #1e293b !important;
-                font-size: 6pt !important;
-                padding: 1px 4px !important;
-                margin-bottom: 2px !important;
-            }
-            .options-container {
-                gap: 3px !important;
-            }
-            .option-label { 
-                background: #f8fafc !important; 
-                border: 1px solid #cbd5e1 !important; 
-                color: #1e293b !important; 
-                font-size: 7pt !important; 
-                padding: 2px 4px !important;
-            }
+            @page { size: A4 portrait; margin: 0.3cm; }
+            body * { visibility: hidden; }
+            #print-section, #print-section * { visibility: visible; }
+            #print-section { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+            .section-panel { background: white !important; color: black !important; box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
+            .exam-header { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: black !important; padding: 6px 10px !important; margin-bottom: 6px !important; }
+            .exam-header p { color: black !important; font-size: 8pt !important; margin: 2px 0 !important; }
+            #tenQuestionsContainer { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+            .question-card { background: #ffffff !important; border: 1px solid #94a3b8 !important; color: black !important; padding: 4px 6px !important; page-break-inside: avoid; }
+            .question-title { color: #0f172a !important; font-size: 7.5pt !important; margin-bottom: 3px !important; }
+            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 6pt !important; padding: 1px 4px !important; }
+            .options-container { gap: 3px !important; }
+            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 7pt !important; padding: 2px 4px !important; }
         }
     </style>
 </head>
@@ -555,13 +537,13 @@
             return;
         }
         const students = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
-        localStorage.setItem('science_students_list_v3', JSON.stringify(students));
+        localStorage.setItem('science_students_list_v4', JSON.stringify(students));
         alert('تم حفظ قائمة الطلاب بنجاح!');
         loadStudentsDropdowns();
     }
 
     function loadStudentsDropdowns() {
-        let students = JSON.parse(localStorage.getItem('science_students_list_v3') || '[]');
+        let students = JSON.parse(localStorage.getItem('science_students_list_v4') || '[]');
         let studentSelect = document.getElementById('studentSelect');
         let querySelect = document.getElementById('queryStudentSelect');
         
@@ -627,6 +609,7 @@
         currentExamIndices.forEach((dataIdx, qNum) => {
             let item = skillsData[dataIdx];
 
+            // كارت الاختبار للطباعة
             let examHtml = `
                 <div class="question-card">
                     <span class="domain-tag">${item.domain}</span>
@@ -641,14 +624,15 @@
             `;
             examCont.innerHTML += examHtml;
 
-            let optionsHtml = '';
+            // كارت التصحيح بدوائر واضحة وتفاعلية
+            let optionsGradingHtml = '';
             item.options.forEach((opt, optIdx) => {
-                let badge = optIdx === item.correct ? `<span class="correct-badge">✓ صحيح</span>` : '';
-                optionsHtml += `
-                    <label class="option-label">
+                let indicator = optIdx === item.correct ? `<span class="correct-indicator">الإجابة النموذجية</span>` : '';
+                optionsGradingHtml += `
+                    <label class="grading-option-label">
                         <input type="radio" name="q_${qNum}" value="${optIdx}">
                         <span>${opt}</span>
-                        ${badge}
+                        ${indicator}
                     </label>
                 `;
             });
@@ -656,9 +640,9 @@
             let gradingHtml = `
                 <div class="grading-card">
                     <span class="domain-tag">${item.domain}</span>
-                    <div class="question-title" style="color:#e2e8f0;">س${qNum+1}: ${item.q}<br><span style="font-size:0.7rem; color:#94a3b8;">المهارة: ${item.skill}</span></div>
-                    <div class="options-container">
-                        ${optionsHtml}
+                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-size:0.75rem; color:#94a3b8; font-weight:normal;">المهارة: ${item.skill}</span></div>
+                    <div class="options-container-grading">
+                        ${optionsGradingHtml}
                     </div>
                 </div>
             `;
@@ -714,7 +698,7 @@
         }
 
         let percentage = Math.round((score / totalQuestions) * 100);
-        let records = JSON.parse(localStorage.getItem('science_records_v3') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_records_v4') || '[]');
         
         records = records.filter(r => r.name !== studentName);
         records.push({
@@ -726,15 +710,15 @@
             failedDetails: failedDetails
         });
 
-        localStorage.setItem('science_records_v3', JSON.stringify(records));
-        alert('تم رصد النتيجة وتحليل نسب المجالات بنجاح!');
+        localStorage.setItem('science_records_v4', JSON.stringify(records));
+        alert('تم رصد النتيجة وتحليل المجالات بنجاح!');
         document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
         document.getElementById('studentSelect').value = '';
         loadAnalyticsData();
     }
 
     function loadAnalyticsData() {
-        let records = JSON.parse(localStorage.getItem('science_records_v3') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_records_v4') || '[]');
         let tbody = document.getElementById('resultsTableBody');
         tbody.innerHTML = '';
 
@@ -787,7 +771,7 @@
             return;
         }
 
-        let records = JSON.parse(localStorage.getItem('science_records_v3') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_records_v4') || '[]');
         let studentRecord = records.find(r => r.name === studentName);
 
         box.style.display = 'block';
@@ -845,7 +829,7 @@
 
     function clearData() {
         if (confirm('هل أنت متأكد من مسح جميع السجلات؟')) {
-            localStorage.removeItem('science_records_v3');
+            localStorage.removeItem('science_records_v4');
             loadAnalyticsData();
             document.getElementById('studentDeepAnalysisBox').style.display = 'none';
         }
