@@ -134,6 +134,17 @@
             margin-bottom: 15px;
         }
 
+        .domain-tag {
+            display: inline-block;
+            background: #1e3a8a;
+            color: #93c5fd;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
         .question-title {
             font-weight: 700;
             font-size: 0.95rem;
@@ -214,7 +225,7 @@
             font-weight: bold;
         }
 
-        /* الإحصائيات والتحليلات المتقدمة */
+        /* الإحصائيات والتحليلات */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -274,6 +285,7 @@
             .section-panel { background: white; color: black; box-shadow: none; border: none; padding: 0; }
             .question-card { background: #f8fafc; border: 1px solid #ccc; color: black; }
             .option-label { background: white; border: 1px solid #ccc; color: black; }
+            .domain-tag { background: #e2e8f0; color: #1e293b; }
         }
     </style>
 </head>
@@ -341,17 +353,14 @@
             </div>
         </div>
 
-        <!-- استعلام عن طالب محدد لمعرفة إخفاقاته -->
         <div class="form-group" style="margin-top:15px;">
-            <label for="queryStudentSelect">استعلام عن طالب لمعرفة المهارات التي أخفق فيها:</label>
+            <label for="queryStudentSelect">استعلام عن طالب لمعرفة المجالات والمهارات التي أخفق فيها:</label>
             <select id="queryStudentSelect" onchange="renderStudentDeepAnalysis()">
                 <option value="">-- اختر طالباً للاستعلام المفصل --</option>
             </select>
         </div>
 
-        <div id="studentDeepAnalysisBox" class="analysis-box" style="display:none;">
-            <!-- تحليل الطالب الفردي -->
-        </div>
+        <div id="studentDeepAnalysisBox" class="analysis-box" style="display:none;"></div>
 
         <h3 style="font-size:0.95rem; margin-top:20px; color:var(--text-main);">سجل نتائج طلاب الفصل</h3>
         <div class="table-wrapper">
@@ -361,7 +370,7 @@
                         <th>اسم الطالب</th>
                         <th>الدرجة</th>
                         <th>نسبة الإتقان</th>
-                        <th>المهارات الإخفاقية</th>
+                        <th>المجالات والمهارات الإخفاقية</th>
                     </tr>
                 </thead>
                 <tbody id="resultsTableBody"></tbody>
@@ -372,29 +381,36 @@
 </div>
 
 <script>
-    // قاعدة البيانات الشاملة للـ 21 مهارة علمية
+    // قاعدة البيانات موزعة على المجالات الأربعة لمادة العلوم
     const skillsData = [
-        { skill: "تحديد مفهوم نظرية الخلية وأهميتها", q: "ما هي الوحدة الأساسية للبناء والوظيفة في جميع المخلوقات الحية؟", options: ["الخلية", "النسيج", "العضو", "الجهاز الحيوي"], correct: 0 },
-        { skill: "التمييز بين الخلية النباتية والحيوانية", q: "أي التركيبين التاليين يوجد في الخلايا النباتية فقط ولا يوجد في الحيوانية؟", options: ["الغشاء البلازمي", "الجدار الخلوي", "الميتوكوندريا", "النواة"], correct: 1 },
-        { skill: "شرح مراحل انقسام الخلايا المتساوي", q: "ماذا يُسمى الانقسام الذي تنتج عنه خلايا تطابق الأصل تماماً للنمو وتعويض التالف؟", options: ["الانقسام المنصف", "الانقسام المتساوي", "التبرعم", "التوالد البكري"], correct: 1 },
-        { skill: "تحديد الصفات السائدة والمتنحية وانتقالها", q: "الصفة الوراثية التي تحجب صفة أخرى ولا تظهر عليها تُسمى:", options: ["متنحية", "سائدة", "مكتسبة", "طفرية"], correct: 1 },
-        { skill: "تفسير البناء الضوئي والتنفس الخلوي", q: "ما العملية التي تستخدم فيها النباتات ضوء الشمس لإنتاج الغذاء والأكسجين؟", options: ["التنفس الخلوي", "التحلل", "البناء الضوئي", "النتح"], correct: 2 },
-        { skill: "توضيح تكاثر النباتات ودور المخلوقات الدقيقة", q: "ما المخلوقات الحية الدقيقة التي تستخدم في تحليل البقايا وإعادة العناصر للتربة؟", options: ["الفطريات والبكتيريا الرومية", "الفيروسات الممرضة", "الطحالب الخضراء", "النباتات البذرية"], correct: 0 },
-        { skill: "تتبع وظائف أجهزة الجسم الأساسية", q: "أي أجهزة الجسم مسؤول عن نقل الغذاء والأكسجين إلى جميع الخلايا؟", options: ["الجهاز الهضمي", "الجهاز العصبي", "الجهاز الدوري", "الجهاز التنفسي"], correct: 2 },
-        { skill: "وصف آليات عمل الجهاز العصبي والحواس", q: "أي الأجهزة التالية يتحكم في جميع أنشطة الجسم ويستجيب للمؤثرات؟", options: ["الجهاز العضلي", "الجهاز العصبي", "الجهاز الهيكلي", "الجهاز الإخراجي"], correct: 1 },
-        { skill: "تتبع مسار الطاقة عبر السلاسل الغذائية", q: "في السلسلة الغذائية، تسمى المخلوقات التي تصنع غذاءها بنفسها بـ:", options: ["المستهلكات الأولى", "المحللات", "المنتجات", "المستهلكات الثانية"], correct: 2 },
-        { skill: "تحديد أدوار الكائنات بالبيئة", q: "الحيوانات التي تتغذى على بقايا الحيوانات الميتة تُصنف ضمن:", options: ["المنتجات", "المحللات", "المستهلكات (القمامة)", "المنتجة للطاقة"], correct: 2 },
-        { skill: "تحليل خصائص التربة وطرق المحافظة عليها", q: "الطبقة العليا من التربة التي تحتوي على أعلى نسبة من الدبال والمواد العضوية هي:", options: ["التربة التحتية", "الصخور الأصلية", "التربة السطحية", "الصخور الصلبة"], correct: 2 },
-        { skill: "توضيح أساليب حماية البيئة وترشيد الموارد", q: "أي مما يلي يُعد من أفضل الطرق لتقليل النفايات وحماية موارد البيئة؟", options: ["حرق النفايات المفتوحة", "إعادة التدوير وتقليل الاستهلاك", "زيادة التلوث البلاستيكي", "قطع الغابات"], correct: 1 },
-        { skill: "تصنيف حالات المادة وتغيراتها", q: "التغير الذي ينتج عنه مادة جديدة كلياً ذات خصائص مختلفة (مثل الاحتراق) يسمى:", options: ["تغير فيزيائي", "تغير كيميائي", "انصهار", "تبخر"], correct: 1 },
-        { skill: "وصف مفاهيم الموقع والحركة والسرعة", q: "التغير في مسافة الجسم بمرور الزمن مقسوماً على الزمن يعبر عن:", options: ["التسارع", "السرعة", "القوة", "الكتلة"], correct: 1 },
-        { skill: "التمييز بين القوى المتزنة وغير المتزنة", q: "القوتان المتساويتان في المقدار والمتعاكستان في الاتجاه وتلغي إحداهما الأخرى تسمى:", options: ["قوى متزنة", "قوى غير متزنة", "قوى الاحتكاك", "الجاذبية"], correct: 0 },
-        { skill: "استكشاف أشكال الطاقة وتحولاتها", q: "عند تشغيل المصباح الكهربائي، تتحول الطاقة الكهربائية إلى طاقة:", options: ["حركية فقط", "ضوئية وحرارية", "كيميائية فقط", "نووية"], correct: 1 },
-        { skill: "فهم خصائص الأمواج والصوت والضوء", q: "كيف ينتقل الصوت في الأوساط المختلفة؟", options: ["على شكل موجات صوتية تتطلب وسطاً ناقلاً", "في الفراغ بسرعة الضوء", "بدون اهتزاز للجزيئات", "على شكل شعاع ضوئي"], correct: 0 },
-        { skill: "توضيح تعاقب الليل والنهار والفصول", q: "تنتج ظاهرة تعاقب الليل والنهار على سطح الأرض بسبب:", options: ["دوران الأرض حول الشمس", "دوران الأرض حول محورها", "ميل محور الأرض", "دوران القمر"], correct: 1 },
-        { skill: "المقارنة بين الكواكب الداخلية والخارجية", q: "أي من الكواكب التالية يعد من الكواكب الصخرية الداخلية في النظام الشمسي؟", options: ["المشتري", "زحل", "الأرض", "نبتون"], correct: 2 },
-        { skill: "وصف النجوم والمجرات الفضائية", q: "تُعرف المجرة التي تنتمي إليها شمسنا وكوكب الأرض باسم:", options: ["درب التبانة", "سديم أوريون", "المرأة المسلسلة", "النظام الشمسي"], correct: 0 },
-        { skill: "تطبيق مهارات عمليات العلم والقياس", q: "عندما تجمع البيانات ووصف الأشياء باستخدام الحواس الخمس فإنك تمارس مهارة:", options: ["الاستنتاج", "الملاحظة", "الفرضية", "التجربة"], correct: 1 }
+        // علوم الحياة
+        { domain: "علوم الحياة", skill: "تحديد مفهوم نظرية الخلية وأهميتها", q: "ما هي الوحدة الأساسية للبناء والوظيفة في جميع المخلوقات الحية؟", options: ["الخلية", "النسيج", "العضو", "الجهاز الحيوي"], correct: 0 },
+        { domain: "علوم الحياة", skill: "التمييز بين الخلية النباتية والحيوانية", q: "أي التركيبين التاليين يوجد في الخلايا النباتية فقط ولا يوجد في الحيوانية؟", options: ["الغشاء البلازمي", "الجدار الخلوي", "الميتوكوندريا", "النواة"], correct: 1 },
+        { domain: "علوم الحياة", skill: "شرح مراحل انقسام الخلايا المتساوي", q: "ماذا يُسمى الانقسام الذي تنتج عنه خلايا تطابق الأصل تماماً للنمو وتعويض التالف؟", options: ["الانقسام المنصف", "الانقسام المتساوي", "التبرعم", "التوالد البكري"], correct: 1 },
+        { domain: "علوم الحياة", skill: "تحديد الصفات السائدة والمتنحية وانتقالها", q: "الصفة الوراثية التي تحجب صفة أخرى ولا تظهر عليها تُسمى:", options: ["متنحية", "سائدة", "مكتسبة", "طفرية"], correct: 1 },
+        { domain: "علوم الحياة", skill: "تفسير البناء الضوئي والتنفس الخلوي", q: "ما العملية التي تستخدم فيها النباتات ضوء الشمس لإنتاج الغذاء والأكسجين؟", options: ["التنفس الخلوي", "التحلل", "البناء الضوئي", "النتح"], correct: 2 },
+        { domain: "علوم الحياة", skill: "توضيح تكاثر النباتات ودور المخلوقات الدقيقة", q: "ما المخلوقات الحية الدقيقة التي تستخدم في تحليل البقايا وإعادة العناصر للتربة؟", options: ["الفطريات والبكتيريا الرومية", "الفيروسات الممرضة", "الطحالب الخضراء", "النباتات البذرية"], correct: 0 },
+        { domain: "علوم الحياة", skill: "تتبع وظائف أجهزة الجسم الأساسية", q: "أي أجهزة الجسم مسؤول عن نقل الغذاء والأكسجين إلى جميع الخلايا؟", options: ["الجهاز الهضمي", "الجهاز العصبي", "الجهاز الدوري", "الجهاز التنفسي"], correct: 2 },
+        { domain: "علوم الحياة", skill: "وصف آليات عمل الجهاز العصبي والحواس", q: "أي الأجهزة التالية يتحكم في جميع أنشطة الجسم ويستجيب للمؤثرات؟", options: ["الجهاز العضلي", "الجهاز العصبي", "الجهاز الهيكلي", "الجهاز الإخراجي"], correct: 1 },
+        { domain: "علوم الحياة", skill: "تتبع مسار الطاقة عبر السلاسل الغذائية", q: "في السلسلة الغذائية، تسمى المخلوقات التي تصنع غذاءها بنفسها بـ:", options: ["المستهلكات الأولى", "المحللات", "المنتجات", "المستهلكات الثانية"], correct: 2 },
+        { domain: "علوم الحياة", skill: "تحديد أدوار الكائنات بالبيئة", q: "الحيوانات التي تتغذى على بقايا الحيوانات الميتة تُصنف ضمن:", options: ["المنتجات", "المحللات", "المستهلكات (القمامة)", "المنتجة للطاقة"], correct: 2 },
+
+        // العلوم الفيزيائية والكيميائية
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "تصنيف حالات المادة وتغيراتها", q: "التغير الذي ينتج عنه مادة جديدة كلياً ذات خصائص مختلفة (مثل الاحتراق) يسمى:", options: ["تغير فيزيائي", "تغير كيميائي", "انصهار", "تبخر"], correct: 1 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "وصف مفاهيم الموقع والحركة والسرعة", q: "التغير في مسافة الجسم بمرور الزمن مقسوماً على الزمن يعبر عن:", options: ["التسارع", "السرعة", "القوة", "الكتلة"], correct: 1 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "التمييز بين القوى المتزنة وغير المتزنة", q: "القوتان المتساويتان في المقدار والمتعاكستان في الاتجاه وتلغي إحداهما الأخرى تسمى:", options: ["قوى متزنة", "قوى غير متزنة", "قوى الاحتكاك", "الجاذبية"], correct: 0 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "استكشاف أشكال الطاقة وتحولاتها", q: "عند تشغيل المصباح الكهربائي، تتحول الطاقة الكهربائية إلى طاقة:", options: ["حركية فقط", "ضوئية وحرارية", "كيميائية فقط", "نووية"], correct: 1 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "فهم خصائص الأمواج والصوت والضوء", q: "كيف ينتقل الصوت في الأوساط المختلفة؟", options: ["على شكل موجات صوتية تتطلب وسطاً ناقلاً", "في الفراغ بسرعة الضوء", "بدون اهتزاز للجزيئات", "على شكل شعاع ضوئي"], correct: 0 },
+
+        // علم الأرض
+        { domain: "علم الأرض", skill: "تحليل خصائص التربة وطرق المحافظة عليها", q: "الطبقة العليا من التربة التي تحتوي على أعلى نسبة من الدبال والمواد العضوية هي:", options: ["التربة التحتية", "الصخور الأصلية", "التربة السطحية", "الصخور الصلبة"], correct: 2 },
+        { domain: "علم الأرض", skill: "توضيح أساليب حماية البيئة وترشيد الموارد", q: "أي مما يلي يُعد من أفضل الطرق لتقليل النفايات وحماية موارد البيئة؟", options: ["حرق النفايات المفتوحة", "إعادة التدوير وتقليل الاستهلاك", "زيادة التلوث البلاستيكي", "قطع الغابات"], correct: 1 },
+
+        // علم الفلك
+        { domain: "علم الفلك", skill: "توضيح تعاقب الليل والنهار والفصول", q: "تنتج ظاهرة تعاقب الليل والنهار على سطح الأرض بسبب:", options: ["دوران الأرض حول الشمس", "دوران الأرض حول محورها", "ميل محور الأرض", "دوران القمر"], correct: 1 },
+        { domain: "علم الفلك", skill: "المقارنة بين الكواكب الداخلية والخارجية", q: "أي من الكواكب التالية يعد من الكواكب الصخرية الداخلية في النظام الشمسي؟", options: ["المشتري", "زحل", "الأرض", "نبتون"], correct: 2 },
+        { domain: "علم الفلك", skill: "وصف النجوم والمجرات الفضائية", q: "تُعرف المجرة التي تنتمي إليها شمسنا وكوكب الأرض باسم:", options: ["درب التبانة", "سديم أوريون", "المرأة المسلسلة", "النظام الشمسي"], correct: 0 },
+        { domain: "علم الفلك", skill: "تطبيق مهارات عمليات العلم والقياس", q: "عندما تجمع البيانات ووصف الأشياء باستخدام الحواس الخمس فإنك تمارس مهارة:", options: ["الاستنتاج", "الملاحظة", "الفرضية", "التجربة"], correct: 1 }
     ];
 
     let currentExamIndices = [];
@@ -426,13 +442,13 @@
             return;
         }
         const students = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
-        localStorage.setItem('science_students_list', JSON.stringify(students));
+        localStorage.setItem('science_students_list_v4', JSON.stringify(students));
         alert('تم حفظ قائمة الطلاب بنجاح!');
         loadStudentsDropdowns();
     }
 
     function loadStudentsDropdowns() {
-        let students = JSON.parse(localStorage.getItem('science_students_list') || '[]');
+        let students = JSON.parse(localStorage.getItem('science_students_list_v4') || '[]');
         let studentSelect = document.getElementById('studentSelect');
         let querySelect = document.getElementById('queryStudentSelect');
         
@@ -460,7 +476,8 @@
 
             let examHtml = `
                 <div class="question-card">
-                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-weight:normal; font-size:0.8rem; color:var(--text-muted);">[المهارة المستهدفة: ${item.skill}]</span></div>
+                    <span class="domain-tag">المجال: ${item.domain}</span>
+                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-weight:normal; font-size:0.8rem; color:var(--text-muted);">[المهارة: ${item.skill}]</span></div>
                     <div class="options-container">
                         <div class="option-label">أ) ${item.options[0]}</div>
                         <div class="option-label">ب) ${item.options[1]}</div>
@@ -485,6 +502,7 @@
 
             let gradingHtml = `
                 <div class="question-card">
+                    <span class="domain-tag">المجال: ${item.domain}</span>
                     <div class="question-title">السؤال ${qNum+1}: ${item.q}<br><span style="font-size:0.75rem; color:var(--text-muted);">(${item.skill})</span></div>
                     <div class="options-container">
                         ${optionsHtml}
@@ -503,7 +521,7 @@
         }
 
         let score = 0;
-        let failedSkills = [];
+        let failedItems = [];
 
         currentExamIndices.forEach((dataIdx, qNum) => {
             let item = skillsData[dataIdx];
@@ -511,24 +529,22 @@
             if (selectedOpt && parseInt(selectedOpt.value) === item.correct) {
                 score++;
             } else {
-                // تسجيل المهارة التي أخفق فيها الطالب
-                failedSkills.push(item.skill);
+                failedItems.push(`[${item.domain}] ${item.skill}`);
             }
         });
 
         let percentage = Math.round((score / 10) * 100);
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_v3') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_v4') || '[]');
         
-        // تحديث أو إضافة نتيجة الطالب
         records = records.filter(r => r.name !== studentName);
         records.push({
             name: studentName,
             score: `${score} / 10`,
             percentage: percentage,
-            failedSkills: failedSkills
+            failedItems: failedItems
         });
 
-        localStorage.setItem('science_10skills_records_v3', JSON.stringify(records));
+        localStorage.setItem('science_10skills_records_v4', JSON.stringify(records));
         alert('تم حفظ رصد وتحليل نتيجة الطالب بنجاح!');
         document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
         document.getElementById('studentSelect').value = '';
@@ -536,7 +552,7 @@
     }
 
     function loadAnalyticsData() {
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_v3') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_v4') || '[]');
         let tbody = document.getElementById('resultsTableBody');
         tbody.innerHTML = '';
 
@@ -551,7 +567,7 @@
         let totalSum = 0;
         records.forEach(rec => {
             totalSum += rec.percentage;
-            let failedText = rec.failedSkills.length > 0 ? rec.failedSkills.join('، ') : '<span style="color:var(--success);">متقن لجميع المهارات المرصودة</span>';
+            let failedText = rec.failedItems.length > 0 ? rec.failedItems.join('، ') : '<span style="color:var(--success);">متقن لجميع المهارات المرصودة</span>';
             tbody.innerHTML += `
                 <tr>
                     <td>${rec.name}</td>
@@ -566,7 +582,6 @@
         document.getElementById('overallAvgRate').textContent = avg + '%';
     }
 
-    // الاستعلام المفصل عن إخفاقات طالب محدد
     function renderStudentDeepAnalysis() {
         const studentName = document.getElementById('queryStudentSelect').value;
         const box = document.getElementById('studentDeepAnalysisBox');
@@ -576,7 +591,7 @@
             return;
         }
 
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_v3') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_v4') || '[]');
         let studentRecord = records.find(r => r.name === studentName);
 
         box.style.display = 'block';
@@ -586,12 +601,12 @@
         }
 
         let failedHtml = '';
-        if (studentRecord.failedSkills.length === 0) {
-            failedHtml = `<p style="color:var(--success); font-weight:bold;">ممتاز! الطالب أتقن جميع المهارات في آخر اختبار مرصود.</p>`;
+        if (studentRecord.failedItems.length === 0) {
+            failedHtml = `<p style="color:var(--success); font-weight:bold;">ممتاز! الطالب أتقن جميع المهارات والمجالات في آخر اختبار مرصود.</p>`;
         } else {
             failedHtml = `<ul style="margin:5px 0; padding-right:20px; color:#fca5a5;">`;
-            studentRecord.failedSkills.forEach(skill => {
-                failedHtml += `<li>${skill}</li>`;
+            studentRecord.failedItems.forEach(item => {
+                failedHtml += `<li>${item}</li>`;
             });
             failedHtml += `</ul>`;
         }
@@ -599,14 +614,14 @@
         box.innerHTML = `
             <h4 style="margin:0 0 8px 0; color:var(--primary);">التقرير التحليلي الفردي: ${studentRecord.name}</h4>
             <p style="margin:4px 0;"><strong>الدرجة النهائية:</strong> ${studentRecord.score} (${studentRecord.percentage}%)</p>
-            <p style="margin:8px 0 4px 0; font-weight:bold; color:var(--danger);">المهارات التي تحتاج إلى دعم وعلاج (إخفاقات الطالب):</p>
+            <p style="margin:8px 0 4px 0; font-weight:bold; color:var(--danger);">المجالات والمهارات التي أخفق فيها الطالب وتحتاج لدعم:</p>
             ${failedHtml}
         `;
     }
 
     function clearData() {
         if (confirm('هل أنت متأكد من مسح جميع سجلات الدرجات؟')) {
-            localStorage.removeItem('science_10skills_records_v3');
+            localStorage.removeItem('science_10skills_records_v4');
             loadAnalyticsData();
             document.getElementById('studentDeepAnalysisBox').style.display = 'none';
         }
