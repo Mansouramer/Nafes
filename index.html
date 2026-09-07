@@ -121,6 +121,26 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
+        /* زر الأيقونة الأنيق للطباعة */
+        .icon-print-btn {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
+            transition: background 0.2s;
+        }
+        .icon-print-btn:hover {
+            background: #047857;
+        }
+
         .exam-header {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border: 2px solid var(--border-color);
@@ -143,7 +163,6 @@
             margin-bottom: 10px;
         }
 
-        /* تنسيق كروت ورقة التصحيح بدوائر واضحة وتفاعلية */
         .grading-card {
             background: linear-gradient(to bottom, #1e293b, #1e1b4b);
             border: 1.5px solid #4338ca;
@@ -171,7 +190,6 @@
             line-height: 1.4;
         }
 
-        /* تنسيق الخيارات كدوائر واضحة وسهلة للنقر */
         .options-container-grading {
             display: flex;
             flex-direction: column;
@@ -247,7 +265,6 @@
             font-weight: bold;
         }
 
-        /* خيارات ورقة الاختبار العادية (أفقي للطباعة) */
         .options-container {
             display: flex;
             flex-wrap: nowrap;
@@ -362,11 +379,21 @@
             background-color: var(--panel-bg);
         }
 
+        /* تنسيق الطباعة الذكي */
         @media print {
-            @page { size: A4 portrait; margin: 0.3cm; }
+            @page { size: A4 portrait; margin: 0.8cm; }
             body * { visibility: hidden; }
-            #print-section, #print-section * { visibility: visible; }
-            #print-section { position: absolute; left: 0; top: 0; width: 100%; }
+            
+            /* حالات الطباعة المخصصة بناءً على العنصر المستهدف */
+            body.print-exam #print-section, body.print-exam #print-section * { visibility: visible; }
+            body.print-exam #print-section { position: absolute; left: 0; top: 0; width: 100%; }
+
+            body.print-single #studentDeepAnalysisBox, body.print-single #studentDeepAnalysisBox * { visibility: visible; }
+            body.print-single #studentDeepAnalysisBox { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; border: none !important; }
+
+            body.print-all #analytics-print-area, body.print-all #analytics-print-area * { visibility: visible; }
+            body.print-all #analytics-print-area { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; }
+
             .no-print { display: none !important; }
             .section-panel { background: white !important; color: black !important; box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
             .exam-header { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: black !important; padding: 6px 10px !important; margin-bottom: 6px !important; }
@@ -417,7 +444,7 @@
             </select>
         </div>
 
-        <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 15px;">طباعة ورقة الاختبار</button>
+        <button class="action-btn no-print" onclick="printExam()" style="margin-bottom: 15px;">طباعة ورقة الاختبار</button>
         
         <div id="print-section">
             <div class="exam-header">
@@ -446,43 +473,51 @@
 
     <!-- 4. التحليل والرسوم البيانية -->
     <div id="analytics" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">لوحة التحليل الدقيق والرسوم البيانية</h2>
-        
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div>الطلاب المرصودين</div>
-                <div class="stat-val" id="totalStudentsCount">0</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;" class="no-print">
+            <h2 style="font-size: 1rem; margin:0;">لوحة التحليل الدقيق والرسوم البيانية</h2>
+            <button class="icon-print-btn" onclick="printAllAnalytics()">
+                🖨️ طباعة تقرير جميع الطلاب
+            </button>
+        </div>
+
+        <div id="analytics-print-area">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>الطلاب المرصودين</div>
+                    <div class="stat-val" id="totalStudentsCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <div>متوسط الإتقان العام</div>
+                    <div class="stat-val" id="overallAvgRate">0%</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div>متوسط الإتقان العام</div>
-                <div class="stat-val" id="overallAvgRate">0%</div>
+
+            <div class="form-group no-print" style="margin-top:15px;">
+                <label for="queryStudentSelect">استعلام عن طالب لعرض التقرير الرسومي المفصل ومستواه بكل مجال:</label>
+                <select id="queryStudentSelect" onchange="renderStudentDeepAnalysis()">
+                    <option value="">-- اختر طالباً للعرض الفردي --</option>
+                </select>
+            </div>
+
+            <div id="studentDeepAnalysisBox" class="analysis-box" style="display:none;"></div>
+
+            <h3 style="font-size:0.95rem; margin-top:20px;">سجل النتائج الشامل</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>اسم الطالب</th>
+                            <th>الدرجة الكلية</th>
+                            <th>النسبة</th>
+                            <th>تحليل المجالات (الرسوم والمشاكل)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody"></tbody>
+                </table>
             </div>
         </div>
 
-        <div class="form-group" style="margin-top:15px;">
-            <label for="queryStudentSelect">استعلام عن طالب لعرض التقرير الرسومي المفصل ومستواه بكل مجال:</label>
-            <select id="queryStudentSelect" onchange="renderStudentDeepAnalysis()">
-                <option value="">-- اختر طالباً للعرض الفردي --</option>
-            </select>
-        </div>
-
-        <div id="studentDeepAnalysisBox" class="analysis-box" style="display:none;"></div>
-
-        <h3 style="font-size:0.95rem; margin-top:20px;">سجل النتائج الشامل</h3>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th>اسم الطالب</th>
-                        <th>الدرجة الكلية</th>
-                        <th>النسبة</th>
-                        <th>تحليل المجالات (الرسوم والمشاكل)</th>
-                    </tr>
-                </thead>
-                <tbody id="resultsTableBody"></tbody>
-            </table>
-        </div>
-        <button class="action-btn" onclick="clearData()" style="background: var(--danger); margin-top: 15px;">مسح كافة السجلات</button>
+        <button class="action-btn no-print" onclick="clearData()" style="background: var(--danger); margin-top: 15px;">مسح كافة السجلات</button>
     </div>
 </div>
 
@@ -609,7 +644,6 @@
         currentExamIndices.forEach((dataIdx, qNum) => {
             let item = skillsData[dataIdx];
 
-            // كارت الاختبار للطباعة
             let examHtml = `
                 <div class="question-card">
                     <span class="domain-tag">${item.domain}</span>
@@ -624,7 +658,6 @@
             `;
             examCont.innerHTML += examHtml;
 
-            // كارت التصحيح بدوائر واضحة وتفاعلية
             let optionsGradingHtml = '';
             item.options.forEach((opt, optIdx) => {
                 let indicator = optIdx === item.correct ? `<span class="correct-indicator">الإجابة النموذجية</span>` : '';
@@ -819,12 +852,33 @@
         }
 
         box.innerHTML = `
-            <h4 style="margin:0 0 8px 0; color:var(--primary);">التقرير التحليلي الرسومي: ${studentRecord.name}</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <h4 style="margin:0; color:var(--primary);">التقرير التحليلي الرسومي: ${studentRecord.name}</h4>
+                <button class="icon-print-btn no-print" onclick="printSingleStudent()">🖨️ طباعة تقرير الطالب</button>
+            </div>
             <p style="margin:4px 0; font-size:0.9rem;"><strong>الدرجة الكلية:</strong> ${studentRecord.score} (<span style="color:var(--success); font-weight:bold;">${studentRecord.percentage}%</span>)</p>
             ${chartsHtml}
             <p style="margin:12px 0 4px 0; font-weight:bold; color:var(--danger);">تشخيص الإخفاقات والمهارات التي تتطلب خطة علاجية:</p>
             ${failedHtml}
         `;
+    }
+
+    function printExam() {
+        document.body.className = "print-exam";
+        window.print();
+        document.body.className = "";
+    }
+
+    function printSingleStudent() {
+        document.body.className = "print-single";
+        window.print();
+        document.body.className = "";
+    }
+
+    function printAllAnalytics() {
+        document.body.className = "print-all";
+        window.print();
+        document.body.className = "";
     }
 
     function clearData() {
