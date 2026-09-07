@@ -126,7 +126,22 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        /* كروت الأسئلة والخيارات الأفقية (على سطر واحد) */
+        /* كليشة احترافية مترابطة للأعلى */
+        .exam-header {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 2px solid var(--border-color);
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 12px;
+        }
+
+        .exam-header p {
+            margin: 4px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* كروت الأسئلة والخيارات على سطر واحد */
         .question-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -135,13 +150,22 @@
             margin-bottom: 10px;
         }
 
+        .grading-card {
+            background: linear-gradient(to bottom, #1e293b, #1e1b4b);
+            border: 1.5px solid #4338ca;
+            padding: 12px 14px;
+            border-radius: var(--border-radius);
+            margin-bottom: 12px;
+            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.15);
+        }
+
         .domain-tag {
             display: inline-block;
-            background: #1e3a8a;
-            color: #93c5fd;
-            padding: 2px 6px;
+            background: #1d4ed8;
+            color: #bfdbfe;
+            padding: 2px 8px;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: bold;
             margin-bottom: 4px;
         }
@@ -165,7 +189,7 @@
             align-items: center;
             background: var(--panel-bg);
             border: 1.5px solid var(--border-color);
-            padding: 6px 10px;
+            padding: 6px 8px;
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s ease;
@@ -177,6 +201,11 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .grading-card .option-label {
+            background: #0f172a;
+            border-color: #4f46e5;
         }
 
         .option-label:hover {
@@ -206,11 +235,11 @@
             border-radius: 50%;
             transform: scale(0);
             transition: 120ms transform ease-in-out;
-            background-color: var(--primary);
+            background-color: var(--success);
         }
 
         .option-label input[type="radio"]:checked {
-            border-color: var(--primary);
+            border-color: var(--success);
         }
 
         .option-label input[type="radio"]:checked::before {
@@ -218,7 +247,7 @@
         }
 
         .option-label input[type="radio"]:checked + span {
-            color: #60a5fa;
+            color: #34d399;
         }
 
         .correct-badge {
@@ -229,6 +258,43 @@
             font-size: 0.65rem;
             margin-right: auto;
             font-weight: bold;
+        }
+
+        /* تصميم الرسوم البيانية التفاعلية (Progress Bars) */
+        .chart-container {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chart-row {
+            background: #1e293b;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .progress-bar-bg {
+            background: #475569;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.4s ease;
         }
 
         /* الإحصائيات والتحليلات */
@@ -257,7 +323,7 @@
         .analysis-box {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 12px;
+            padding: 15px;
             border-radius: var(--border-radius);
             margin-top: 15px;
         }
@@ -285,7 +351,7 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة المخصص لصفحة A4 واحدة مُحكمة الأبعاد */
+        /* تنسيق الطباعة لصفحة A4 واحدة */
         @media print {
             @page {
                 size: A4 portrait;
@@ -314,6 +380,14 @@
                 padding: 0 !important; 
                 margin: 0 !important;
                 display: block !important;
+            }
+            .exam-header {
+                background: #f1f5f9 !important;
+                border: 1px solid #cbd5e1 !important;
+                color: black !important;
+            }
+            .exam-header p {
+                color: black !important;
             }
             #tenQuestionsContainer {
                 display: flex;
@@ -352,14 +426,6 @@
                 padding: 1px 3px !important;
                 margin-bottom: 2px !important;
             }
-            #print-section > div:first-child {
-                padding-bottom: 3px !important;
-                margin-bottom: 4px !important;
-                font-size: 8.5pt !important;
-            }
-            #print-section p {
-                margin: 1px 0 !important;
-            }
         }
     </style>
 </head>
@@ -392,7 +458,7 @@
         <div class="form-group no-print">
             <label for="domainFilterSelect">اختر المجال المستهدف للاختبار:</label>
             <select id="domainFilterSelect" onchange="generateExamByDomain()">
-                <option value="all">جميع المجالات (اختبار شامل 10 أسئلة)</option>
+                <option value="all">جميع المجالات (اختبار شامل 10 أسئلة يغطي المجالات الأربعة)</option>
                 <option value="علوم الحياة">مجال: علوم الحياة (10 مهارات)</option>
                 <option value="العلوم الفيزيائية والكيميائية">مجال: العلوم الفيزيائية والكيميائية (5 مهارات)</option>
                 <option value="علم الأرض">مجال: علم الأرض (مهارتان)</option>
@@ -403,10 +469,10 @@
         <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 15px;">طباعة ورقة الاختبار</button>
         
         <div id="print-section">
-            <div style="border-bottom: 2px solid var(--border-color); padding-bottom: 6px; margin-bottom: 8px; font-weight: 600;">
-                <p style="margin:2px 0;">المدرسة: مدرسة داؤود بن عروة الثقفي الابتدائية</p>
-                <p style="margin:2px 0;">اسم الطالب: ..............................................................</p>
-                <p style="margin:2px 0; color:var(--text-muted); font-size: 0.85rem;" id="printDomainTitle">الاختبار: شامل لجميع المجالات</p>
+            <div class="exam-header">
+                <p><strong>المدرسة:</strong> مدرسة داؤود بن عروة الثقفي الابتدائية &nbsp;&nbsp;|&nbsp;&nbsp; <strong>المادة:</strong> العلوم - الصف السادس</p>
+                <p><strong>اسم الطالب:</strong> ..............................................................</p>
+                <p id="printDomainTitle" style="color:#60a5fa;"><strong>نوع الاختبار:</strong> شامل لجميع المجالات</p>
             </div>
             <div id="tenQuestionsContainer"></div>
         </div>
@@ -437,13 +503,13 @@
                 <div class="stat-val" id="totalStudentsCount">0</div>
             </div>
             <div class="stat-card">
-                <div>متوسط الإتقان</div>
+                <div>متوسط الإتقان العام</div>
                 <div class="stat-val" id="overallAvgRate">0%</div>
             </div>
         </div>
 
         <div class="form-group" style="margin-top:15px;">
-            <label for="queryStudentSelect">استعلام عن طالب لمعرفة المجالات والمهارات التي أخفق فيها:</label>
+            <label for="queryStudentSelect">استعلام عن طالب لمعرفة المجالات والمهارات والرسوم البيانية:</label>
             <select id="queryStudentSelect" onchange="renderStudentDeepAnalysis()">
                 <option value="">-- اختر طالباً للاستعلام المفصل --</option>
             </select>
@@ -457,10 +523,10 @@
                 <thead>
                     <tr>
                         <th>اسم الطالب</th>
-                        <th>المجال المُختبَر</th>
-                        <th>الدرجة</th>
+                        <th>نوع الاختبار</th>
+                        <th>الدرجة الكلية</th>
                         <th>نسبة الإتقان</th>
-                        <th>المهارات الإخفاقية</th>
+                        <th>تفصيل المجالات والمهارات</th>
                     </tr>
                 </thead>
                 <tbody id="resultsTableBody"></tbody>
@@ -521,13 +587,13 @@
             return;
         }
         const students = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
-        localStorage.setItem('science_students_list_final', JSON.stringify(students));
+        localStorage.setItem('science_students_list_final_v2', JSON.stringify(students));
         alert('تم حفظ قائمة الطلاب بنجاح!');
         loadStudentsDropdowns();
     }
 
     function loadStudentsDropdowns() {
-        let students = JSON.parse(localStorage.getItem('science_students_list_final') || '[]');
+        let students = JSON.parse(localStorage.getItem('science_students_list_final_v2') || '[]');
         let studentSelect = document.getElementById('studentSelect');
         let querySelect = document.getElementById('queryStudentSelect');
         
@@ -549,9 +615,26 @@
         
         if (selectedDomain === 'all') {
             currentDomainLabel = "شامل لجميع المجالات";
-            let indices = [...Array(skillsData.length).keys()];
-            indices.sort(() => Math.random() - 0.5);
-            filteredIndices = indices.slice(0, 10);
+            // اختيار دقيق ومتوازن ليمثل المجالات الأربعة (مثلاً 3 علوم حياة، 3 فيزياء، 2 أرض، 2 فلك = 10 أسئلة)
+            let life = [], phys = [], earth = [], space = [];
+            skillsData.forEach((item, idx) => {
+                if (item.domain === "علوم الحياة") life.push(idx);
+                else if (item.domain === "العلوم الفيزيائية والكيميائية") phys.push(idx);
+                else if (item.domain === "علم الأرض") earth.push(idx);
+                else if (item.domain === "علم الفلك") space.push(idx);
+            });
+            life.sort(() => Math.random() - 0.5);
+            phys.sort(() => Math.random() - 0.5);
+            earth.sort(() => Math.random() - 0.5);
+            space.sort(() => Math.random() - 0.5);
+
+            filteredIndices = [
+                ...life.slice(0, 3),
+                ...phys.slice(0, 3),
+                ...earth.slice(0, 2),
+                ...space.slice(0, 2)
+            ];
+            filteredIndices.sort(() => Math.random() - 0.5);
         } else {
             currentDomainLabel = "مجال: " + selectedDomain;
             for (let i = 0; i < skillsData.length; i++) {
@@ -563,7 +646,7 @@
         }
 
         currentExamIndices = filteredIndices;
-        document.getElementById('printDomainTitle').textContent = `الاختبار: ${currentDomainLabel} (${currentExamIndices.length} أسئلة)`;
+        document.getElementById('printDomainTitle').innerHTML = `<strong>نوع الاختبار:</strong> ${currentDomainLabel} (${currentExamIndices.length} أسئلة)`;
         renderSystem();
     }
 
@@ -593,7 +676,7 @@
 
             let optionsHtml = '';
             item.options.forEach((opt, optIdx) => {
-                let badge = optIdx === item.correct ? `<span class="correct-badge">✓</span>` : '';
+                let badge = optIdx === item.correct ? `<span class="correct-badge">✓ صحيح</span>` : '';
                 optionsHtml += `
                     <label class="option-label">
                         <input type="radio" name="q_${qNum}" value="${optIdx}">
@@ -604,9 +687,9 @@
             });
 
             let gradingHtml = `
-                <div class="question-card">
+                <div class="grading-card">
                     <span class="domain-tag">${item.domain}</span>
-                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-size:0.7rem; color:var(--text-muted);">(${item.skill})</span></div>
+                    <div class="question-title" style="color:#e2e8f0;">س${qNum+1}: ${item.q}<br><span style="font-size:0.7rem; color:#94a3b8;">المهارة المرتبطة: ${item.skill}</span></div>
                     <div class="options-container">
                         ${optionsHtml}
                     </div>
@@ -624,21 +707,49 @@
         }
 
         let score = 0;
-        let failedItems = [];
+        let failedDetails = [];
         let totalQuestions = currentExamIndices.length;
+
+        // تتبع الإحصائيات لكل مجال على حدة
+        let domainStats = {
+            "علوم الحياة": { total: 0, correct: 0 },
+            "العلوم الفيزيائية والكيميائية": { total: 0, correct: 0 },
+            "علم الأرض": { total: 0, correct: 0 },
+            "علم الفلك": { total: 0, correct: 0 }
+        };
 
         currentExamIndices.forEach((dataIdx, qNum) => {
             let item = skillsData[dataIdx];
+            if (!domainStats[item.domain]) {
+                domainStats[item.domain] = { total: 0, correct: 0 };
+            }
+            domainStats[item.domain].total++;
+
             const selectedOpt = document.querySelector(`input[name="q_${qNum}"]:checked`);
             if (selectedOpt && parseInt(selectedOpt.value) === item.correct) {
                 score++;
+                domainStats[item.domain].correct++;
             } else {
-                failedItems.push(`[${item.domain}] ${item.skill}`);
+                failedDetails.push({
+                    domain: item.domain,
+                    skill: item.skill,
+                    question: item.q
+                });
             }
         });
 
+        // حساب نسب المجالات
+        let domainPercentages = {};
+        for (let dom in domainStats) {
+            if (domainStats[dom].total > 0) {
+                domainPercentages[dom] = Math.round((domainStats[dom].correct / domainStats[dom].total) * 100);
+            } else {
+                domainPercentages[dom] = null; // لم يُختبر في هذا المجال
+            }
+        }
+
         let percentage = Math.round((score / totalQuestions) * 100);
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_final') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_final_v2') || '[]');
         
         records = records.filter(r => r.name !== studentName);
         records.push({
@@ -646,18 +757,19 @@
             domainTested: currentDomainLabel,
             score: `${score} / ${totalQuestions}`,
             percentage: percentage,
-            failedItems: failedItems
+            domainPercentages: domainPercentages,
+            failedDetails: failedDetails
         });
 
-        localStorage.setItem('science_10skills_records_final', JSON.stringify(records));
-        alert('تم حفظ رصد وتحليل نتيجة الطالب بنجاح!');
+        localStorage.setItem('science_10skills_records_final_v2', JSON.stringify(records));
+        alert('تم حفظ رصد وتحليل نتيجة الطالب بنجاح مع استخراج نسب المجالات والرسوم البيانية!');
         document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
         document.getElementById('studentSelect').value = '';
         loadAnalyticsData();
     }
 
     function loadAnalyticsData() {
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_final') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_final_v2') || '[]');
         let tbody = document.getElementById('resultsTableBody');
         tbody.innerHTML = '';
 
@@ -672,13 +784,28 @@
         let totalSum = 0;
         records.forEach(rec => {
             totalSum += rec.percentage;
-            let failedText = rec.failedItems.length > 0 ? rec.failedItems.join('<br>') : '<span style="color:var(--success);">متقن تماماً</span>';
+            let summaryText = `<b style="color:var(--primary);">النسبة الكلية: ${rec.percentage}%</b><br>`;
+            if (rec.domainPercentages) {
+                for (let d in rec.domainPercentages) {
+                    if (rec.domainPercentages[d] !== null) {
+                        summaryText += `<span style="font-size:0.75rem; color:#cbd5e1;">${d}: ${rec.domainPercentages[d]}%</span><br>`;
+                    }
+                }
+            }
+
+            let failedText = '';
+            if (rec.failedDetails && rec.failedDetails.length > 0) {
+                failedText = rec.failedDetails.map(f => `<b style="color:#f87171;">[${f.domain}]</b> ${f.skill}`).join('<br>');
+            } else {
+                failedText = '<span style="color:var(--success); font-weight:bold;">متقن تماماً</span>';
+            }
+
             tbody.innerHTML += `
                 <tr>
                     <td>${rec.name}</td>
                     <td style="font-size:0.8rem; color:#60a5fa;">${rec.domainTested || 'شامل'}</td>
                     <td><strong>${rec.score}</strong></td>
-                    <td><span style="color:var(--success); font-weight:bold;">${rec.percentage}%</span></td>
+                    <td>${summaryText}</td>
                     <td style="text-align:right; font-size:0.75rem; line-height:1.4;">${failedText}</td>
                 </tr>
             `;
@@ -697,7 +824,7 @@
             return;
         }
 
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_final') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_final_v2') || '[]');
         let studentRecord = records.find(r => r.name === studentName);
 
         box.style.display = 'block';
@@ -706,29 +833,62 @@
             return;
         }
 
+        // بناء الرسوم البيانية التفاعلية لنسب المجالات
+        let chartsHtml = `<div class="chart-container">`;
+        if (studentRecord.domainPercentages) {
+            for (let dom in studentRecord.domainPercentages) {
+                let val = studentRecord.domainPercentages[dom];
+                if (val !== null) {
+                    let barColor = val >= 80 ? '#10b981' : (val >= 50 ? '#f59e0b' : '#ef4444');
+                    chartsHtml += `
+                        <div class="chart-row">
+                            <div class="chart-info">
+                                <span>${dom}</span>
+                                <span style="color:${barColor};">${val}%</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width: ${val}%; background-color: ${barColor};"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+        chartsHtml += `</div>`;
+
         let failedHtml = '';
-        if (studentRecord.failedItems.length === 0) {
-            failedHtml = `<p style="color:var(--success); font-weight:bold;">ممتاز! الطالب أتقن جميع المهارات في آخر اختبار مرصود.</p>`;
+        if (!studentRecord.failedDetails || studentRecord.failedDetails.length === 0) {
+            failedHtml = `<p style="color:var(--success); font-weight:bold; margin:8px 0 0 0;">ممتاز جداً! الطالب أتقن جميع المهارات ولا توجد أي إخفاقات مرصودة.</p>`;
         } else {
-            failedHtml = `<ul style="margin:5px 0; padding-right:20px; color:#fca5a5; font-size:0.9rem;">`;
-            studentRecord.failedItems.forEach(item => {
-                failedHtml += `<li>${item}</li>`;
+            failedHtml = `<div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">`;
+            studentRecord.failedDetails.forEach(f => {
+                failedHtml += `
+                    <div style="background:#451a03; border:1px solid #78350f; padding:8px; border-radius:6px;">
+                        <span style="background:#9a3412; color:#ffedd5; padding:2px 6px; border-radius:4px; font-size:0.75rem; font-weight:bold;">${f.domain}</span>
+                        <p style="margin:4px 0 2px 0; font-size:0.85rem; font-weight:bold; color:#fca5a5;">المهارة المخفق فيها: ${f.skill}</p>
+                        <p style="margin:0; font-size:0.75rem; color:#cbd5e1;">السؤال المرتبط: ${f.question}</p>
+                    </div>
+                `;
             });
-            failedHtml += `</ul>`;
+            failedHtml += `</div>`;
         }
 
         box.innerHTML = `
-            <h4 style="margin:0 0 8px 0; color:var(--primary);">التقرير التحليلي الفردي: ${studentRecord.name}</h4>
+            <h4 style="margin:0 0 8px 0; color:var(--primary);">التقرير التحليلي الرسومي الفردي: ${studentRecord.name}</h4>
             <p style="margin:4px 0; font-size:0.9rem;"><strong>نوع الاختبار المنجز:</strong> ${studentRecord.domainTested}</p>
-            <p style="margin:4px 0; font-size:0.9rem;"><strong>الدرجة النهائية:</strong> ${studentRecord.score} (${studentRecord.percentage}%)</p>
-            <p style="margin:8px 0 4px 0; font-weight:bold; color:var(--danger);">المجالات والمهارات التي أخفق فيها الطالب وتحتاج لدعم:</p>
+            <p style="margin:4px 0; font-size:0.9rem;"><strong>الدرجة الكلية:</strong> ${studentRecord.score} (<span style="color:var(--success); font-weight:bold;">${studentRecord.percentage}%</span>)</p>
+            
+            <p style="margin:12px 0 4px 0; font-weight:bold; color:var(--text-main);">الرسوم البيانية لنسب الإتقان لكل مجال:</p>
+            ${chartsHtml}
+
+            <p style="margin:15px 0 4px 0; font-weight:bold; color:var(--danger);">تشخيص مشكلات الإخفاق والمهارات التي تتطلب خطة علاجية:</p>
             ${failedHtml}
         `;
     }
 
     function clearData() {
         if (confirm('هل أنت متأكد من مسح جميع سجلات الدرجات؟')) {
-            localStorage.removeItem('science_10skills_records_final');
+            localStorage.removeItem('science_10skills_records_final_v2');
             loadAnalyticsData();
             document.getElementById('studentDeepAnalysisBox').style.display = 'none';
         }
