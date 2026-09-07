@@ -225,7 +225,6 @@
             font-weight: bold;
         }
 
-        /* تصميم الرسوم البيانية التفاعلية المتقدمة */
         .chart-container {
             margin-top: 12px;
             background: #0f172a;
@@ -317,19 +316,85 @@
             background-color: var(--panel-bg);
         }
 
+        /* تنسيق الطباعة الصارم لضمان ورقة A4 واحدة محكمة */
         @media print {
-            @page { size: A4 portrait; margin: 0.4cm; }
-            body * { visibility: hidden; }
-            #print-section, #print-section * { visibility: visible; }
-            #print-section { position: absolute; left: 0; top: 0; width: 100%; }
-            .no-print { display: none !important; }
-            .section-panel { background: white !important; color: black !important; box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
-            .exam-header { background: #f1f5f9 !important; border: 1px solid #cbd5e1 !important; color: black !important; }
-            .exam-header p { color: black !important; }
-            .question-card { background: #ffffff !important; border: 1px solid #94a3b8 !important; color: black !important; padding: 4px 6px !important; margin-bottom: 3px !important; page-break-inside: avoid; }
-            .question-title { color: #0f172a !important; font-size: 8pt !important; }
-            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 7.5pt !important; }
-            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 6.5pt !important; }
+            @page { 
+                size: A4 portrait; 
+                margin: 0.3cm; 
+            }
+            body * { 
+                visibility: hidden; 
+            }
+            #print-section, #print-section * { 
+                visibility: visible; 
+            }
+            #print-section { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+            }
+            .no-print { 
+                display: none !important; 
+            }
+            .section-panel { 
+                background: white !important; 
+                color: black !important; 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+                display: block !important; 
+            }
+            .exam-header { 
+                background: #f8fafc !important; 
+                border: 1px solid #cbd5e1 !important; 
+                color: black !important; 
+                padding: 6px 10px !important;
+                margin-bottom: 6px !important;
+            }
+            .exam-header p { 
+                color: black !important; 
+                font-size: 8pt !important;
+                margin: 2px 0 !important;
+            }
+            #tenQuestionsContainer {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 4px;
+            }
+            .question-card { 
+                background: #ffffff !important; 
+                border: 1px solid #94a3b8 !important; 
+                color: black !important; 
+                padding: 4px 6px !important;
+                margin-bottom: 0 !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .question-title { 
+                color: #0f172a !important; 
+                font-size: 7.5pt !important; 
+                margin-bottom: 3px !important;
+                line-height: 1.1 !important;
+            }
+            .domain-tag {
+                background: #e2e8f0 !important;
+                color: #1e293b !important;
+                font-size: 6pt !important;
+                padding: 1px 4px !important;
+                margin-bottom: 2px !important;
+            }
+            .options-container {
+                gap: 3px !important;
+            }
+            .option-label { 
+                background: #f8fafc !important; 
+                border: 1px solid #cbd5e1 !important; 
+                color: #1e293b !important; 
+                font-size: 7pt !important; 
+                padding: 2px 4px !important;
+            }
         }
     </style>
 </head>
@@ -376,7 +441,7 @@
             <div class="exam-header">
                 <p><strong>المدرسة:</strong> مدرسة داؤود بن عروة الثقفي الابتدائية &nbsp;&nbsp;|&nbsp;&nbsp; <strong>المادة:</strong> العلوم - الصف السادس</p>
                 <p><strong>اسم الطالب:</strong> ..............................................................</p>
-                <p id="printDomainTitle" style="color:#60a5fa;"><strong>نوع الاختبار:</strong> شامل لجميع المجالات</p>
+                <p id="printDomainTitle" style="color:#2563eb;"><strong>نوع الاختبار:</strong> شامل لجميع المجالات</p>
             </div>
             <div id="tenQuestionsContainer"></div>
         </div>
@@ -397,7 +462,7 @@
         <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد نتيجة الطالب وتحليل المجالات</button>
     </div>
 
-    <!-- 4. التحليل والرسوم البيانية الدقيقة -->
+    <!-- 4. التحليل والرسوم البيانية -->
     <div id="analytics" class="section-panel">
         <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">لوحة التحليل الدقيق والرسوم البيانية</h2>
         
@@ -564,8 +629,8 @@
 
             let examHtml = `
                 <div class="question-card">
-                    <span class="domain-tag">المجال: ${item.domain}</span>
-                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-weight:normal; font-size:0.75rem; color:var(--text-muted);">[المهارة: ${item.skill}]</span></div>
+                    <span class="domain-tag">${item.domain}</span>
+                    <div class="question-title">س${qNum+1}: ${item.q}</div>
                     <div class="options-container">
                         <div class="option-label">${item.options[0]}</div>
                         <div class="option-label">${item.options[1]}</div>
@@ -731,7 +796,6 @@
             return;
         }
 
-        // بناء الرسوم البيانية التفاعلية
         let chartsHtml = `<div class="chart-container"><p style="margin:0 0 5px 0; font-weight:bold; font-size:0.85rem; color:#60a5fa;">الرسوم البيانية لمستوى الإتقان حسب المجالات:</p>`;
         if (studentRecord.domainPercentages) {
             for (let dom in studentRecord.domainPercentages) {
