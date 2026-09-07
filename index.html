@@ -280,14 +280,70 @@
             background-color: var(--panel-bg);
         }
 
+        /* تنسيق الطباعة المخصص لصفحة A4 واحدة */
         @media print {
-            .no-print { display: none !important; }
-            body { background: white; color: black; padding: 0; }
-            .section-panel { background: white; color: black; box-shadow: none; border: none; padding: 0; margin: 0;}
-            .question-card { background: #f8fafc; border: 1px solid #ccc; color: black; page-break-inside: avoid; }
-            .option-label { background: white; border: 1px solid #ccc; color: black; }
-            .domain-tag { background: #e2e8f0; color: #1e293b; }
-            h2 { color: black !important; }
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+            body * {
+                visibility: hidden;
+            }
+            #print-section, #print-section * {
+                visibility: visible;
+            }
+            #print-section {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                font-size: 11pt;
+            }
+            .no-print { 
+                display: none !important; 
+            }
+            .section-panel { 
+                background: white !important; 
+                color: black !important; 
+                box-shadow: none !important; 
+                border: none !important; 
+                padding: 0 !important; 
+                margin: 0 !important;
+                display: block !important;
+            }
+            .question-card { 
+                background: #ffffff !important; 
+                border: 1px solid #cbd5e1 !important; 
+                color: black !important; 
+                padding: 8px !important;
+                margin-bottom: 8px !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            .question-title {
+                color: #0f172a !important;
+                font-size: 10.5pt !important;
+                margin-bottom: 6px !important;
+            }
+            .option-label { 
+                background: #f8fafc !important; 
+                border: 1px solid #cbd5e1 !important; 
+                color: #1e293b !important; 
+                padding: 5px 8px !important;
+                font-size: 10pt !important;
+            }
+            .domain-tag { 
+                background: #e2e8f0 !important; 
+                color: #1e293b !important; 
+                font-size: 8pt !important;
+                padding: 2px 6px !important;
+                margin-bottom: 4px !important;
+            }
+            h2 { 
+                color: black !important; 
+                font-size: 12pt !important;
+                margin: 5px 0 !important;
+            }
         }
     </style>
 </head>
@@ -331,10 +387,10 @@
         <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 15px;">طباعة ورقة الاختبار</button>
         
         <div id="print-section">
-            <div style="border-bottom: 2px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px; font-weight: 600;">
-                <p style="margin:4px 0;">المدرسة: مدرسة داؤود بن عروة الثقفي الابتدائية</p>
-                <p style="margin:4px 0;">اسم الطالب: ..............................................................</p>
-                <p style="margin:4px 0; color:var(--text-muted); font-size: 0.85rem;" id="printDomainTitle">الاختبار: شامل لجميع المجالات</p>
+            <div style="border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; font-weight: 600;">
+                <p style="margin:2px 0;">المدرسة: مدرسة داؤود بن عروة الثقفي الابتدائية</p>
+                <p style="margin:2px 0;">اسم الطالب: ..............................................................</p>
+                <p style="margin:2px 0; color:var(--text-muted); font-size: 0.85rem;" id="printDomainTitle">الاختبار: شامل لجميع المجالات</p>
             </div>
             <div id="tenQuestionsContainer"></div>
         </div>
@@ -399,9 +455,7 @@
 </div>
 
 <script>
-    // قاعدة البيانات موزعة على المجالات الأربعة لمادة العلوم
     const skillsData = [
-        // علوم الحياة (10 مهارات)
         { domain: "علوم الحياة", skill: "تحديد مفهوم نظرية الخلية وأهميتها", q: "ما هي الوحدة الأساسية للبناء والوظيفة في جميع المخلوقات الحية؟", options: ["الخلية", "النسيج", "العضو", "الجهاز الحيوي"], correct: 0 },
         { domain: "علوم الحياة", skill: "التمييز بين الخلية النباتية والحيوانية", q: "أي التركيبين التاليين يوجد في الخلايا النباتية فقط ولا يوجد في الحيوانية؟", options: ["الغشاء البلازمي", "الجدار الخلوي", "الميتوكوندريا", "النواة"], correct: 1 },
         { domain: "علوم الحياة", skill: "شرح مراحل انقسام الخلايا المتساوي", q: "ماذا يُسمى الانقسام الذي تنتج عنه خلايا تطابق الأصل تماماً للنمو وتعويض التالف؟", options: ["الانقسام المنصف", "الانقسام المتساوي", "التبرعم", "التوالد البكري"], correct: 1 },
@@ -413,18 +467,15 @@
         { domain: "علوم الحياة", skill: "تتبع مسار الطاقة عبر السلاسل الغذائية", q: "في السلسلة الغذائية، تسمى المخلوقات التي تصنع غذاءها بنفسها بـ:", options: ["المستهلكات الأولى", "المحللات", "المنتجات", "المستهلكات الثانية"], correct: 2 },
         { domain: "علوم الحياة", skill: "تحديد أدوار الكائنات بالبيئة", q: "الحيوانات التي تتغذى على بقايا الحيوانات الميتة تُصنف ضمن:", options: ["المنتجات", "المحللات", "المستهلكات (القمامة)", "المنتجة للطاقة"], correct: 2 },
 
-        // العلوم الفيزيائية والكيميائية (5 مهارات)
         { domain: "العلوم الفيزيائية والكيميائية", skill: "تصنيف حالات المادة وتغيراتها", q: "التغير الذي ينتج عنه مادة جديدة كلياً ذات خصائص مختلفة (مثل الاحتراق) يسمى:", options: ["تغير فيزيائي", "تغير كيميائي", "انصهار", "تبخر"], correct: 1 },
         { domain: "العلوم الفيزيائية والكيميائية", skill: "وصف مفاهيم الموقع والحركة والسرعة", q: "التغير في مسافة الجسم بمرور الزمن مقسوماً على الزمن يعبر عن:", options: ["التسارع", "السرعة", "القوة", "الكتلة"], correct: 1 },
         { domain: "العلوم الفيزيائية والكيميائية", skill: "التمييز بين القوى المتزنة وغير المتزنة", q: "القوتان المتساويتان في المقدار والمتعاكستان في الاتجاه وتلغي إحداهما الأخرى تسمى:", options: ["قوى متزنة", "قوى غير متزنة", "قوى الاحتكاك", "الجاذبية"], correct: 0 },
         { domain: "العلوم الفيزيائية والكيميائية", skill: "استكشاف أشكال الطاقة وتحولاتها", q: "عند تشغيل المصباح الكهربائي، تتحول الطاقة الكهربائية إلى طاقة:", options: ["حركية فقط", "ضوئية وحرارية", "كيميائية فقط", "نووية"], correct: 1 },
         { domain: "العلوم الفيزيائية والكيميائية", skill: "فهم خصائص الأمواج والصوت والضوء", q: "كيف ينتقل الصوت في الأوساط المختلفة؟", options: ["على شكل موجات صوتية تتطلب وسطاً ناقلاً", "في الفراغ بسرعة الضوء", "بدون اهتزاز للجزيئات", "على شكل شعاع ضوئي"], correct: 0 },
 
-        // علم الأرض (مهارتان)
         { domain: "علم الأرض", skill: "تحليل خصائص التربة وطرق المحافظة عليها", q: "الطبقة العليا من التربة التي تحتوي على أعلى نسبة من الدبال والمواد العضوية هي:", options: ["التربة التحتية", "الصخور الأصلية", "التربة السطحية", "الصخور الصلبة"], correct: 2 },
         { domain: "علم الأرض", skill: "توضيح أساليب حماية البيئة وترشيد الموارد", q: "أي مما يلي يُعد من أفضل الطرق لتقليل النفايات وحماية موارد البيئة؟", options: ["حرق النفايات المفتوحة", "إعادة التدوير وتقليل الاستهلاك", "زيادة التلوث البلاستيكي", "قطع الغابات"], correct: 1 },
 
-        // علم الفلك (4 مهارات)
         { domain: "علم الفلك", skill: "توضيح تعاقب الليل والنهار والفصول", q: "تنتج ظاهرة تعاقب الليل والنهار على سطح الأرض بسبب:", options: ["دوران الأرض حول الشمس", "دوران الأرض حول محورها", "ميل محور الأرض", "دوران القمر"], correct: 1 },
         { domain: "علم الفلك", skill: "المقارنة بين الكواكب الداخلية والخارجية", q: "أي من الكواكب التالية يعد من الكواكب الصخرية الداخلية في النظام الشمسي؟", options: ["المشتري", "زحل", "الأرض", "نبتون"], correct: 2 },
         { domain: "علم الفلك", skill: "وصف النجوم والمجرات الفضائية", q: "تُعرف المجرة التي تنتمي إليها شمسنا وكوكب الأرض باسم:", options: ["درب التبانة", "سديم أوريون", "المرأة المسلسلة", "النظام الشمسي"], correct: 0 },
@@ -435,7 +486,7 @@
     let currentDomainLabel = "شامل جميع المجالات";
 
     window.onload = function() {
-        generateExamByDomain(); // توليد افتراضي للكل عند فتح الصفحة
+        generateExamByDomain();
         loadStudentsDropdowns();
         loadAnalyticsData();
     };
@@ -476,7 +527,6 @@
         });
     }
 
-    // دالة توليد الاختبار بناءً على تصفية المجال المختار
     function generateExamByDomain() {
         const selectedDomain = document.getElementById('domainFilterSelect').value;
         let filteredIndices = [];
@@ -485,7 +535,7 @@
             currentDomainLabel = "شامل لجميع المجالات";
             let indices = [...Array(skillsData.length).keys()];
             indices.sort(() => Math.random() - 0.5);
-            filteredIndices = indices.slice(0, 10); // سحب 10 عشوائية
+            filteredIndices = indices.slice(0, 10);
         } else {
             currentDomainLabel = "مجال: " + selectedDomain;
             for (let i = 0; i < skillsData.length; i++) {
@@ -493,7 +543,6 @@
                     filteredIndices.push(i);
                 }
             }
-            // ترتيب عشوائي لمهارات هذا المجال (الحد الأقصى للمجال هو 10 مهارات في الحياة، وأقل في البقية)
             filteredIndices.sort(() => Math.random() - 0.5); 
         }
 
@@ -512,7 +561,6 @@
         currentExamIndices.forEach((dataIdx, qNum) => {
             let item = skillsData[dataIdx];
 
-            // كارت الطباعة
             let examHtml = `
                 <div class="question-card">
                     <span class="domain-tag">المجال: ${item.domain}</span>
@@ -527,7 +575,6 @@
             `;
             examCont.innerHTML += examHtml;
 
-            // كارت التصحيح
             let optionsHtml = '';
             item.options.forEach((opt, optIdx) => {
                 let badge = optIdx === item.correct ? `<span class="correct-badge">الإجابة الصحيحة</span>` : '';
@@ -562,7 +609,7 @@
 
         let score = 0;
         let failedItems = [];
-        let totalQuestions = currentExamIndices.length; // حساب تفاعلي لعدد الأسئلة
+        let totalQuestions = currentExamIndices.length;
 
         currentExamIndices.forEach((dataIdx, qNum) => {
             let item = skillsData[dataIdx];
@@ -574,12 +621,9 @@
             }
         });
 
-        // النسبة تحسب ديناميكياً حسب عدد الأسئلة في المجال المختار
         let percentage = Math.round((score / totalQuestions) * 100);
-        
         let records = JSON.parse(localStorage.getItem('science_10skills_records_final') || '[]');
         
-        // تحديث سجل الطالب أو إضافته
         records = records.filter(r => r.name !== studentName);
         records.push({
             name: studentName,
@@ -677,4 +721,3 @@
 
 </body>
 </html>
-
