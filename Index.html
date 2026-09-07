@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تقييم مهارات العلوم - الصف السادس</title>
+    <title>نظام تقييم مهارات العلوم الاحترافي - الصف السادس</title>
     <style>
         :root {
-            --primary: #1e3a8a;
-            --primary-light: #3b82f6;
-            --success: #059669;
-            --bg-main: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --border-color: #cbd5e1;
-            --border-radius: 10px;
+            --bg-dark: #0f172a;
+            --panel-bg: #1e293b;
+            --card-bg: #334155;
+            --primary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #475569;
+            --border-radius: 12px;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-main);
+            background-color: var(--bg-dark);
             color: var(--text-main);
             margin: 0;
             padding: 12px;
@@ -26,14 +29,14 @@
         }
 
         .container {
-            max-width: 750px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         h1 {
             text-align: center;
-            color: var(--primary);
-            font-size: 1.35rem;
+            color: var(--text-main);
+            font-size: 1.3rem;
             margin-bottom: 15px;
         }
 
@@ -47,32 +50,32 @@
         }
 
         .tab-btn {
-            background-color: #e2e8f0;
-            border: none;
-            padding: 10px 12px;
-            font-size: 0.85rem;
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 10px 10px;
+            font-size: 0.8rem;
             font-weight: 700;
             cursor: pointer;
             border-radius: var(--border-radius);
             white-space: nowrap;
             flex: 1;
             text-align: center;
-            color: #334155;
+            color: var(--text-muted);
             transition: all 0.2s;
         }
 
         .tab-btn.active {
             background-color: var(--primary);
             color: white;
-            box-shadow: 0 3px 8px rgba(30, 58, 138, 0.3);
+            border-color: var(--primary);
         }
 
         .section-panel {
             display: none;
-            background: var(--card-bg);
+            background: var(--panel-bg);
             padding: 16px;
             border-radius: var(--border-radius);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             margin-bottom: 20px;
             border: 1px solid var(--border-color);
         }
@@ -90,9 +93,10 @@
             margin-bottom: 6px;
             font-weight: 700;
             font-size: 0.9rem;
+            color: var(--text-main);
         }
 
-        input[type="text"] {
+        select, input[type="text"], textarea {
             width: 100%;
             padding: 11px;
             border: 2px solid var(--border-color);
@@ -100,11 +104,12 @@
             font-size: 0.95rem;
             box-sizing: border-box;
             outline: none;
-            background: #fff;
+            background: var(--card-bg);
+            color: var(--text-main);
         }
 
-        input[type="text"]:focus {
-            border-color: var(--primary-light);
+        select:focus, input[type="text"]:focus {
+            border-color: var(--primary);
         }
 
         button.action-btn {
@@ -117,13 +122,13 @@
             cursor: pointer;
             width: 100%;
             font-weight: bold;
-            box-shadow: 0 3px 10px rgba(30, 58, 138, 0.2);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        /* كروت الأسئلة */
+        /* كروت الأسئلة والخيارات العمودية */
         .question-card {
-            background: #f1f5f9;
-            border: 1.5px solid var(--border-color);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             padding: 14px;
             border-radius: var(--border-radius);
             margin-bottom: 15px;
@@ -132,12 +137,11 @@
         .question-title {
             font-weight: 700;
             font-size: 0.95rem;
-            color: #1e293b;
+            color: var(--text-main);
             margin-bottom: 12px;
             line-height: 1.5;
         }
 
-        /* صناديق الخيارات فوق بعضها (عمودية وليست متجاورة) */
         .options-container {
             display: flex;
             flex-direction: column;
@@ -147,7 +151,7 @@
         .option-label {
             display: flex;
             align-items: center;
-            background: #ffffff;
+            background: var(--panel-bg);
             border: 2px solid var(--border-color);
             padding: 11px 14px;
             border-radius: 8px;
@@ -155,12 +159,12 @@
             transition: all 0.15s ease;
             font-size: 0.9rem;
             font-weight: 600;
-            color: #334155;
+            color: var(--text-main);
         }
 
         .option-label:hover {
-            border-color: var(--primary-light);
-            background: #f8fafc;
+            border-color: var(--primary);
+            background: #2563eb15;
         }
 
         .option-label input[type="radio"] {
@@ -168,14 +172,14 @@
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
-            border: 2px solid #64748b;
+            border: 2px solid var(--text-muted);
             border-radius: 50%;
             margin-left: 12px;
             outline: none;
             display: grid;
             place-content: center;
             flex-shrink: 0;
-            background: #fff;
+            background: var(--card-bg);
         }
 
         .option-label input[type="radio"]::before {
@@ -197,12 +201,12 @@
         }
 
         .option-label input[type="radio"]:checked + span {
-            color: var(--primary);
+            color: #60a5fa;
         }
 
         .correct-badge {
-            background-color: #d1fae5;
-            color: #065f46;
+            background-color: #065f46;
+            color: #34d399;
             padding: 3px 8px;
             border-radius: 4px;
             font-size: 0.75rem;
@@ -210,7 +214,7 @@
             font-weight: bold;
         }
 
-        /* الإحصائيات والجداول */
+        /* الإحصائيات والتحليلات المتقدمة */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -219,7 +223,7 @@
         }
 
         .stat-card {
-            background: #f1f5f9;
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
             padding: 12px;
             border-radius: var(--border-radius);
@@ -233,6 +237,14 @@
             margin-top: 4px;
         }
 
+        .analysis-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: var(--border-radius);
+            margin-top: 15px;
+        }
+
         .table-wrapper {
             overflow-x: auto;
         }
@@ -241,7 +253,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            min-width: 400px;
+            min-width: 450px;
         }
 
         th, td {
@@ -249,34 +261,47 @@
             padding: 9px;
             text-align: center;
             font-size: 0.85rem;
+            color: var(--text-main);
         }
 
         th {
-            background-color: #e2e8f0;
-            color: #1e293b;
+            background-color: var(--panel-bg);
         }
 
         @media print {
             .no-print { display: none !important; }
-            body { background: white; padding: 0; }
-            .section-panel { box-shadow: none; border: none; padding: 0; }
+            body { background: white; color: black; padding: 0; }
+            .section-panel { background: white; color: black; box-shadow: none; border: none; padding: 0; }
+            .question-card { background: #f8fafc; border: 1px solid #ccc; color: black; }
+            .option-label { background: white; border: 1px solid #ccc; color: black; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>نظام مهارات العلوم (الصف السادس)</h1>
+    <h1>نظام مهارات العلوم الاحترافي (الصف السادس)</h1>
     
     <div class="tabs no-print">
-        <button class="tab-btn active" onclick="switchTab('exam-gen', this)">اختبار 10 مهارات</button>
-        <button class="tab-btn" onclick="switchTab('grading', this)">تصحيح ورصد</button>
-        <button class="tab-btn" onclick="switchTab('analytics', this)">التحليل والإتقان</button>
+        <button class="tab-btn active" onclick="switchTab('students-tab', this)">إدارة الطلاب</button>
+        <button class="tab-btn" onclick="switchTab('exam-gen', this)">الاختبار (10 مهارات)</button>
+        <button class="tab-btn" onclick="switchTab('grading', this)">التصحيح والرصد</button>
+        <button class="tab-btn" onclick="switchTab('analytics', this)">التحليل الدقيق والإخفاقات</button>
     </div>
 
-    <!-- القسم الأول: اختبار 10 مهارات علمية -->
-    <div id="exam-gen" class="section-panel active">
-        <h2 style="font-size: 1rem; margin-top:0; text-align:center; color:#334155; margin-bottom:15px;">نموذج اختبار معتمد (10 أسئلة لـ 10 مهارات)</h2>
+    <!-- 1. تبويب إدارة أسماء الطلاب -->
+    <div id="students-tab" class="section-panel active">
+        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">قائمة طلاب الفصل</h2>
+        <p style="font-size: 0.85rem; color:var(--text-muted);">أدخل أسماء طلاب الفصل (كل طالب في سطر مستقل) لتظهر تلقائياً في قوائم الرصد والاستعلام:</p>
+        <div class="form-group">
+            <textarea id="studentsListInput" rows="6" placeholder="مثال:&#10;محمد أحمد العتيبي&#10;خالد عبد الله الشمري&#10;سعد ناصر القحطاني"></textarea>
+        </div>
+        <button class="action-btn" onclick="saveStudentsList()">حفظ قائمة الطلاب</button>
+    </div>
+
+    <!-- 2. تبويب توليد وطباعة الاختبار -->
+    <div id="exam-gen" class="section-panel">
+        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">نموذج الاختبار (10 أسئلة لـ 10 مهارات)</h2>
         <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 15px;">طباعة ورقة الاختبار</button>
         
         <div id="print-section">
@@ -288,31 +313,47 @@
         </div>
     </div>
 
-    <!-- القسم الثاني: التصحيح ورصد الدرجات -->
+    <!-- 3. تبويب التصحيح ورصد الدرجات -->
     <div id="grading" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; text-align:center; color:#334155; margin-bottom:15px;">تصحيح الاختبار ورصد الدرجات</h2>
+        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">تصحيح الاختبار ورصد النتيجة</h2>
         <div class="form-group">
-            <label for="studentNameInput">اسم الطالب الثلاثي:</label>
-            <input type="text" id="studentNameInput" placeholder="اكتب اسم الطالب هنا...">
+            <label for="studentSelect">اختر اسم الطالب:</label>
+            <select id="studentSelect">
+                <option value="">-- اضغط لحفظ أسماء الطلاب أولاً --</option>
+            </select>
         </div>
         <div id="gradingQuestionsContainer"></div>
-        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد النتيجة النهائية</button>
+        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد نتيجة الطالب وتحليل إخفاقاته</button>
     </div>
 
-    <!-- القسم الثالث: التحليلات -->
+    <!-- 4. تبويب التحليل الدقيق والإخفاقات -->
     <div id="analytics" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; text-align:center; color:#334155; margin-bottom:15px;">لوحة تحليل تقدم الطلاب</h2>
+        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">لوحة التحليل الدقيق ومعرفة الإخفاقات</h2>
+        
         <div class="stats-grid">
             <div class="stat-card">
                 <div>الطلاب المرصودين</div>
                 <div class="stat-val" id="totalStudentsCount">0</div>
             </div>
             <div class="stat-card">
-                <div>متوسط الإتقان العام</div>
+                <div>متوسط إتقان الصف</div>
                 <div class="stat-val" id="overallAvgRate">0%</div>
             </div>
         </div>
 
+        <!-- استعلام عن طالب محدد لمعرفة إخفاقاته -->
+        <div class="form-group" style="margin-top:15px;">
+            <label for="queryStudentSelect">استعلام عن طالب لمعرفة المهارات التي أخفق فيها:</label>
+            <select id="queryStudentSelect" onchange="renderStudentDeepAnalysis()">
+                <option value="">-- اختر طالباً للاستعلام المفصل --</option>
+            </select>
+        </div>
+
+        <div id="studentDeepAnalysisBox" class="analysis-box" style="display:none;">
+            <!-- تحليل الطالب الفردي -->
+        </div>
+
+        <h3 style="font-size:0.95rem; margin-top:20px; color:var(--text-main);">سجل نتائج طلاب الفصل</h3>
         <div class="table-wrapper">
             <table>
                 <thead>
@@ -320,144 +361,40 @@
                         <th>اسم الطالب</th>
                         <th>الدرجة</th>
                         <th>نسبة الإتقان</th>
+                        <th>المهارات الإخفاقية</th>
                     </tr>
                 </thead>
                 <tbody id="resultsTableBody"></tbody>
             </table>
         </div>
-        <button class="action-btn" onclick="clearData()" style="background: #dc2626; margin-top: 15px;">مسح كافة السجلات</button>
+        <button class="action-btn" onclick="clearData()" style="background: var(--danger); margin-top: 15px;">مسح كافة السجلات</button>
     </div>
 </div>
 
 <script>
-    // قائمة الـ 21 مهارة الأساسية لمادة العلوم للصف السادس مع بنك الأسئلة العلمي الدقيق
+    // قاعدة البيانات الشاملة للـ 21 مهارة علمية
     const skillsData = [
-        {
-            skill: "1. توضيح مفهوم نظرية الخلية وأهميتها",
-            q: "ما هي الوحدة الأساسية للبناء والوظيفة في جميع المخلوقات الحية؟",
-            options: ["الخلية", "النسيج", "العضو", "الجهاز الحيوي"],
-            correct: 0
-        },
-        {
-            skill: "2. التمييز بين تركيب الخلية النباتية والخلية الحيوانية",
-            q: "أي التركيبين التاليين يوجد في الخلايا النباتية فقط ولا يوجد في الخلايا الحيوانية؟",
-            options: ["الغشاء البلازمي", "الجدار الخلوي", "الميتوكوندريا", "النواة"],
-            correct: 1
-        },
-        {
-            skill: "3. شرح مراحل انقسام الخلايا (الانقسام المتساوي)",
-            q: "ماذا يُسمى الانقسام الذي تنتج عنه خلايا جديدة تطابق الخلية الأصلية تماماً للنمو وتعويض التالف؟",
-            options: ["الانقسام المنصف (الميوزي)", "الانقسام المتساوي (الميتوزي)", "التبرعم", "التوالد البكري"],
-            correct: 1
-        },
-        {
-            skill: "4. تحديد الصفات السائدة والصفات المتنحية وانتقالها",
-            q: "الصفة الوراثية التي تحجب صفة أخرى ولا تظهر عليها تسمى صفةً:",
-            options: ["متنحية", "سائدة", "مكتسبة", "طفرية"],
-            correct: 1
-        },
-        {
-            skill: "5. تفسير عمليتي البناء الضوئي والتنفس الخلوي في النباتات",
-            q: "ما هي العملية التي تستخدم فيها النباتات ضوء الشمس لإنتاج الغذاء والأكسجين؟",
-            options: ["التنفس الخلوي", "التحلل", "البناء الضوئي", "النتح"],
-            correct: 2
-        },
-        {
-            skill: "6. توضيح طرائق تكاثر النباتات ودور المخلوقات الدقيقة",
-            q: "ما المخلوقات الحية الدقيقة التي تستخدم في تحليل بقايا المخلوقات وإعادة تدوير العناصر للتربة؟",
-            options: ["الفطريات والبكتيريا الرومية", "الفيروسات الممرضة", "الطحالب الخضراء", "النباتات البذرية"],
-            correct: 0
-        },
-        {
-            skill: "7. تتبع وظائف أجهزة الجسم الأساسية (الهضم، الإخراج، الدوران)",
-            q: "ما هو الجهاز المسؤول عن نقل الغذاء والاكسجين إلى جميع خلايا الجسم وخلصها من الفضلات؟",
-            options: ["الجهاز الهضمي", "الجهاز العصبي", "الجهاز الدوري (القلب والأوعية)", "الجهاز التنفسي"],
-            correct: 2
-        },
-        {
-            skill: "8. وصف آليات عمل الهيكلي، العضلي، العصبي وأجهزة الإحساس",
-            q: "أي أجهزة الجسم التالية يتحكم في جميع أنشطة الجسم ويستجيب للمؤثرات الخارجية والداخلية؟",
-            options: ["الجهاز العضلي", "الجهاز العصبي", "الجهاز الهيكلي", "الجهاز الإخراجي"],
-            correct: 1
-        },
-        {
-            skill: "9. تتبع مسار الطاقة عبر السلاسل والشبكات الغذائية",
-            q: "في السلسلة الغذائية، تُسمى المخلوقات التي تصنع غذاءها بنفسها (مثل النباتات) بـ:",
-            options: ["المستهلكات الأولى", "المحللات", "المنتجات", "المستهلكات الثانية"],
-            correct: 2
-        },
-        {
-            skill: "10. تحديد أدوار الكائنات (المنتجات، المستهلكات، المحللات)",
-            q: "النسور والحيوانات آكلة اللحوم التي تتغذى على حيوانات ميتة تُصنف ضمن:",
-            options: ["المنتجات", "المحللات", "المستهلكات (آكلات اللحوم/القمامة)", "المخلوقات المنتجة للطاقة"],
-            correct: 2
-        },
-        {
-            skill: "11. تحليل خصائص التربة ومكوناتها وطرق المحافظة عليها",
-            q: "الطبقة العليا من التربة التي تحتوي على أعلى نسبة من الدبال والمواد العضوية المفيدة للنمو هي:",
-            options: ["التربة التحتية", "الصخور الأصلية", "التربة السطحية", "الصخور الصلبة"],
-            correct: 2
-        },
-        {
-            skill: "12. توضيح أساليب حماية البيئة وترشيد استهلاك الموارد",
-            q: "أي مما يلي يُعد من أفضل الطرق لتقليل النفايات وحماية موارد البيئة؟",
-            options: ["حرق النفايات المفتوحة", "إعادة التدوير وتقليل الاستهلاك", "زيادة التلوث البلاستيكي", "قطع الغابات"],
-            correct: 1
-        },
-        {
-            skill: "13. تصنيف حالات المادة وخصائصها الفيزيائية والكيميائية",
-            q: "التغير الذي ينتج عنه مادة جديدة كلياً ذات خصائص مختلفة (مثل احتراق الورق) يسمى:",
-            options: ["تغير فيزيائي", "تغير كيميائي", "انصهار", "تبخر"],
-            correct: 1
-        },
-        {
-            skill: "14. وصف مفاهيم الموقع، الحركة، السرعة، والتسارع",
-            q: "التغير في مسافة الجسم بمرور الزمن (المسافة مقسومة على الزمن) يعبر عن:",
-            options: ["التسارع", "السرعة", "القوة", "الكتلة"],
-            correct: 1
-        },
-        {
-            skill: "15. التمييز بين القوى المتزنة وغير المتزنة وأثر الجاذبية",
-            q: "القوتان المتساويتان في المقدار والمتعاكستان في الاتجاه وتلغي إحداهما الأخرى تسمى:",
-            options: ["قوى متزنة", "قوى غير متزنة", "قوى الاحتكاك", "قوى الجاذبية"],
-            correct: 0
-        },
-        {
-            skill: "16. استكشاف أشكال الطاقة المختلفة وتحولاتها",
-            q: "عند تشغيل المصباح الكهربائي، تتحول الطاقة الكهربائية إلى طاقة:",
-            options: ["حركية فقط", "ضوئية وحرارية", "كيميائية فقط", "نووية"],
-            correct: 1
-        },
-        {
-            skill: "17. فهم خصائص الأمواج والضوء والصوت وتطبيقاتها",
-            q: "كيف ينتقل الصوت في الأوساط المختلفة؟",
-            options: ["على شكل موجات صوتية تتطلب وسطاً ناقلاً", "في الفراغ بسرعة الضوء", "بدون اهتزاز للجزيئات", "على شكل شعاع ضوئي"],
-            correct: 0
-        },
-        {
-            skill: "18. توضيح ظاهرة تعاقب الليل والنهار والفصول الأربعة",
-            q: "تنتج ظاهرة تعاقب الليل والنهار على سطح الأرض بسبب:",
-            options: ["دوران الأرض حول الشمس", "دوران الأرض حول محورها (نفسها)", "ميل محور الأرض", "دوران القمر حول الأرض"],
-            correct: 1
-        },
-        {
-            skill: "19. المقارنة بين الكواكب الداخلية والكواكب الخارجية",
-            q: "أي من الكواكب التالية يُعد من الكواكب الصخرية الداخلية في النظام الشمسي؟",
-            options: ["المشتري", "زحل", "الأرض", "نبتون"],
-            correct: 2
-        },
-        {
-            skill: "20. وصف النجوم والمجرات والأجرام السماوية في الفضاء",
-            q: "تُعرف المجرة التي تنتمي إليها شمسنا وكوكب الأرض باسم:",
-            options: ["دبان التبن (مجرة درب التبانة)", "سديم أوريون", "مجرة المرأة المسلسلة", "النظام الشمسي"],
-            correct: 0
-        },
-        {
-            skill: "21. تطبيق مهارات عمليات العلم الأساسية والقياس",
-            q: "عندما تقوم بجمع البيانات ووصف الأشياء باستخدام الحواس الخمس فإنك تمارس مهارة:",
-            options: ["الاستنتاج", "الملاحظة", "الفرضية", "التجربة"],
-            correct: 1
-        }
+        { skill: "تحديد مفهوم نظرية الخلية وأهميتها", q: "ما هي الوحدة الأساسية للبناء والوظيفة في جميع المخلوقات الحية؟", options: ["الخلية", "النسيج", "العضو", "الجهاز الحيوي"], correct: 0 },
+        { skill: "التمييز بين الخلية النباتية والحيوانية", q: "أي التركيبين التاليين يوجد في الخلايا النباتية فقط ولا يوجد في الحيوانية؟", options: ["الغشاء البلازمي", "الجدار الخلوي", "الميتوكوندريا", "النواة"], correct: 1 },
+        { skill: "شرح مراحل انقسام الخلايا المتساوي", q: "ماذا يُسمى الانقسام الذي تنتج عنه خلايا تطابق الأصل تماماً للنمو وتعويض التالف؟", options: ["الانقسام المنصف", "الانقسام المتساوي", "التبرعم", "التوالد البكري"], correct: 1 },
+        { skill: "تحديد الصفات السائدة والمتنحية وانتقالها", q: "الصفة الوراثية التي تحجب صفة أخرى ولا تظهر عليها تُسمى:", options: ["متنحية", "سائدة", "مكتسبة", "طفرية"], correct: 1 },
+        { skill: "تفسير البناء الضوئي والتنفس الخلوي", q: "ما العملية التي تستخدم فيها النباتات ضوء الشمس لإنتاج الغذاء والأكسجين؟", options: ["التنفس الخلوي", "التحلل", "البناء الضوئي", "النتح"], correct: 2 },
+        { skill: "توضيح تكاثر النباتات ودور المخلوقات الدقيقة", q: "ما المخلوقات الحية الدقيقة التي تستخدم في تحليل البقايا وإعادة العناصر للتربة؟", options: ["الفطريات والبكتيريا الرومية", "الفيروسات الممرضة", "الطحالب الخضراء", "النباتات البذرية"], correct: 0 },
+        { skill: "تتبع وظائف أجهزة الجسم الأساسية", q: "أي أجهزة الجسم مسؤول عن نقل الغذاء والأكسجين إلى جميع الخلايا؟", options: ["الجهاز الهضمي", "الجهاز العصبي", "الجهاز الدوري", "الجهاز التنفسي"], correct: 2 },
+        { skill: "وصف آليات عمل الجهاز العصبي والحواس", q: "أي الأجهزة التالية يتحكم في جميع أنشطة الجسم ويستجيب للمؤثرات؟", options: ["الجهاز العضلي", "الجهاز العصبي", "الجهاز الهيكلي", "الجهاز الإخراجي"], correct: 1 },
+        { skill: "تتبع مسار الطاقة عبر السلاسل الغذائية", q: "في السلسلة الغذائية، تسمى المخلوقات التي تصنع غذاءها بنفسها بـ:", options: ["المستهلكات الأولى", "المحللات", "المنتجات", "المستهلكات الثانية"], correct: 2 },
+        { skill: "تحديد أدوار الكائنات بالبيئة", q: "الحيوانات التي تتغذى على بقايا الحيوانات الميتة تُصنف ضمن:", options: ["المنتجات", "المحللات", "المستهلكات (القمامة)", "المنتجة للطاقة"], correct: 2 },
+        { skill: "تحليل خصائص التربة وطرق المحافظة عليها", q: "الطبقة العليا من التربة التي تحتوي على أعلى نسبة من الدبال والمواد العضوية هي:", options: ["التربة التحتية", "الصخور الأصلية", "التربة السطحية", "الصخور الصلبة"], correct: 2 },
+        { skill: "توضيح أساليب حماية البيئة وترشيد الموارد", q: "أي مما يلي يُعد من أفضل الطرق لتقليل النفايات وحماية موارد البيئة؟", options: ["حرق النفايات المفتوحة", "إعادة التدوير وتقليل الاستهلاك", "زيادة التلوث البلاستيكي", "قطع الغابات"], correct: 1 },
+        { skill: "تصنيف حالات المادة وتغيراتها", q: "التغير الذي ينتج عنه مادة جديدة كلياً ذات خصائص مختلفة (مثل الاحتراق) يسمى:", options: ["تغير فيزيائي", "تغير كيميائي", "انصهار", "تبخر"], correct: 1 },
+        { skill: "وصف مفاهيم الموقع والحركة والسرعة", q: "التغير في مسافة الجسم بمرور الزمن مقسوماً على الزمن يعبر عن:", options: ["التسارع", "السرعة", "القوة", "الكتلة"], correct: 1 },
+        { skill: "التمييز بين القوى المتزنة وغير المتزنة", q: "القوتان المتساويتان في المقدار والمتعاكستان في الاتجاه وتلغي إحداهما الأخرى تسمى:", options: ["قوى متزنة", "قوى غير متزنة", "قوى الاحتكاك", "الجاذبية"], correct: 0 },
+        { skill: "استكشاف أشكال الطاقة وتحولاتها", q: "عند تشغيل المصباح الكهربائي، تتحول الطاقة الكهربائية إلى طاقة:", options: ["حركية فقط", "ضوئية وحرارية", "كيميائية فقط", "نووية"], correct: 1 },
+        { skill: "فهم خصائص الأمواج والصوت والضوء", q: "كيف ينتقل الصوت في الأوساط المختلفة؟", options: ["على شكل موجات صوتية تتطلب وسطاً ناقلاً", "في الفراغ بسرعة الضوء", "بدون اهتزاز للجزيئات", "على شكل شعاع ضوئي"], correct: 0 },
+        { skill: "توضيح تعاقب الليل والنهار والفصول", q: "تنتج ظاهرة تعاقب الليل والنهار على سطح الأرض بسبب:", options: ["دوران الأرض حول الشمس", "دوران الأرض حول محورها", "ميل محور الأرض", "دوران القمر"], correct: 1 },
+        { skill: "المقارنة بين الكواكب الداخلية والخارجية", q: "أي من الكواكب التالية يعد من الكواكب الصخرية الداخلية في النظام الشمسي؟", options: ["المشتري", "زحل", "الأرض", "نبتون"], correct: 2 },
+        { skill: "وصف النجوم والمجرات الفضائية", q: "تُعرف المجرة التي تنتمي إليها شمسنا وكوكب الأرض باسم:", options: ["درب التبانة", "سديم أوريون", "المرأة المسلسلة", "النظام الشمسي"], correct: 0 },
+        { skill: "تطبيق مهارات عمليات العلم والقياس", q: "عندما تجمع البيانات ووصف الأشياء باستخدام الحواس الخمس فإنك تمارس مهارة:", options: ["الاستنتاج", "الملاحظة", "الفرضية", "التجربة"], correct: 1 }
     ];
 
     let currentExamIndices = [];
@@ -465,12 +402,13 @@
     function initExam() {
         let indices = [...Array(skillsData.length).keys()];
         indices.sort(() => Math.random() - 0.5);
-        currentExamIndices = indices.slice(0, 10); // اختيار 10 مهارات بشكل عشوائي فريد لكل جلسة
+        currentExamIndices = indices.slice(0, 10);
     }
 
     window.onload = function() {
         initExam();
         renderSystem();
+        loadStudentsDropdowns();
         loadAnalyticsData();
     };
 
@@ -479,6 +417,35 @@
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
+    }
+
+    function saveStudentsList() {
+        const text = document.getElementById('studentsListInput').value.trim();
+        if (!text) {
+            alert('يرجى إدخال أسماء الطلاب أولاً.');
+            return;
+        }
+        const students = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+        localStorage.setItem('science_students_list', JSON.stringify(students));
+        alert('تم حفظ قائمة الطلاب بنجاح!');
+        loadStudentsDropdowns();
+    }
+
+    function loadStudentsDropdowns() {
+        let students = JSON.parse(localStorage.getItem('science_students_list') || '[]');
+        let studentSelect = document.getElementById('studentSelect');
+        let querySelect = document.getElementById('queryStudentSelect');
+        
+        studentSelect.innerHTML = '<option value="">-- اختر اسم الطالب --</option>';
+        querySelect.innerHTML = '<option value="">-- اختر طالباً للاستعلام المفصل --</option>';
+        
+        let savedText = students.join('\n');
+        document.getElementById('studentsListInput').value = savedText;
+
+        students.forEach(name => {
+            studentSelect.innerHTML += `<option value="${name}">${name}</option>`;
+            querySelect.innerHTML += `<option value="${name}">${name}</option>`;
+        });
     }
 
     function renderSystem() {
@@ -491,10 +458,9 @@
         currentExamIndices.forEach((dataIdx, qNum) => {
             let item = skillsData[dataIdx];
 
-            // 1. ورقة الاختبار للطباعة
             let examHtml = `
                 <div class="question-card">
-                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-weight:normal; font-size:0.8rem; color:#475569;">[المهارة: ${item.skill}]</span></div>
+                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-weight:normal; font-size:0.8rem; color:var(--text-muted);">[المهارة المستهدفة: ${item.skill}]</span></div>
                     <div class="options-container">
                         <div class="option-label">أ) ${item.options[0]}</div>
                         <div class="option-label">ب) ${item.options[1]}</div>
@@ -505,7 +471,6 @@
             `;
             examCont.innerHTML += examHtml;
 
-            // 2. لوحة التصحيح بصناديق عمودية
             let optionsHtml = '';
             item.options.forEach((opt, optIdx) => {
                 let badge = optIdx === item.correct ? `<span class="correct-badge">الإجابة الصحيحة</span>` : '';
@@ -520,7 +485,7 @@
 
             let gradingHtml = `
                 <div class="question-card">
-                    <div class="question-title">السؤال ${qNum+1}: ${item.q}</div>
+                    <div class="question-title">السؤال ${qNum+1}: ${item.q}<br><span style="font-size:0.75rem; color:var(--text-muted);">(${item.skill})</span></div>
                     <div class="options-container">
                         ${optionsHtml}
                     </div>
@@ -531,45 +496,54 @@
     }
 
     function saveStudentGrade() {
-        const studentName = document.getElementById('studentNameInput').value.trim();
+        const studentName = document.getElementById('studentSelect').value;
         if (!studentName) {
-            alert('يرجى كتابة اسم الطالب أولاً.');
+            alert('يرجى اختيار اسم الطالب من القائمة.');
             return;
         }
 
         let score = 0;
+        let failedSkills = [];
+
         currentExamIndices.forEach((dataIdx, qNum) => {
+            let item = skillsData[dataIdx];
             const selectedOpt = document.querySelector(`input[name="q_${qNum}"]:checked`);
-            if (selectedOpt && parseInt(selectedOpt.value) === skillsData[dataIdx].correct) {
+            if (selectedOpt && parseInt(selectedOpt.value) === item.correct) {
                 score++;
+            } else {
+                // تسجيل المهارة التي أخفق فيها الطالب
+                failedSkills.push(item.skill);
             }
         });
 
         let percentage = Math.round((score / 10) * 100);
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_v2') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_v3') || '[]');
         
+        // تحديث أو إضافة نتيجة الطالب
+        records = records.filter(r => r.name !== studentName);
         records.push({
             name: studentName,
             score: `${score} / 10`,
-            percentage: percentage
+            percentage: percentage,
+            failedSkills: failedSkills
         });
 
-        localStorage.setItem('science_10skills_records_v2', JSON.stringify(records));
-        alert('تم حفظ رصد النتيجة بنجاح!');
-        document.getElementById('studentNameInput').value = '';
+        localStorage.setItem('science_10skills_records_v3', JSON.stringify(records));
+        alert('تم حفظ رصد وتحليل نتيجة الطالب بنجاح!');
         document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+        document.getElementById('studentSelect').value = '';
         loadAnalyticsData();
     }
 
     function loadAnalyticsData() {
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_v2') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_v3') || '[]');
         let tbody = document.getElementById('resultsTableBody');
         tbody.innerHTML = '';
 
         document.getElementById('totalStudentsCount').textContent = records.length;
 
         if (records.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="3" style="color:#64748b;">لا توجد سجلات مسجلة حتى الآن</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="color:var(--text-muted);">لا توجد سجلات مسجلة حتى الآن</td></tr>`;
             document.getElementById('overallAvgRate').textContent = '0%';
             return;
         }
@@ -577,11 +551,13 @@
         let totalSum = 0;
         records.forEach(rec => {
             totalSum += rec.percentage;
+            let failedText = rec.failedSkills.length > 0 ? rec.failedSkills.join('، ') : '<span style="color:var(--success);">متقن لجميع المهارات المرصودة</span>';
             tbody.innerHTML += `
                 <tr>
                     <td>${rec.name}</td>
                     <td><strong>${rec.score}</strong></td>
                     <td><span style="color:var(--success); font-weight:bold;">${rec.percentage}%</span></td>
+                    <td style="text-align:right; font-size:0.8rem;">${failedText}</td>
                 </tr>
             `;
         });
@@ -590,10 +566,49 @@
         document.getElementById('overallAvgRate').textContent = avg + '%';
     }
 
+    // الاستعلام المفصل عن إخفاقات طالب محدد
+    function renderStudentDeepAnalysis() {
+        const studentName = document.getElementById('queryStudentSelect').value;
+        const box = document.getElementById('studentDeepAnalysisBox');
+        
+        if (!studentName) {
+            box.style.display = 'none';
+            return;
+        }
+
+        let records = JSON.parse(localStorage.getItem('science_10skills_records_v3') || '[]');
+        let studentRecord = records.find(r => r.name === studentName);
+
+        box.style.display = 'block';
+        if (!studentRecord) {
+            box.innerHTML = `<p style="color:var(--warning); margin:0;">لا توجد اختبارات مسجلة لهذا الطالب حتى الآن.</p>`;
+            return;
+        }
+
+        let failedHtml = '';
+        if (studentRecord.failedSkills.length === 0) {
+            failedHtml = `<p style="color:var(--success); font-weight:bold;">ممتاز! الطالب أتقن جميع المهارات في آخر اختبار مرصود.</p>`;
+        } else {
+            failedHtml = `<ul style="margin:5px 0; padding-right:20px; color:#fca5a5;">`;
+            studentRecord.failedSkills.forEach(skill => {
+                failedHtml += `<li>${skill}</li>`;
+            });
+            failedHtml += `</ul>`;
+        }
+
+        box.innerHTML = `
+            <h4 style="margin:0 0 8px 0; color:var(--primary);">التقرير التحليلي الفردي: ${studentRecord.name}</h4>
+            <p style="margin:4px 0;"><strong>الدرجة النهائية:</strong> ${studentRecord.score} (${studentRecord.percentage}%)</p>
+            <p style="margin:8px 0 4px 0; font-weight:bold; color:var(--danger);">المهارات التي تحتاج إلى دعم وعلاج (إخفاقات الطالب):</p>
+            ${failedHtml}
+        `;
+    }
+
     function clearData() {
-        if (confirm('هل أنت متأكد من مسح جميع السجلات؟')) {
-            localStorage.removeItem('science_10skills_records_v2');
+        if (confirm('هل أنت متأكد من مسح جميع سجلات الدرجات؟')) {
+            localStorage.removeItem('science_10skills_records_v3');
             loadAnalyticsData();
+            document.getElementById('studentDeepAnalysisBox').style.display = 'none';
         }
     }
 </script>
