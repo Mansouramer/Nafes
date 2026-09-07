@@ -40,7 +40,6 @@
             margin-bottom: 15px;
         }
 
-        /* التبويبات */
         .tabs {
             display: flex;
             gap: 6px;
@@ -109,10 +108,6 @@
             cursor: pointer;
         }
 
-        select:focus, input[type="text"]:focus, textarea:focus {
-            border-color: var(--primary);
-        }
-
         button.action-btn {
             background: var(--primary);
             color: white;
@@ -126,7 +121,6 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        /* كليشة احترافية مترابطة للأعلى */
         .exam-header {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border: 2px solid var(--border-color);
@@ -141,7 +135,6 @@
             font-weight: 600;
         }
 
-        /* كروت الأسئلة والخيارات على سطر واحد */
         .question-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -156,7 +149,6 @@
             padding: 12px 14px;
             border-radius: var(--border-radius);
             margin-bottom: 12px;
-            box-shadow: 0 4px 12px rgba(67, 56, 202, 0.15);
         }
 
         .domain-tag {
@@ -192,7 +184,6 @@
             padding: 6px 8px;
             border-radius: 6px;
             cursor: pointer;
-            transition: all 0.15s ease;
             font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-main);
@@ -208,11 +199,6 @@
             border-color: #4f46e5;
         }
 
-        .option-label:hover {
-            border-color: var(--primary);
-            background: #2563eb15;
-        }
-
         .option-label input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
@@ -221,33 +207,12 @@
             border: 2px solid var(--text-muted);
             border-radius: 50%;
             margin-left: 6px;
-            outline: none;
-            display: grid;
-            place-content: center;
-            flex-shrink: 0;
             background: var(--card-bg);
-        }
-
-        .option-label input[type="radio"]::before {
-            content: "";
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            transform: scale(0);
-            transition: 120ms transform ease-in-out;
-            background-color: var(--success);
         }
 
         .option-label input[type="radio"]:checked {
             border-color: var(--success);
-        }
-
-        .option-label input[type="radio"]:checked::before {
-            transform: scale(1);
-        }
-
-        .option-label input[type="radio"]:checked + span {
-            color: #34d399;
+            background-color: var(--success);
         }
 
         .correct-badge {
@@ -260,44 +225,45 @@
             font-weight: bold;
         }
 
-        /* تصميم الرسوم البيانية التفاعلية (Progress Bars) */
+        /* تصميم الرسوم البيانية التفاعلية المتقدمة */
         .chart-container {
-            margin-top: 10px;
+            margin-top: 12px;
+            background: #0f172a;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .chart-row {
-            background: #1e293b;
-            padding: 8px 10px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
 
         .chart-info {
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: bold;
-            margin-bottom: 4px;
         }
 
         .progress-bar-bg {
-            background: #475569;
-            height: 10px;
-            border-radius: 5px;
+            background: #334155;
+            height: 12px;
+            border-radius: 6px;
             overflow: hidden;
             width: 100%;
         }
 
         .progress-bar-fill {
             height: 100%;
-            border-radius: 5px;
-            transition: width 0.4s ease;
+            border-radius: 6px;
+            transition: width 0.5s ease;
         }
 
-        /* الإحصائيات والتحليلات */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -336,14 +302,14 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
-            min-width: 450px;
+            min-width: 500px;
         }
 
         th, td {
             border: 1px solid var(--border-color);
             padding: 9px;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-main);
         }
 
@@ -351,81 +317,19 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة لصفحة A4 واحدة */
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 0.4cm;
-            }
-            body * {
-                visibility: hidden;
-            }
-            #print-section, #print-section * {
-                visibility: visible;
-            }
-            #print-section {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-            .no-print { 
-                display: none !important; 
-            }
-            .section-panel { 
-                background: white !important; 
-                color: black !important; 
-                box-shadow: none !important; 
-                border: none !important; 
-                padding: 0 !important; 
-                margin: 0 !important;
-                display: block !important;
-            }
-            .exam-header {
-                background: #f1f5f9 !important;
-                border: 1px solid #cbd5e1 !important;
-                color: black !important;
-            }
-            .exam-header p {
-                color: black !important;
-            }
-            #tenQuestionsContainer {
-                display: flex;
-                flex-direction: column;
-                gap: 3px;
-            }
-            .question-card { 
-                background: #ffffff !important; 
-                border: 1px solid #94a3b8 !important; 
-                color: black !important; 
-                padding: 4px 6px !important;
-                margin-bottom: 3px !important;
-                page-break-inside: avoid;
-                break-inside: avoid;
-            }
-            .question-title {
-                color: #0f172a !important;
-                font-size: 8pt !important;
-                margin-bottom: 2px !important;
-                line-height: 1.1 !important;
-            }
-            .options-container {
-                gap: 4px !important;
-            }
-            .option-label { 
-                background: #f8fafc !important; 
-                border: 1px solid #cbd5e1 !important; 
-                color: #1e293b !important; 
-                padding: 2px 4px !important;
-                font-size: 7.5pt !important;
-            }
-            .domain-tag { 
-                background: #e2e8f0 !important; 
-                color: #1e293b !important; 
-                font-size: 6.5pt !important;
-                padding: 1px 3px !important;
-                margin-bottom: 2px !important;
-            }
+            @page { size: A4 portrait; margin: 0.4cm; }
+            body * { visibility: hidden; }
+            #print-section, #print-section * { visibility: visible; }
+            #print-section { position: absolute; left: 0; top: 0; width: 100%; }
+            .no-print { display: none !important; }
+            .section-panel { background: white !important; color: black !important; box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
+            .exam-header { background: #f1f5f9 !important; border: 1px solid #cbd5e1 !important; color: black !important; }
+            .exam-header p { color: black !important; }
+            .question-card { background: #ffffff !important; border: 1px solid #94a3b8 !important; color: black !important; padding: 4px 6px !important; margin-bottom: 3px !important; page-break-inside: avoid; }
+            .question-title { color: #0f172a !important; font-size: 8pt !important; }
+            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 7.5pt !important; }
+            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 6.5pt !important; }
         }
     </style>
 </head>
@@ -438,31 +342,31 @@
         <button class="tab-btn active" onclick="switchTab('students-tab', this)">إدارة الطلاب</button>
         <button class="tab-btn" onclick="switchTab('exam-gen', this)">إعداد الاختبار</button>
         <button class="tab-btn" onclick="switchTab('grading', this)">التصحيح والرصد</button>
-        <button class="tab-btn" onclick="switchTab('analytics', this)">التحليل الدقيق والإخفاقات</button>
+        <button class="tab-btn" onclick="switchTab('analytics', this)">التحليل والرسوم البيانية</button>
     </div>
 
-    <!-- 1. تبويب إدارة أسماء الطلاب -->
+    <!-- 1. إدارة الطلاب -->
     <div id="students-tab" class="section-panel active">
-        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">قائمة طلاب الفصل</h2>
-        <p style="font-size: 0.85rem; color:var(--text-muted);">أدخل أسماء طلاب الفصل (كل طالب في سطر مستقل) لتظهر تلقائياً في قوائم الرصد والاستعلام:</p>
+        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">قائمة طلاب الفصل</h2>
+        <p style="font-size: 0.85rem; color:var(--text-muted);">أدخل أسماء طلاب الفصل (كل طالب في سطر مستقل):</p>
         <div class="form-group">
-            <textarea id="studentsListInput" rows="6" placeholder="مثال:&#10;محمد أحمد العتيبي&#10;خالد عبد الله الشمري&#10;سعد ناصر القحطاني"></textarea>
+            <textarea id="studentsListInput" rows="6" placeholder="مثال:&#10;محمد أحمد العتيبي&#10;خالد عبد الله الشمري"></textarea>
         </div>
         <button class="action-btn" onclick="saveStudentsList()">حفظ قائمة الطلاب</button>
     </div>
 
-    <!-- 2. تبويب إعداد وتوليد وطباعة الاختبار -->
+    <!-- 2. إعداد الاختبار -->
     <div id="exam-gen" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">توليد نموذج الاختبار حسب المجال</h2>
+        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">توليد نموذج الاختبار حسب المجال</h2>
         
         <div class="form-group no-print">
             <label for="domainFilterSelect">اختر المجال المستهدف للاختبار:</label>
             <select id="domainFilterSelect" onchange="generateExamByDomain()">
                 <option value="all">جميع المجالات (اختبار شامل 10 أسئلة يغطي المجالات الأربعة)</option>
-                <option value="علوم الحياة">مجال: علوم الحياة (10 مهارات)</option>
-                <option value="العلوم الفيزيائية والكيميائية">مجال: العلوم الفيزيائية والكيميائية (5 مهارات)</option>
-                <option value="علم الأرض">مجال: علم الأرض (مهارتان)</option>
-                <option value="علم الفلك">مجال: علم الفلك (4 مهارات)</option>
+                <option value="علوم الحياة">مجال: علوم الحياة</option>
+                <option value="العلوم الفيزيائية والكيميائية">مجال: العلوم الفيزيائية والكيميائية</option>
+                <option value="علم الأرض">مجال: علم الأرض</option>
+                <option value="علم الفلك">مجال: علم الفلك</option>
             </select>
         </div>
 
@@ -478,9 +382,9 @@
         </div>
     </div>
 
-    <!-- 3. تبويب التصحيح ورصد الدرجات -->
+    <!-- 3. التصحيح والرصد -->
     <div id="grading" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">تصحيح الاختبار ورصد النتيجة</h2>
+        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">تصحيح الاختبار ورصد النتيجة</h2>
         
         <div class="form-group">
             <label for="studentSelect">اختر اسم الطالب:</label>
@@ -490,12 +394,12 @@
         </div>
         
         <div id="gradingQuestionsContainer"></div>
-        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد نتيجة الطالب وتحليل إخفاقاته</button>
+        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد نتيجة الطالب وتحليل المجالات</button>
     </div>
 
-    <!-- 4. تبويب التحليل الدقيق والإخفاقات -->
+    <!-- 4. التحليل والرسوم البيانية الدقيقة -->
     <div id="analytics" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; color:var(--text-main); margin-bottom:12px;">لوحة التحليل الدقيق ومعرفة الإخفاقات</h2>
+        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">لوحة التحليل الدقيق والرسوم البيانية</h2>
         
         <div class="stats-grid">
             <div class="stat-card">
@@ -509,24 +413,23 @@
         </div>
 
         <div class="form-group" style="margin-top:15px;">
-            <label for="queryStudentSelect">استعلام عن طالب لمعرفة المجالات والمهارات والرسوم البيانية:</label>
+            <label for="queryStudentSelect">استعلام عن طالب لعرض التقرير الرسومي المفصل ومستواه بكل مجال:</label>
             <select id="queryStudentSelect" onchange="renderStudentDeepAnalysis()">
-                <option value="">-- اختر طالباً للاستعلام المفصل --</option>
+                <option value="">-- اختر طالباً للعرض الفردي --</option>
             </select>
         </div>
 
         <div id="studentDeepAnalysisBox" class="analysis-box" style="display:none;"></div>
 
-        <h3 style="font-size:0.95rem; margin-top:20px; color:var(--text-main);">سجل النتائج</h3>
+        <h3 style="font-size:0.95rem; margin-top:20px;">سجل النتائج الشامل</h3>
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th>اسم الطالب</th>
-                        <th>نوع الاختبار</th>
                         <th>الدرجة الكلية</th>
-                        <th>نسبة الإتقان</th>
-                        <th>تفصيل المجالات والمهارات</th>
+                        <th>النسبة</th>
+                        <th>تحليل المجالات (الرسوم والمشاكل)</th>
                     </tr>
                 </thead>
                 <tbody id="resultsTableBody"></tbody>
@@ -587,18 +490,18 @@
             return;
         }
         const students = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
-        localStorage.setItem('science_students_list_final_v2', JSON.stringify(students));
+        localStorage.setItem('science_students_list_v3', JSON.stringify(students));
         alert('تم حفظ قائمة الطلاب بنجاح!');
         loadStudentsDropdowns();
     }
 
     function loadStudentsDropdowns() {
-        let students = JSON.parse(localStorage.getItem('science_students_list_final_v2') || '[]');
+        let students = JSON.parse(localStorage.getItem('science_students_list_v3') || '[]');
         let studentSelect = document.getElementById('studentSelect');
         let querySelect = document.getElementById('queryStudentSelect');
         
         studentSelect.innerHTML = '<option value="">-- اختر اسم الطالب --</option>';
-        querySelect.innerHTML = '<option value="">-- اختر طالباً للاستعلام المفصل --</option>';
+        querySelect.innerHTML = '<option value="">-- اختر طالباً للعرض الفردي --</option>';
         
         let savedText = students.join('\n');
         document.getElementById('studentsListInput').value = savedText;
@@ -615,7 +518,6 @@
         
         if (selectedDomain === 'all') {
             currentDomainLabel = "شامل لجميع المجالات";
-            // اختيار دقيق ومتوازن ليمثل المجالات الأربعة (مثلاً 3 علوم حياة، 3 فيزياء، 2 أرض، 2 فلك = 10 أسئلة)
             let life = [], phys = [], earth = [], space = [];
             skillsData.forEach((item, idx) => {
                 if (item.domain === "علوم الحياة") life.push(idx);
@@ -689,7 +591,7 @@
             let gradingHtml = `
                 <div class="grading-card">
                     <span class="domain-tag">${item.domain}</span>
-                    <div class="question-title" style="color:#e2e8f0;">س${qNum+1}: ${item.q}<br><span style="font-size:0.7rem; color:#94a3b8;">المهارة المرتبطة: ${item.skill}</span></div>
+                    <div class="question-title" style="color:#e2e8f0;">س${qNum+1}: ${item.q}<br><span style="font-size:0.7rem; color:#94a3b8;">المهارة: ${item.skill}</span></div>
                     <div class="options-container">
                         ${optionsHtml}
                     </div>
@@ -710,7 +612,6 @@
         let failedDetails = [];
         let totalQuestions = currentExamIndices.length;
 
-        // تتبع الإحصائيات لكل مجال على حدة
         let domainStats = {
             "علوم الحياة": { total: 0, correct: 0 },
             "العلوم الفيزيائية والكيميائية": { total: 0, correct: 0 },
@@ -738,18 +639,17 @@
             }
         });
 
-        // حساب نسب المجالات
         let domainPercentages = {};
         for (let dom in domainStats) {
             if (domainStats[dom].total > 0) {
                 domainPercentages[dom] = Math.round((domainStats[dom].correct / domainStats[dom].total) * 100);
             } else {
-                domainPercentages[dom] = null; // لم يُختبر في هذا المجال
+                domainPercentages[dom] = null;
             }
         }
 
         let percentage = Math.round((score / totalQuestions) * 100);
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_final_v2') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_records_v3') || '[]');
         
         records = records.filter(r => r.name !== studentName);
         records.push({
@@ -761,22 +661,22 @@
             failedDetails: failedDetails
         });
 
-        localStorage.setItem('science_10skills_records_final_v2', JSON.stringify(records));
-        alert('تم حفظ رصد وتحليل نتيجة الطالب بنجاح مع استخراج نسب المجالات والرسوم البيانية!');
+        localStorage.setItem('science_records_v3', JSON.stringify(records));
+        alert('تم رصد النتيجة وتحليل نسب المجالات بنجاح!');
         document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
         document.getElementById('studentSelect').value = '';
         loadAnalyticsData();
     }
 
     function loadAnalyticsData() {
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_final_v2') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_records_v3') || '[]');
         let tbody = document.getElementById('resultsTableBody');
         tbody.innerHTML = '';
 
         document.getElementById('totalStudentsCount').textContent = records.length;
 
         if (records.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="5" style="color:var(--text-muted);">لا توجد سجلات مسجلة حتى الآن</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="color:var(--text-muted);">لا توجد سجلات مسجلة حتى الآن</td></tr>`;
             document.getElementById('overallAvgRate').textContent = '0%';
             return;
         }
@@ -784,29 +684,27 @@
         let totalSum = 0;
         records.forEach(rec => {
             totalSum += rec.percentage;
-            let summaryText = `<b style="color:var(--primary);">النسبة الكلية: ${rec.percentage}%</b><br>`;
+            
+            let domainsText = '';
             if (rec.domainPercentages) {
                 for (let d in rec.domainPercentages) {
                     if (rec.domainPercentages[d] !== null) {
-                        summaryText += `<span style="font-size:0.75rem; color:#cbd5e1;">${d}: ${rec.domainPercentages[d]}%</span><br>`;
+                        domainsText += `• ${d}: <b>${rec.domainPercentages[d]}%</b><br>`;
                     }
                 }
             }
 
-            let failedText = '';
-            if (rec.failedDetails && rec.failedDetails.length > 0) {
-                failedText = rec.failedDetails.map(f => `<b style="color:#f87171;">[${f.domain}]</b> ${f.skill}`).join('<br>');
-            } else {
-                failedText = '<span style="color:var(--success); font-weight:bold;">متقن تماماً</span>';
-            }
+            let failedText = rec.failedDetails.length > 0 ? rec.failedDetails.map(f => `<span style="color:#f87171;">[${f.domain}] ${f.skill}</span>`).join('<br>') : '<span style="color:var(--success);">متقن تماماً</span>';
 
             tbody.innerHTML += `
                 <tr>
                     <td>${rec.name}</td>
-                    <td style="font-size:0.8rem; color:#60a5fa;">${rec.domainTested || 'شامل'}</td>
                     <td><strong>${rec.score}</strong></td>
-                    <td>${summaryText}</td>
-                    <td style="text-align:right; font-size:0.75rem; line-height:1.4;">${failedText}</td>
+                    <td><span style="color:var(--success); font-weight:bold;">${rec.percentage}%</span></td>
+                    <td style="text-align:right; font-size:0.75rem; line-height:1.4;">
+                        ${domainsText}
+                        <div style="margin-top:4px; border-top:1px solid #475569; padding-top:4px;">إخفاقات: ${failedText}</div>
+                    </td>
                 </tr>
             `;
         });
@@ -824,17 +722,17 @@
             return;
         }
 
-        let records = JSON.parse(localStorage.getItem('science_10skills_records_final_v2') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_records_v3') || '[]');
         let studentRecord = records.find(r => r.name === studentName);
 
         box.style.display = 'block';
         if (!studentRecord) {
-            box.innerHTML = `<p style="color:var(--warning); margin:0;">لا توجد اختبارات مسجلة لهذا الطالب حتى الآن.</p>`;
+            box.innerHTML = `<p style="color:var(--warning); margin:0;">لا توجد اختبارات مسجلة لهذا الطالب.</p>`;
             return;
         }
 
-        // بناء الرسوم البيانية التفاعلية لنسب المجالات
-        let chartsHtml = `<div class="chart-container">`;
+        // بناء الرسوم البيانية التفاعلية
+        let chartsHtml = `<div class="chart-container"><p style="margin:0 0 5px 0; font-weight:bold; font-size:0.85rem; color:#60a5fa;">الرسوم البيانية لمستوى الإتقان حسب المجالات:</p>`;
         if (studentRecord.domainPercentages) {
             for (let dom in studentRecord.domainPercentages) {
                 let val = studentRecord.domainPercentages[dom];
@@ -858,15 +756,14 @@
 
         let failedHtml = '';
         if (!studentRecord.failedDetails || studentRecord.failedDetails.length === 0) {
-            failedHtml = `<p style="color:var(--success); font-weight:bold; margin:8px 0 0 0;">ممتاز جداً! الطالب أتقن جميع المهارات ولا توجد أي إخفاقات مرصودة.</p>`;
+            failedHtml = `<p style="color:var(--success); font-weight:bold; margin:8px 0 0 0;">ممتاز جداً! أتقن الطالب جميع المهارات المستهدفة.</p>`;
         } else {
-            failedHtml = `<div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">`;
+            failedHtml = `<div style="display:flex; flex-direction:column; gap:6px; margin-top:8px;">`;
             studentRecord.failedDetails.forEach(f => {
                 failedHtml += `
                     <div style="background:#451a03; border:1px solid #78350f; padding:8px; border-radius:6px;">
                         <span style="background:#9a3412; color:#ffedd5; padding:2px 6px; border-radius:4px; font-size:0.75rem; font-weight:bold;">${f.domain}</span>
-                        <p style="margin:4px 0 2px 0; font-size:0.85rem; font-weight:bold; color:#fca5a5;">المهارة المخفق فيها: ${f.skill}</p>
-                        <p style="margin:0; font-size:0.75rem; color:#cbd5e1;">السؤال المرتبط: ${f.question}</p>
+                        <p style="margin:4px 0 2px 0; font-size:0.85rem; font-weight:bold; color:#fca5a5;">المهارة التي أخفق فيها: ${f.skill}</p>
                     </div>
                 `;
             });
@@ -874,21 +771,17 @@
         }
 
         box.innerHTML = `
-            <h4 style="margin:0 0 8px 0; color:var(--primary);">التقرير التحليلي الرسومي الفردي: ${studentRecord.name}</h4>
-            <p style="margin:4px 0; font-size:0.9rem;"><strong>نوع الاختبار المنجز:</strong> ${studentRecord.domainTested}</p>
+            <h4 style="margin:0 0 8px 0; color:var(--primary);">التقرير التحليلي الرسومي: ${studentRecord.name}</h4>
             <p style="margin:4px 0; font-size:0.9rem;"><strong>الدرجة الكلية:</strong> ${studentRecord.score} (<span style="color:var(--success); font-weight:bold;">${studentRecord.percentage}%</span>)</p>
-            
-            <p style="margin:12px 0 4px 0; font-weight:bold; color:var(--text-main);">الرسوم البيانية لنسب الإتقان لكل مجال:</p>
             ${chartsHtml}
-
-            <p style="margin:15px 0 4px 0; font-weight:bold; color:var(--danger);">تشخيص مشكلات الإخفاق والمهارات التي تتطلب خطة علاجية:</p>
+            <p style="margin:12px 0 4px 0; font-weight:bold; color:var(--danger);">تشخيص الإخفاقات والمهارات التي تتطلب خطة علاجية:</p>
             ${failedHtml}
         `;
     }
 
     function clearData() {
-        if (confirm('هل أنت متأكد من مسح جميع سجلات الدرجات؟')) {
-            localStorage.removeItem('science_10skills_records_final_v2');
+        if (confirm('هل أنت متأكد من مسح جميع السجلات؟')) {
+            localStorage.removeItem('science_records_v3');
             loadAnalyticsData();
             document.getElementById('studentDeepAnalysisBox').style.display = 'none';
         }
