@@ -6,63 +6,73 @@
     <title>نظام تقييم وتحليل مهارات العلوم - الصف السادس</title>
     <style>
         :root {
-            --primary-color: #0d6efd;
-            --success-color: #198754;
-            --bg-color: #f8f9fa;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --success: #2ec4b6;
+            --bg-main: #f0f4f8;
             --card-bg: #ffffff;
-            --text-color: #212529;
-            --border-color: #dee2e6;
+            --text-main: #2b2d42;
+            --border-radius: 12px;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-main);
+            color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        h1, h2 {
+        h1 {
             text-align: center;
-            color: #2c3e50;
+            color: #1d3557;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
         }
 
+        /* الأزرار التبويبية المتجاوبة */
         .tabs {
             display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
         }
 
         .tab-btn {
             background-color: #e2e8f0;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 6px;
-            transition: 0.3s;
+            border-radius: var(--border-radius);
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            flex: 1;
+            text-align: center;
         }
 
         .tab-btn.active {
-            background-color: var(--primary-color);
+            background-color: var(--primary);
             color: white;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
         }
 
         .section-panel {
             display: none;
             background: var(--card-bg);
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
             margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.03);
         }
 
         .section-panel.active {
@@ -75,227 +85,263 @@
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-weight: 600;
+            font-size: 0.95rem;
         }
 
-        select, input[type="text"], input[type="number"] {
+        input[type="text"] {
             width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 15px;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
             box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
         }
 
         button.action-btn {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 6px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: var(--border-radius);
             cursor: pointer;
             width: 100%;
             font-weight: bold;
-            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+            transition: opacity 0.2s;
         }
 
-        button.action-btn:hover {
-            opacity: 0.9;
+        button.action-btn:active {
+            transform: scale(0.98);
         }
 
-        /* أسئلة الاختبار والطباعة */
-        .print-area {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-        }
-
+        /* كروت الأسئلة */
         .question-card {
-            background: #fdfdfd;
-            border: 1px solid var(--border-color);
+            background: #fafbfc;
+            border: 1px solid #edf2f7;
             padding: 15px;
-            border-radius: 6px;
+            border-radius: var(--border-radius);
             margin-bottom: 15px;
         }
 
-        .options-grid {
+        .question-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1e293b;
+            margin-bottom: 10px;
+        }
+
+        /* خيارات الإجابة الحديثة (دوائر متجاورة ومنسقة) */
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .option-label:hover {
+            border-color: var(--primary-light);
+            background: #f8fafc;
+        }
+
+        .option-label input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #cbd5e1;
+            border-radius: 50%;
+            margin-left: 10px;
+            outline: none;
+            display: grid;
+            place-content: center;
+            transition: 0.2s;
+        }
+
+        .option-label input[type="radio"]::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            background-color: var(--primary);
+        }
+
+        .option-label input[type="radio"]:checked {
+            border-color: var(--primary);
+        }
+
+        .option-label input[type="radio"]:checked::before {
+            transform: scale(1);
+        }
+
+        .option-label input[type="radio"]:checked + span {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .correct-badge {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: auto;
+            font-weight: bold;
+        }
+
+        /* إحصائيات والتحليلات */
+        .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-top: 10px;
+            margin-bottom: 15px;
         }
 
-        .option-item {
-            background: #f1f5f9;
-            padding: 8px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        /* تنسيق التصحيح */
-        .grading-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 5px 0;
-            padding: 6px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .grading-option input {
-            cursor: pointer;
-        }
-        .correct-answer-badge {
-            color: var(--success-color);
-            font-weight: bold;
-            font-size: 13px;
-        }
-
-        /* التحليلات والإحصائيات */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-box {
+        .stat-card {
             background: #f8fafc;
-            border: 1px solid var(--border-color);
+            border: 1px solid #e2e8f0;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             text-align: center;
         }
 
-        .stat-number {
-            font-size: 24px;
+        .stat-val {
+            font-size: 1.5rem;
             font-weight: bold;
-            color: var(--primary-color);
+            color: var(--primary);
             margin-top: 5px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
+            margin-top: 10px;
+            min-width: 450px;
         }
 
         th, td {
-            border: 1px solid var(--border-color);
+            border: 1px solid #e2e8f0;
             padding: 10px;
             text-align: center;
-            font-size: 14px;
+            font-size: 0.85rem;
         }
 
         th {
             background-color: #f1f5f9;
+            color: #334155;
         }
 
         @media print {
-            body * {
-                visibility: hidden;
-            }
-            #print-section, #print-section * {
-                visibility: visible;
-            }
-            #print-section {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-            .no-print {
-                display: none !important;
-            }
+            .no-print { display: none !important; }
+            body { background: white; padding: 0; }
+            .section-panel { box-shadow: none; border: none; padding: 0; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>نظام مهارات العلوم - الصف السادس الابتدائي</h1>
+    <h1>تقييم مهارات العلوم (الصف السادس)</h1>
     
     <!-- الأزرار الرئيسية -->
     <div class="tabs no-print">
-        <button class="tab-btn active" onclick="switchTab('exam-gen')">توليد وطباعة الاختبار</button>
-        <button class="tab-btn" onclick="switchTab('grading')">تصحيح ورصد الدرجات</button>
-        <button class="tab-btn" onclick="switchTab('analytics')">تحليل الأداء وإتقان المهارات</button>
+        <button class="tab-btn active" onclick="switchTab('exam-gen', this)">اختبار 10 مهارات</button>
+        <button class="tab-btn" onclick="switchTab('grading', this)">تصحيح ورصد</button>
+        <button class="tab-btn" onclick="switchTab('analytics', this)">التحليل ونسب الإتقان</button>
     </div>
 
-    <!-- القسم الأول: توليد وطباعة الاختبار -->
+    <!-- القسم الأول: اختبار 10 مهارات (سؤال لكل مهارة) -->
     <div id="exam-gen" class="section-panel active">
-        <h2>توليد نموذج اختبار حسب المهارة</h2>
-        <div class="form-group">
-            <label for="skillSelect">اختر المهارة المستهدفة:</label>
-            <select id="skillSelect" onchange="generateExamPreview()">
-                <!-- تُعبأ برمجياً -->
-            </select>
-        </div>
-        <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 20px;">طباعة ورقة الاختبار</button>
+        <h2 style="font-size: 1.1rem; margin-top:0; text-align:center; color:#475569;">نموذج اختبار شامل (10 أسئلة لـ 10 مهارات مختلفة)</h2>
+        <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 15px;">طباعة ورقة الاختبار</button>
         
-        <div id="print-section" class="print-area">
-            <h3 style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 10px;">اختبار مادة العلوم - مدرسة داؤود بن عروة الثقفي الابتدائية</h3>
-            <p><strong>اسم الطالب:</strong> .............................................................. &nbsp;&nbsp;&nbsp;&nbsp; <strong>الصف:</strong> السادس الابتدائي</p>
-            <div id="examQuestionsContainer">
-                <!-- تعرض أسئلة المهارة المختارة -->
+        <div id="print-section">
+            <div style="border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; margin-bottom: 15px;">
+                <p style="margin:5px 0;"><strong>المدرسة:</strong> مدرسة داؤود بن عروة الثقفي الابتدائية</p>
+                <p style="margin:5px 0;"><strong>اسم الطالب:</strong> ..............................................................</p>
+            </div>
+            <div id="tenQuestionsContainer">
+                <!-- تُعبأ برمجياً بـ 10 أسئلة -->
             </div>
         </div>
     </div>
 
     <!-- القسم الثاني: تصحيح ورصد الدرجات -->
     <div id="grading" class="section-panel">
-        <h2>تصحيح الاختبار ورصد النتيجة</h2>
+        <h2 style="font-size: 1.1rem; margin-top:0; text-align:center; color:#475569;">تصحيح ورصد اختبار الـ 10 مهارات</h2>
         <div class="form-group">
-            <label for="studentNameInput">اسم الطالب:</label>
-            <input type="text" id="studentNameInput" placeholder="أدخل اسم الطالب الثلاثي">
-        </div>
-        <div class="form-group">
-            <label for="gradeSkillSelect">اختر المهارة المراد تقييمها:</label>
-            <select id="gradeSkillSelect" onchange="loadGradingQuestions()">
-                <!-- تُعبأ برمجياً -->
-            </select>
+            <label for="studentNameInput">اسم الطالب الثلاثي:</label>
+            <input type="text" id="studentNameInput" placeholder="أدخل اسم الطالب هنا...">
         </div>
 
         <div id="gradingQuestionsContainer">
-            <!-- أسئلة مع خيارات تفاعلية للتصحيح الفوري -->
+            <!-- أسئلة التصحيح التفاعلية -->
         </div>
 
-        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد النتيجة</button>
+        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد النتيجة النهائية</button>
     </div>
 
-    <!-- القسم الثالث: تحليل الأداء -->
+    <!-- القسم الثالث: التحليلات ونسب الإتقان -->
     <div id="analytics" class="section-panel">
-        <h2>لوحة تحليل الأداء ونسب الإتقان</h2>
-        <div class="stats-container">
-            <div class="stat-box">
-                <div>إجمالي الطلاب المرصودين</div>
-                <div class="stat-number" id="totalStudentsCount">0</div>
+        <h2 style="font-size: 1.1rem; margin-top:0; text-align:center; color:#475569;">لوحة تحليل تقدم الطلاب</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div>الطلاب المرصودين</div>
+                <div class="stat-val" id="totalStudentsCount">0</div>
             </div>
-            <div class="stat-box">
-                <div>متوسط إتقان المادة العام</div>
-                <div class="stat-number" id="overallAvgRate">0%</div>
+            <div class="stat-card">
+                <div>متوسط الإتقان العام</div>
+                <div class="stat-val" id="overallAvgRate">0%</div>
             </div>
         </div>
 
-        <h3>سجل الطلاب ونتيجة الإتقان</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>اسم الطالب</th>
-                    <th>المهارة المقيمة</th>
-                    <th>الدرجة المستحقة</th>
-                    <th>نسبة الإتقان</th>
-                </tr>
-            Ref</thead>
-            <tbody id="resultsTableBody">
-                <!-- تُعبأ برمجياً -->
-            </tbody>
-        </table>
-        <button class="action-btn" onclick="clearData()" style="background-color: #dc3545; margin-top: 15px;">إعادة ضبط السجل</button>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>اسم الطالب</th>
+                        <th>الدرجة</th>
+                        <th>نسبة الإتقان</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                    <!-- النتائج هنا -->
+                </tbody>
+            </table>
+        </div>
+        <button class="action-btn" onclick="clearData()" style="background: #ef4444; margin-top: 15px;">مسح السجلات</button>
     </div>
-
 </div>
 
 <script>
@@ -307,198 +353,176 @@
         "4. تحديد الصفات السائدة والصفات المتنحية وانتقالها",
         "5. تفسير عمليتي البناء الضوئي والتنفس الخلوي في النباتات",
         "6. توضيح طرائق تكاثر النباتات ودور المخلوقات الدقيقة",
-        "7. تتبع وظائف أجهزة الجسم الأساسية (الهضم، الإخراج، التنفس، الدوران)",
+        "7. تتبع وظائف أجهزة الجسم الأساسية (الهضم، الإخراج، الدوران)",
         "8. وصف آليات عمل الهيكلي، العضلي، العصبي وأجهزة الإحساس",
-        "9. تتبع مسار الطاقة عبر السلاسل والشبكات الغذائية وهرم الطاقة",
-        "10. تحديد أدوار الكائنات (المنتجات، المستهلكات، والمحللات)",
+        "9. تتبع مسار الطاقة عبر السلاسل والشبكات الغذائية",
+        "10. تحديد أدوار الكائنات (المنتجات، المستهلكات، المحللات)",
         "11. تحليل خصائص التربة ومكوناتها وطرق المحافظة عليها",
         "12. توضيح أساليب حماية البيئة وترشيد استهلاك الموارد",
-        "13. تصنيف حالات المادة المختلفة وخصائصها الفيزيائية والكيميائية",
+        "13. تصنيف حالات المادة وخصائصها الفيزيائية والكيميائية",
         "14. وصف مفاهيم الموقع، الحركة، السرعة، والتسارع",
-        "15. التمييز بين القوى المتزنة وغير المتزنة وأثر الجاذبية والاحتكاك",
+        "15. التمييز بين القوى المتزنة وغير المتزنة وأثر الجاذبية",
         "16. استكشاف أشكال الطاقة المختلفة وتحولاتها",
-        "17. فهم خصائص الأمواج والضوء والصوت وتطبيقاتها العملية",
+        "17. فهم خصائص الأمواج والضوء والصوت وتطبيقاتها",
         "18. توضيح ظاهرة تعاقب الليل والنهار والفصول الأربعة",
         "19. المقارنة بين الكواكب الداخلية والكواكب الخارجية",
         "20. وصف النجوم والمجرات والأجرام السماوية في الفضاء",
-        "21. تطبيق مهارات عمليات العلم الأساسية (الملاحظة، الاستنتاج، القياس)"
+        "21. تطبيق مهارات عمليات العلم الأساسية والقياس"
     ];
 
-    // بنك أسئلة افتراضي لكل مهارة (يتضمن سؤالين لكل مهارة للاختبار)
+    // بنك الأسئلة لكل مهارة
     const questionBank = {};
     skillsList.forEach((skill, index) => {
-        questionBank[index] = [
-            {
-                q: `السؤال الأول لقياس مهارة: (${skill})؟`,
-                options: ["الخيار الأول النموذجي", "الخيار الثاني", "الخيار الثالث", "الخيار الرابع"],
-                correct: 0
-            },
-            {
-                q: `السؤال الثاني لقياس مهارة: (${skill})؟`,
-                options: ["الخيار الأول", "الخيار الثاني النموذجي", "الخيار الثالث", "الخيار الرابع"],
-                correct: 1
-            }
-        ];
+        questionBank[index] = {
+            q: `أي مما يلي يعبر بدقة عن مهارة: (${skill})؟`,
+            options: ["الخيار النموذجي الصحيح", "الخيار البديل الأول", "الخيار البديل الثاني", "الخيار البديل الثالث"],
+            correct: 0
+        };
     });
 
-    // تهيئة القوائم المنسدلة عند التحميل
+    // اختيار عشوائي لـ 10 مهارات مختلفة وثابتة لجلسة الاختبار الحالية
+    let currentExamSkills = [];
+
+    function initExamSelection() {
+        // اختيار أول 10 مهارات أو عشوائي منها لتوليد الاختبار
+        currentExamSkills = [];
+        let indices = [...Array(skillsList.length).keys()];
+        // خلط عشوائي واختيار 10
+        indices.sort(() => Math.random() - 0.5);
+        currentExamSkills = indices.slice(0, 10);
+    }
+
     window.onload = function() {
-        const skillSelect = document.getElementById('skillSelect');
-        const gradeSkillSelect = document.getElementById('gradeSkillSelect');
-        
-        skillsList.forEach((skill, index) => {
-            let opt1 = document.createElement('option');
-            opt1.value = index;
-            opt1.textContent = skill;
-            skillSelect.appendChild(opt1);
-
-            let opt2 = document.createElement('option');
-            opt2.value = index;
-            opt2.textContent = skill;
-            gradeSkillSelect.appendChild(opt2);
-        });
-
-        generateExamPreview();
-        loadGradingQuestions();
+        initExamSelection();
+        renderExamAndGrading();
         loadAnalyticsData();
     };
 
-    // التبديل بين التبويبات
-    function switchTab(tabId) {
-        document.querySelectorAll('.section-panel').forEach(panel => panel.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        btn.classList.add('active');
     }
 
-    // توليد معاينة الاختبار للطباعة
-    function generateExamPreview() {
-        const skillId = document.getElementById('skillSelect').value;
-        const questions = questionBank[skillId];
-        let container = document.getElementById('examQuestionsContainer');
-        container.innerHTML = '';
+    // بناء الواجهات للـ 10 أسئلة (للاختبار والتصحيح)
+    function renderExamAndGrading() {
+        let examContainer = document.getElementById('tenQuestionsContainer');
+        let gradingContainer = document.getElementById('gradingQuestionsContainer');
+        
+        examContainer.innerHTML = '';
+        gradingContainer.innerHTML = '';
 
-        questions.forEach((item, idx) => {
-            let html = `
+        currentExamSkills.forEach((skillIdx, qNum) => {
+            let item = questionBank[skillIdx];
+            let skillTitle = skillsList[skillIdx];
+
+            // 1. توليد كارت اختبار الطباعة
+            let examHtml = `
                 <div class="question-card">
-                    <p><strong>س${idx+1}:</strong> ${item.q}</p>
-                    <div class="options-grid">
-                        <div class="option-item">أ) ${item.options[0]}</div>
-                        <div class="option-item">ب) ${item.options[1]}</div>
-                        <div class="option-item">جـ) ${item.options[2]}</div>
-                        <div class="option-item">د) ${item.options[3]}</div>
+                    <div class="question-title">س${qNum+1}: ${item.q} <br><span style="font-weight:normal; font-size:0.8rem; color:#64748b;">[المهارة: ${skillTitle}]</span></div>
+                    <div class="options-container">
+                        <div class="option-label">أ) ${item.options[0]}</div>
+                        <div class="option-label">ب) ${item.options[1]}</div>
+                        <div class="option-label">جـ) ${item.options[2]}</div>
+                        <div class="option-label">د) ${item.options[3]}</div>
                     </div>
                 </div>
             `;
-            container.innerHTML += html;
-        });
-    }
+            examContainer.innerHTML += examHtml;
 
-    // تحميل أسئلة التصحيح ورصد الدرجات
-    function loadGradingQuestions() {
-        const skillId = document.getElementById('gradeSkillSelect').value;
-        const questions = questionBank[skillId];
-        let container = document.getElementById('gradingQuestionsContainer');
-        container.innerHTML = '';
-
-        questions.forEach((item, idx) => {
-            let optionsHtml = '';
+            // 2. توليد كارت التصحيح التفاعلي
+            let optionsGradingHtml = '';
             item.options.forEach((opt, optIdx) => {
-                let isCorrectBadge = optIdx === item.correct ? `<span class="correct-answer-badge"> (الإجابة الصحيحة)</span>` : '';
-                optionsHtml += `
-                    <label class="grading-option">
-                        <input type="radio" name="q_${idx}" value="${optIdx}">
-                        <span>${opt}</span>${isCorrectBadge}
+                let isCorrectSpan = optIdx === item.correct ? `<span class="correct-badge">صحيحة</span>` : '';
+                optionsGradingHtml += `
+                    <label class="option-label">
+                        <input type="radio" name="q_${qNum}" value="${optIdx}">
+                        <span>${opt}</span>
+                        ${isCorrectSpan}
                     </label>
                 `;
             });
 
-            container.innerHTML += `
-                <div class="question-card" style="background:#fff;">
-                    <p><strong>السؤال ${idx+1}:</strong> ${item.q}</p>
-                    ${optionsHtml}
+            let gradingHtml = `
+                <div class="question-card">
+                    <div class="question-title">السؤال ${qNum+1}: ${item.q}</div>
+                    <div class="options-container">
+                        ${optionsGradingHtml}
+                    </div>
                 </div>
             `;
+            gradingContainer.innerHTML += gradingHtml;
         });
     }
 
-    // حفظ درجة الطالب في التخزين المحلي
+    // حفظ درجة الطالب
     function saveStudentGrade() {
         const studentName = document.getElementById('studentNameInput').value.trim();
-        const skillId = document.getElementById('gradeSkillSelect').value;
-        const skillName = skillsList[skillId];
-
         if (!studentName) {
-            alert('يرجى إدخال اسم الطالب أولاً.');
+            alert('يرجى كتابة اسم الطالب أولاً.');
             return;
         }
 
-        const questions = questionBank[skillId];
         let score = 0;
-
-        questions.forEach((item, idx) => {
-            const selectedOpt = document.querySelector(`input[name="q_${idx}"]:checked`);
-            if (selectedOpt && parseInt(selectedOpt.value) === item.correct) {
+        currentExamSkills.forEach((skillIdx, qNum) => {
+            const selectedOpt = document.querySelector(`input[name="q_${qNum}"]:checked`);
+            if (selectedOpt && parseInt(selectedOpt.value) === questionBank[skillIdx].correct) {
                 score++;
             }
         });
 
-        const totalQuestions = questions.length;
-        const percentage = Math.round((score / totalQuestions) * 100);
+        let percentage = Math.round((score / 10) * 100);
 
-        let records = JSON.parse(localStorage.getItem('science_exam_records') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records') || '[]');
         records.push({
             name: studentName,
-            skill: skillName,
-            score: `${score} / ${totalQuestions}`,
+            score: `${score} / 10`,
             percentage: percentage
         });
 
-        localStorage.setItem('science_exam_records', JSON.stringify(records));
-        alert('تم حفظ رصد وتصحيح النتيجة بنجاح!');
+        localStorage.setItem('science_10skills_records', JSON.stringify(records));
+        alert('تم حفظ نتيجة الطالب بنجاح!');
         document.getElementById('studentNameInput').value = '';
+        
+        // إزالة التحديدات
+        document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
         loadAnalyticsData();
     }
 
-    // تحميل وعرض بيانات التحليل
+    // تحميل التحليلات
     function loadAnalyticsData() {
-        let records = JSON.parse(localStorage.getItem('science_exam_records') || '[]');
+        let records = JSON.parse(localStorage.getItem('science_10skills_records') || '[]');
         let tbody = document.getElementById('resultsTableBody');
         tbody.innerHTML = '';
 
-        let totalStudentsCount = document.getElementById('totalStudentsCount');
-        let overallAvgRate = document.getElementById('overallAvgRate');
-
-        totalStudentsCount.textContent = records.length;
+        document.getElementById('totalStudentsCount').textContent = records.length;
 
         if (records.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="color:#777;">لا توجد سجلات رصد مسجلة حتى الآن</td></tr>`;
-            overallAvgRate.textContent = '0%';
+            tbody.innerHTML = `<tr><td colspan="3" style="color:#94a3b8;">لا توجد سجلات مسجلة حتى الآن</td></tr>`;
+            document.getElementById('overallAvgRate').textContent = '0%';
             return;
         }
 
-        let sumPercentage = 0;
+        let totalSum = 0;
         records.forEach(rec => {
-            sumPercentage += rec.percentage;
+            totalSum += rec.percentage;
             tbody.innerHTML += `
                 <tr>
                     <td>${rec.name}</td>
-                    <td>${rec.skill}</td>
-                    <td>${rec.score}</td>
-                    <td><strong>${rec.percentage}%</strong></td>
+                    <td><strong>${rec.score}</strong></td>
+                    <td><span style="color:var(--success); font-weight:bold;">${rec.percentage}%</span></td>
                 </tr>
             `;
         });
 
-        let avg = Math.round(sumPercentage / records.length);
-        overallAvgRate.textContent = avg + '%';
+        let avg = Math.round(totalSum / records.length);
+        document.getElementById('overallAvgRate').textContent = avg + '%';
     }
 
-    // مسح البيانات وإعادة الضبط
     function clearData() {
-        if (confirm('هل أنت متأكد من مسح كافة سجلات الرصد؟')) {
-            localStorage.removeItem('science_exam_records');
+        if (confirm('هل أنت متأكد من مسح جميع السجلات؟')) {
+            localStorage.removeItem('science_10skills_records');
             loadAnalyticsData();
         }
     }
