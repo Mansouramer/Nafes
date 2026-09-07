@@ -126,52 +126,57 @@
             box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        /* كروت الأسئلة والخيارات العمودية */
+        /* كروت الأسئلة والخيارات الأفقية (على سطر واحد) */
         .question-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 14px;
+            padding: 10px 14px;
             border-radius: var(--border-radius);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .domain-tag {
             display: inline-block;
             background: #1e3a8a;
             color: #93c5fd;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
             font-weight: bold;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .question-title {
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-main);
-            margin-bottom: 12px;
-            line-height: 1.5;
+            margin-bottom: 8px;
+            line-height: 1.4;
         }
 
         .options-container {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            flex-wrap: nowrap;
+            gap: 6px;
         }
 
         .option-label {
             display: flex;
             align-items: center;
             background: var(--panel-bg);
-            border: 2px solid var(--border-color);
-            padding: 11px 14px;
-            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            padding: 6px 10px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.15s ease;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-main);
+            flex: 1;
+            justify-content: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .option-label:hover {
@@ -182,11 +187,11 @@
         .option-label input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border: 2px solid var(--text-muted);
             border-radius: 50%;
-            margin-left: 12px;
+            margin-left: 6px;
             outline: none;
             display: grid;
             place-content: center;
@@ -196,8 +201,8 @@
 
         .option-label input[type="radio"]::before {
             content: "";
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             transform: scale(0);
             transition: 120ms transform ease-in-out;
@@ -219,9 +224,9 @@
         .correct-badge {
             background-color: #065f46;
             color: #34d399;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.65rem;
             margin-right: auto;
             font-weight: bold;
         }
@@ -280,11 +285,11 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة المخصص لصفحة A4 واحدة مُحكمة */
+        /* تنسيق الطباعة المخصص لصفحة A4 واحدة مُحكمة الأبعاد */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 0.5cm;
+                margin: 0.4cm;
             }
             body * {
                 visibility: hidden;
@@ -313,47 +318,47 @@
             #tenQuestionsContainer {
                 display: flex;
                 flex-direction: column;
-                gap: 4px;
+                gap: 3px;
             }
             .question-card { 
                 background: #ffffff !important; 
                 border: 1px solid #94a3b8 !important; 
                 color: black !important; 
-                padding: 4px 8px !important;
-                margin-bottom: 4px !important;
+                padding: 4px 6px !important;
+                margin-bottom: 3px !important;
                 page-break-inside: avoid;
                 break-inside: avoid;
             }
             .question-title {
                 color: #0f172a !important;
-                font-size: 8.5pt !important;
-                margin-bottom: 3px !important;
-                line-height: 1.2 !important;
+                font-size: 8pt !important;
+                margin-bottom: 2px !important;
+                line-height: 1.1 !important;
             }
             .options-container {
-                gap: 2px !important;
+                gap: 4px !important;
             }
             .option-label { 
                 background: #f8fafc !important; 
                 border: 1px solid #cbd5e1 !important; 
                 color: #1e293b !important; 
-                padding: 2px 6px !important;
-                font-size: 8pt !important;
+                padding: 2px 4px !important;
+                font-size: 7.5pt !important;
             }
             .domain-tag { 
                 background: #e2e8f0 !important; 
                 color: #1e293b !important; 
-                font-size: 7pt !important;
-                padding: 1px 4px !important;
+                font-size: 6.5pt !important;
+                padding: 1px 3px !important;
                 margin-bottom: 2px !important;
             }
             #print-section > div:first-child {
-                padding-bottom: 4px !important;
-                margin-bottom: 6px !important;
-                font-size: 9pt !important;
+                padding-bottom: 3px !important;
+                margin-bottom: 4px !important;
+                font-size: 8.5pt !important;
             }
             #print-section p {
-                margin: 2px 0 !important;
+                margin: 1px 0 !important;
             }
         }
     </style>
@@ -398,7 +403,7 @@
         <button class="action-btn no-print" onclick="window.print()" style="margin-bottom: 15px;">طباعة ورقة الاختبار</button>
         
         <div id="print-section">
-            <div style="border-bottom: 2px solid var(--border-color); padding-bottom: 8px; margin-bottom: 10px; font-weight: 600;">
+            <div style="border-bottom: 2px solid var(--border-color); padding-bottom: 6px; margin-bottom: 8px; font-weight: 600;">
                 <p style="margin:2px 0;">المدرسة: مدرسة داؤود بن عروة الثقفي الابتدائية</p>
                 <p style="margin:2px 0;">اسم الطالب: ..............................................................</p>
                 <p style="margin:2px 0; color:var(--text-muted); font-size: 0.85rem;" id="printDomainTitle">الاختبار: شامل لجميع المجالات</p>
@@ -467,30 +472,30 @@
 
 <script>
     const skillsData = [
-        { domain: "علوم الحياة", skill: "تحديد مفهوم نظرية الخلية وأهميتها", q: "ما هي الوحدة الأساسية للبناء والوظيفة في جميع المخلوقات الحية؟", options: ["الخلية", "النسيج", "العضو", "الجهاز الحيوي"], correct: 0 },
-        { domain: "علوم الحياة", skill: "التمييز بين الخلية النباتية والحيوانية", q: "أي التركيبين التاليين يوجد في الخلايا النباتية فقط ولا يوجد في الحيوانية؟", options: ["الغشاء البلازمي", "الجدار الخلوي", "الميتوكوندريا", "النواة"], correct: 1 },
-        { domain: "علوم الحياة", skill: "شرح مراحل انقسام الخلايا المتساوي", q: "ماذا يُسمى الانقسام الذي تنتج عنه خلايا تطابق الأصل تماماً للنمو وتعويض التالف؟", options: ["الانقسام المنصف", "الانقسام المتساوي", "التبرعم", "التوالد البكري"], correct: 1 },
-        { domain: "علوم الحياة", skill: "تحديد الصفات السائدة والمتنحية وانتقالها", q: "الصفة الوراثية التي تحجب صفة أخرى ولا تظهر عليها تُسمى:", options: ["متنحية", "سائدة", "مكتسبة", "طفرية"], correct: 1 },
-        { domain: "علوم الحياة", skill: "تفسير البناء الضوئي والتنفس الخلوي", q: "ما العملية التي تستخدم فيها النباتات ضوء الشمس لإنتاج الغذاء والأكسجين؟", options: ["التنفس الخلوي", "التحلل", "البناء الضوئي", "النتح"], correct: 2 },
-        { domain: "علوم الحياة", skill: "توضيح تكاثر النباتات ودور المخلوقات الدقيقة", q: "ما المخلوقات الحية الدقيقة التي تستخدم في تحليل البقايا وإعادة العناصر للتربة؟", options: ["الفطريات والبكتيريا الرومية", "الفيروسات الممرضة", "الطحالب الخضراء", "النباتات البذرية"], correct: 0 },
-        { domain: "علوم الحياة", skill: "تتبع وظائف أجهزة الجسم الأساسية", q: "أي أجهزة الجسم مسؤول عن نقل الغذاء والأكسجين إلى جميع الخلايا؟", options: ["الجهاز الهضمي", "الجهاز العصبي", "الجهاز الدوري", "الجهاز التنفسي"], correct: 2 },
-        { domain: "علوم الحياة", skill: "وصف آليات عمل الجهاز العصبي والحواس", q: "أي الأجهزة التالية يتحكم في جميع أنشطة الجسم ويستجيب للمؤثرات؟", options: ["الجهاز العضلي", "الجهاز العصبي", "الجهاز الهيكلي", "الجهاز الإخراجي"], correct: 1 },
-        { domain: "علوم الحياة", skill: "تتبع مسار الطاقة عبر السلاسل الغذائية", q: "في السلسلة الغذائية، تسمى المخلوقات التي تصنع غذاءها بنفسها بـ:", options: ["المستهلكات الأولى", "المحللات", "المنتجات", "المستهلكات الثانية"], correct: 2 },
-        { domain: "علوم الحياة", skill: "تحديد أدوار الكائنات بالبيئة", q: "الحيوانات التي تتغذى على بقايا الحيوانات الميتة تُصنف ضمن:", options: ["المنتجات", "المحللات", "المستهلكات (القمامة)", "المنتجة للطاقة"], correct: 2 },
+        { domain: "علوم الحياة", skill: "تحديد مفهوم نظرية الخلية وأهميتها", q: "ما هي الوحدة الأساسية للبناء والوظيفة في جميع المخلوقات الحية؟", options: ["أ) الخلية", "ب) النسيج", "جـ) العضو", "د) الجهاز الحيوي"], correct: 0 },
+        { domain: "علوم الحياة", skill: "التمييز بين الخلية النباتية والحيوانية", q: "أي التركيبين التاليين يوجد في الخلايا النباتية فقط ولا يوجد في الحيوانية؟", options: ["أ) الغشاء البلازمي", "ب) الجدار الخلوي", "جـ) الميتوكوندريا", "د) النواة"], correct: 1 },
+        { domain: "علوم الحياة", skill: "شرح مراحل انقسام الخلايا المتساوي", q: "ماذا يُسمى الانقسام الذي تنتج عنه خلايا تطابق الأصل تماماً للنمو وتعويض التالف؟", options: ["أ) الانقسام المنصف", "ب) الانقسام المتساوي", "جـ) التبرعم", "د) التوالد البكري"], correct: 1 },
+        { domain: "علوم الحياة", skill: "تحديد الصفات السائدة والمتنحية وانتقالها", q: "الصفة الوراثية التي تحجب صفة أخرى ولا تظهر عليها تُسمى:", options: ["أ) متنحية", "ب) سائدة", "جـ) مكتسبة", "د) طفرية"], correct: 1 },
+        { domain: "علوم الحياة", skill: "تفسير البناء الضوئي والتنفس الخلوي", q: "ما العملية التي تستخدم فيها النباتات ضوء الشمس لإنتاج الغذاء والأكسجين؟", options: ["أ) التنفس الخلوي", "ب) التحلل", "جـ) البناء الضوئي", "د) النتح"], correct: 2 },
+        { domain: "علوم الحياة", skill: "توضيح تكاثر النباتات ودور المخلوقات الدقيقة", q: "ما المخلوقات الحية الدقيقة التي تستخدم في تحليل البقايا وإعادة العناصر للتربة؟", options: ["أ) الفطريات والبكتيريا", "ب) الفيروسات", "جـ) الطحالب", "د) النباتات البذرية"], correct: 0 },
+        { domain: "علوم الحياة", skill: "تتبع وظائف أجهزة الجسم الأساسية", q: "أي أجهزة الجسم مسؤول عن نقل الغذاء والأكسجين إلى جميع الخلايا؟", options: ["أ) الهضمي", "ب) العصبي", "جـ) الدوري", "د) التنفسي"], correct: 2 },
+        { domain: "علوم الحياة", skill: "وصف آليات عمل الجهاز العصبي والحواس", q: "أي الأجهزة التالية يتحكم في جميع أنشطة الجسم ويستجيب للمؤثرات؟", options: ["أ) العضلي", "ب) العصبي", "جـ) الهيكلي", "د) الإخراجي"], correct: 1 },
+        { domain: "علوم الحياة", skill: "تتبع مسار الطاقة عبر السلاسل الغذائية", q: "في السلسلة الغذائية، تسمى المخلوقات التي تصنع غذاءها بنفسها بـ:", options: ["أ) المستهلكات الأولى", "ب) المحللات", "جـ) المنتجات", "د) المستهلكات الثانية"], correct: 2 },
+        { domain: "علوم الحياة", skill: "تحديد أدوار الكائنات بالبيئة", q: "الحيوانات التي تتغذى على بقايا الحيوانات الميتة تُصنف ضمن:", options: ["أ) المنتجات", "ب) المحللات", "جـ) المستهلكات (القمامة)", "د) المنتجة للطاقة"], correct: 2 },
 
-        { domain: "العلوم الفيزيائية والكيميائية", skill: "تصنيف حالات المادة وتغيراتها", q: "التغير الذي ينتج عنه مادة جديدة كلياً ذات خصائص مختلفة (مثل الاحتراق) يسمى:", options: ["تغير فيزيائي", "تغير كيميائي", "انصهار", "تبخر"], correct: 1 },
-        { domain: "العلوم الفيزيائية والكيميائية", skill: "وصف مفاهيم الموقع والحركة والسرعة", q: "التغير في مسافة الجسم بمرور الزمن مقسوماً على الزمن يعبر عن:", options: ["التسارع", "السرعة", "القوة", "الكتلة"], correct: 1 },
-        { domain: "العلوم الفيزيائية والكيميائية", skill: "التمييز بين القوى المتزنة وغير المتزنة", q: "القوتان المتساويتان في المقدار والمتعاكستان في الاتجاه وتلغي إحداهما الأخرى تسمى:", options: ["قوى متزنة", "قوى غير متزنة", "قوى الاحتكاك", "الجاذبية"], correct: 0 },
-        { domain: "العلوم الفيزيائية والكيميائية", skill: "استكشاف أشكال الطاقة وتحولاتها", q: "عند تشغيل المصباح الكهربائي، تتحول الطاقة الكهربائية إلى طاقة:", options: ["حركية فقط", "ضوئية وحرارية", "كيميائية فقط", "نووية"], correct: 1 },
-        { domain: "العلوم الفيزيائية والكيميائية", skill: "فهم خصائص الأمواج والصوت والضوء", q: "كيف ينتقل الصوت في الأوساط المختلفة؟", options: ["على شكل موجات صوتية تتطلب وسطاً ناقلاً", "في الفراغ بسرعة الضوء", "بدون اهتزاز للجزيئات", "على شكل شعاع ضوئي"], correct: 0 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "تصنيف حالات المادة وتغيراتها", q: "التغير الذي ينتج عنه مادة جديدة كلياً ذات خصائص مختلفة (مثل الاحتراق) يسمى:", options: ["أ) تغير فيزيائي", "ب) تغير كيميائي", "جـ) انصهار", "د) تبخر"], correct: 1 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "وصف مفاهيم الموقع والحركة والسرعة", q: "التغير في مسافة الجسم بمرور الزمن مقسوماً على الزمن يعبر عن:", options: ["أ) التسارع", "ب) السرعة", "جـ) القوة", "د) الكتلة"], correct: 1 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "التمييز بين القوى المتزنة وغير المتزنة", q: "القوتان المتساويتان في المقدار والمتعاكستان في الاتجاه وتلغي إحداهما الأخرى تسمى:", options: ["أ) قوى متزنة", "ب) قوى غير متزنة", "جـ) الاحتكاك", "د) الجاذبية"], correct: 0 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "استكشاف أشكال الطاقة وتحولاتها", q: "عند تشغيل المصباح الكهربائي، تتحول الطاقة الكهربائية إلى طاقة:", options: ["أ) حركية فقط", "ب) ضوئية وحرارية", "جـ) كيميائية فقط", "د) نووية"], correct: 1 },
+        { domain: "العلوم الفيزيائية والكيميائية", skill: "فهم خصائص الأمواج والصوت والضوء", q: "كيف ينتقل الصوت في الأوساط المختلفة؟", options: ["أ) عبر موجات وسط ناقل", "ب) في الفراغ", "جـ) بدون اهتزاز", "د) كشعاع ضوئي"], correct: 0 },
 
-        { domain: "علم الأرض", skill: "تحليل خصائص التربة وطرق المحافظة عليها", q: "الطبقة العليا من التربة التي تحتوي على أعلى نسبة من الدبال والمواد العضوية هي:", options: ["التربة التحتية", "الصخور الأصلية", "التربة السطحية", "الصخور الصلبة"], correct: 2 },
-        { domain: "علم الأرض", skill: "توضيح أساليب حماية البيئة وترشيد الموارد", q: "أي مما يلي يُعد من أفضل الطرق لتقليل النفايات وحماية موارد البيئة؟", options: ["حرق النفايات المفتوحة", "إعادة التدوير وتقليل الاستهلاك", "زيادة التلوث البلاستيكي", "قطع الغابات"], correct: 1 },
+        { domain: "علم الأرض", skill: "تحليل خصائص التربة وطرق المحافظة عليها", q: "الطبقة العليا من التربة التي تحتوي على أعلى نسبة من الدبال والمواد العضوية هي:", options: ["أ) التربة التحتية", "ب) الصخور الأصلية", "جـ) التربة السطحية", "د) الصخور الصلبة"], correct: 2 },
+        { domain: "علم الأرض", skill: "توضيح أساليب حماية البيئة وترشيد الموارد", q: "أي مما يلي يُعد من أفضل الطرق لتقليل النفايات وحماية موارد البيئة؟", options: ["أ) حرق النفايات", "ب) إعادة التدوير", "جـ) تلوث بلاستيكي", "د) قطع الغابات"], correct: 1 },
 
-        { domain: "علم الفلك", skill: "توضيح تعاقب الليل والنهار والفصول", q: "تنتج ظاهرة تعاقب الليل والنهار على سطح الأرض بسبب:", options: ["دوران الأرض حول الشمس", "دوران الأرض حول محورها", "ميل محور الأرض", "دوران القمر"], correct: 1 },
-        { domain: "علم الفلك", skill: "المقارنة بين الكواكب الداخلية والخارجية", q: "أي من الكواكب التالية يعد من الكواكب الصخرية الداخلية في النظام الشمسي؟", options: ["المشتري", "زحل", "الأرض", "نبتون"], correct: 2 },
-        { domain: "علم الفلك", skill: "وصف النجوم والمجرات الفضائية", q: "تُعرف المجرة التي تنتمي إليها شمسنا وكوكب الأرض باسم:", options: ["درب التبانة", "سديم أوريون", "المرأة المسلسلة", "النظام الشمسي"], correct: 0 },
-        { domain: "علم الفلك", skill: "تطبيق مهارات عمليات العلم والقياس", q: "عندما تجمع البيانات ووصف الأشياء باستخدام الحواس الخمس فإنك تمارس مهارة:", options: ["الاستنتاج", "الملاحظة", "الفرضية", "التجربة"], correct: 1 }
+        { domain: "علم الفلك", skill: "توضيح تعاقب الليل والنهار والفصول", q: "تنتج ظاهرة تعاقب الليل والنهار على سطح الأرض بسبب:", options: ["أ) دوران حول الشمس", "ب) دوران الأرض حول محورها", "جـ) ميل المحور", "د) دوران القمر"], correct: 1 },
+        { domain: "علم الفلك", skill: "المقارنة بين الكواكب الداخلية والخارجية", q: "أي من الكواكب التالية يعد من الكواكب الصخرية الداخلية في النظام الشمسي؟", options: ["أ) المشتري", "ب) زحل", "جـ) الأرض", "د) نبتون"], correct: 2 },
+        { domain: "علم الفلك", skill: "وصف النجوم والمجرات الفضائية", q: "تُعرف المجرة التي تنتمي إليها شمسنا وكوكب الأرض باسم:", options: ["أ) درب التبانة", "ب) سديم أوريون", "جـ) المرأة المسلسلة", "د) النظام الشمسي"], correct: 0 },
+        { domain: "علم الفلك", skill: "تطبيق مهارات عمليات العلم والقياس", q: "عندما تجمع البيانات ووصف الأشياء باستخدام الحواس الخمس فإنك تمارس مهارة:", options: ["أ) الاستنتاج", "ب) الملاحظة", "جـ) الفرضية", "د) التجربة"], correct: 1 }
     ];
 
     let currentExamIndices = [];
@@ -575,12 +580,12 @@
             let examHtml = `
                 <div class="question-card">
                     <span class="domain-tag">المجال: ${item.domain}</span>
-                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-weight:normal; font-size:0.8rem; color:var(--text-muted);">[المهارة: ${item.skill}]</span></div>
+                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-weight:normal; font-size:0.75rem; color:var(--text-muted);">[المهارة: ${item.skill}]</span></div>
                     <div class="options-container">
-                        <div class="option-label">أ) ${item.options[0]}</div>
-                        <div class="option-label">ب) ${item.options[1]}</div>
-                        <div class="option-label">جـ) ${item.options[2]}</div>
-                        <div class="option-label">د) ${item.options[3]}</div>
+                        <div class="option-label">${item.options[0]}</div>
+                        <div class="option-label">${item.options[1]}</div>
+                        <div class="option-label">${item.options[2]}</div>
+                        <div class="option-label">${item.options[3]}</div>
                     </div>
                 </div>
             `;
@@ -588,7 +593,7 @@
 
             let optionsHtml = '';
             item.options.forEach((opt, optIdx) => {
-                let badge = optIdx === item.correct ? `<span class="correct-badge">الإجابة الصحيحة</span>` : '';
+                let badge = optIdx === item.correct ? `<span class="correct-badge">✓</span>` : '';
                 optionsHtml += `
                     <label class="option-label">
                         <input type="radio" name="q_${qNum}" value="${optIdx}">
@@ -601,7 +606,7 @@
             let gradingHtml = `
                 <div class="question-card">
                     <span class="domain-tag">${item.domain}</span>
-                    <div class="question-title">السؤال ${qNum+1}: ${item.q}<br><span style="font-size:0.75rem; color:var(--text-muted);">(${item.skill})</span></div>
+                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-size:0.7rem; color:var(--text-muted);">(${item.skill})</span></div>
                     <div class="options-container">
                         ${optionsHtml}
                     </div>
