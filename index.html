@@ -136,7 +136,7 @@
             box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
         }
 
-        /* كليشة الاختبار الأنيقة */
+        /* كليشة الاختبار */
         .exam-header {
             background: linear-gradient(135deg, #f8fafc, #e2e8f0);
             border: 1.5px solid #3b82f6;
@@ -152,7 +152,7 @@
             font-weight: 700;
         }
 
-        /* شبكة عرض الأسئلة على الشاشة (بشكل بطاقات مريحة) */
+        /* شبكة عرض الأسئلة المتناسقة والتصاعدية */
         .questions-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -346,7 +346,7 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة الخاص بـ A4 مع إطار أنيق ومنسق في صفحة واحدة تماماً */
+        /* تنسيق الطباعة لضمان ظهور كل شيء في ورقة A4 واحدة بإطار منسق تماماً */
         @media print {
             @page { 
                 size: A4 portrait; 
@@ -425,7 +425,7 @@
         <button class="action-btn" onclick="saveStudentsList()">حفظ قائمة الطلاب</button>
     </div>
 
-    <!-- 2. إعداد الاختبار (بالشكل الجميل مع حفظ تلقائي) -->
+    <!-- 2. إعداد الاختبار -->
     <div id="exam-gen" class="section-panel">
         <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">توليد نموذج الاختبار (ورقة A4 واحدة ومنسقة تماماً)</h2>
         
