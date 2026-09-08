@@ -29,7 +29,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
@@ -148,14 +148,14 @@
 
         .exam-header p {
             margin: 2px 0;
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 700;
         }
 
-        /* شبكة عرض الأسئلة - عمودين في ورقة A4 */
+        /* شبكة عرض الأسئلة - 3 أعمدة في ورقة A3 لضمان عدم الطول والاحتواء في صفحة واحدة */
         .questions-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 6px;
         }
 
@@ -356,11 +356,11 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة لضمان ظهور الاختبار في ورقة A4 واحدة بإطار منسق تماماً */
+        /* تنسيق الطباعة لضمان ظهور الاختبار كاملًا في ورقة A3 بالعرض (Landscape) صفحة واحدة فقط */
         @media print {
             @page { 
-                size: A4 portrait; 
-                margin: 0.4cm; 
+                size: A3 landscape; 
+                margin: 0.5cm; 
             }
             body * { visibility: hidden; }
             
@@ -372,7 +372,7 @@
                 width: 100%; 
                 height: 100vh;
                 border: 2px solid #0f172a;
-                padding: 6px;
+                padding: 10px;
                 box-sizing: border-box;
                 background: white !important;
             }
@@ -390,27 +390,27 @@
                 background: #f8fafc !important; 
                 border: 1px solid #94a3b8 !important; 
                 color: black !important; 
-                padding: 4px 8px !important; 
-                margin-bottom: 4px !important; 
+                padding: 6px 10px !important; 
+                margin-bottom: 6px !important; 
             }
-            .exam-header p { color: black !important; font-size: 7.5pt !important; margin: 1px 0 !important; }
+            .exam-header p { color: black !important; font-size: 9pt !important; margin: 2px 0 !important; }
             
             .questions-grid {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 3px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 5px;
             }
             .question-card { 
                 background: #ffffff !important; 
                 border: 1px solid #cbd5e1 !important; 
                 color: black !important; 
-                padding: 3px 5px !important; 
+                padding: 6px 8px !important; 
                 margin-bottom: 2px !important; 
             }
-            .question-title { color: #0f172a !important; font-size: 6.8pt !important; margin-bottom: 2px !important; }
-            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 5.5pt !important; padding: 0px 2px !important; }
-            .options-container { gap: 2px !important; }
-            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 6pt !important; padding: 1px 3px !important; }
+            .question-title { color: #0f172a !important; font-size: 8pt !important; margin-bottom: 4px !important; }
+            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 6.5pt !important; padding: 1px 3px !important; }
+            .options-container { gap: 3px !important; }
+            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 7.5pt !important; padding: 2px 5px !important; }
         }
     </style>
 </head>
@@ -438,7 +438,7 @@
 
     <!-- 2. إعداد الاختبار -->
     <div id="exam-gen" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">توليد نموذج الاختبار (ورقة A4 واحدة ومنسقة تماماً)</h2>
+        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">توليد نموذج الاختبار (ورقة A3 واحدة ومنسقة تماماً)</h2>
         
         <div class="form-group no-print">
             <label for="domainFilterSelect">اختر المجال المستهدف للاختبار:</label>
@@ -451,7 +451,7 @@
             </select>
         </div>
 
-        <button class="action-btn no-print" onclick="printExam()" style="margin-bottom: 15px;">🖨️ طباعة نموذج الاختبار (A4 واحدة بإطار منسق)</button>
+        <button class="action-btn no-print" onclick="printExam()" style="margin-bottom: 15px;">🖨️ طباعة نموذج الاختبار (ورقة A3 بالعرض)</button>
         
         <div id="print-section">
             <div id="singleExamContainer"></div>
@@ -923,4 +923,3 @@
 
 </body>
 </html>
-
