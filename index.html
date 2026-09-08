@@ -134,32 +134,28 @@
             align-items: center;
             gap: 6px;
             box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
-            transition: background 0.2s;
-        }
-        .icon-print-btn:hover {
-            background: #047857;
         }
 
         .exam-header {
             background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1.5px solid var(--border-color);
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+            padding: 6px 10px;
+            border-radius: 6px;
+            margin-bottom: 4px;
         }
 
         .exam-header p {
             margin: 2px 0;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
         .question-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 6px 10px;
-            border-radius: 8px;
-            margin-bottom: 6px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-bottom: 3px;
         }
 
         .grading-card {
@@ -174,25 +170,19 @@
             display: inline-block;
             background: #1d4ed8;
             color: #bfdbfe;
-            padding: 1px 6px;
-            border-radius: 4px;
-            font-size: 0.65rem;
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.6rem;
             font-weight: bold;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
 
         .question-title {
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-main);
-            margin-bottom: 4px;
-            line-height: 1.3;
-        }
-
-        .options-container-grading {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            margin-bottom: 2px;
+            line-height: 1.2;
         }
 
         .grading-option-label {
@@ -237,7 +227,7 @@
         .options-container {
             display: flex;
             flex-wrap: nowrap;
-            gap: 4px;
+            gap: 3px;
         }
 
         .option-label {
@@ -245,9 +235,9 @@
             align-items: center;
             background: var(--panel-bg);
             border: 1px solid var(--border-color);
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 0.7rem;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-size: 0.65rem;
             font-weight: 600;
             color: var(--text-main);
             flex: 1;
@@ -257,16 +247,16 @@
             text-overflow: ellipsis;
         }
 
-        /* حاوية النموذجين في ورقة واحدة */
+        /* حاوية النموذجين بداخل الصفحة */
         .two-exams-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 6px;
         }
 
         .single-exam-copy {
-            border-bottom: 2px dashed #94a3b8;
-            padding-bottom: 10px;
+            border-bottom: 1.5px dashed #475569;
+            padding-bottom: 6px;
         }
 
         .chart-container {
@@ -359,13 +349,23 @@
             background-color: var(--panel-bg);
         }
 
-        /* تخصيص الطباعة لضمان احتواء النموذجين في صفحة A4 واحدة تماماً */
+        /* قواعد الطباعة الصارمة لإجبار المحتوى على احتواء صفحة A4 واحدة تماماً */
         @media print {
-            @page { size: A4 portrait; margin: 0.3cm; }
+            @page { 
+                size: A4 portrait; 
+                margin: 0.2cm; 
+            }
             body * { visibility: hidden; }
             
             body.print-exam #print-section, body.print-exam #print-section * { visibility: visible; }
-            body.print-exam #print-section { position: absolute; left: 0; top: 0; width: 100%; }
+            body.print-exam #print-section { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                height: 100vh;
+                overflow: hidden;
+            }
 
             body.print-single #studentDeepAnalysisBox, body.print-single #studentDeepAnalysisBox * { visibility: visible; }
             body.print-single #studentDeepAnalysisBox { position: absolute; left: 0; top: 0; width: 100%; background: white !important; color: black !important; }
@@ -379,27 +379,28 @@
             .two-exams-wrapper {
                 display: flex;
                 flex-direction: column;
-                height: 100vh;
+                height: 98vh;
                 justify-content: space-between;
             }
             .single-exam-copy {
-                border-bottom: 1.5px dashed #64748b;
-                padding-bottom: 4px;
-                margin-bottom: 4px;
+                border-bottom: 1px dashed #64748b;
+                padding-bottom: 2px;
+                margin-bottom: 2px;
+                flex: 1;
             }
-            .exam-header { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: black !important; padding: 3px 6px !important; margin-bottom: 3px !important; }
-            .exam-header p { color: black !important; font-size: 7pt !important; margin: 1px 0 !important; }
+            .exam-header { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: black !important; padding: 2px 4px !important; margin-bottom: 2px !important; }
+            .exam-header p { color: black !important; font-size: 6.5pt !important; margin: 0 !important; }
             
             .questions-grid-print {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 3px;
+                gap: 2px;
             }
-            .question-card { background: #ffffff !important; border: 1px solid #94a3b8 !important; color: black !important; padding: 3px 5px !important; margin-bottom: 2px !important; }
-            .question-title { color: #0f172a !important; font-size: 6.5pt !important; margin-bottom: 2px !important; }
-            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 5.5pt !important; padding: 1px 3px !important; }
+            .question-card { background: #ffffff !important; border: 1px solid #94a3b8 !important; color: black !important; padding: 2px 4px !important; margin-bottom: 1px !important; }
+            .question-title { color: #0f172a !important; font-size: 5.8pt !important; margin-bottom: 1px !important; }
+            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 5pt !important; padding: 0px 2px !important; }
             .options-container { gap: 2px !important; }
-            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 6pt !important; padding: 1px 3px !important; }
+            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 5.5pt !important; padding: 1px 2px !important; }
         }
     </style>
 </head>
@@ -440,11 +441,11 @@
             </select>
         </div>
 
-        <button class="action-btn no-print" onclick="printExam()" style="margin-bottom: 15px;">🖨️ طباعة (نموذجين في ورقة واحدة A4)</button>
+        <button class="action-btn no-print" onclick="printExam()" style="margin-bottom: 15px;">🖨️ طباعة (نموذجين في ورقة واحدة A4 بدقة تامة)</button>
         
         <div id="print-section">
             <div class="two-exams-wrapper" id="twoExamsContainer">
-                <!-- سيتم تعبئة النموذجين برمجياً هنا ليظهران معاً في نفس الورقة -->
+                <!-- النموذجان مجتمعان في صفحة واحدة -->
             </div>
         </div>
     </div>
@@ -627,7 +628,6 @@
     }
 
     function renderSystem() {
-        // توليد النموذجين لورقة الطباعة
         let twoExamsCont = document.getElementById('twoExamsContainer');
         twoExamsCont.innerHTML = '';
 
@@ -661,7 +661,6 @@
             twoExamsCont.innerHTML += copyHtml;
         }
 
-        // توليد كروت التصحيح (للتبويب الثالث)
         let gradingCont = document.getElementById('gradingQuestionsContainer');
         gradingCont.innerHTML = '';
 
