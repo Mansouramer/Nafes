@@ -142,7 +142,7 @@
             border: 1.5px solid #3b82f6;
             padding: 8px 12px;
             border-radius: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #0f172a;
         }
 
@@ -152,17 +152,17 @@
             font-weight: 700;
         }
 
-        /* شبكة عرض الأسئلة المتناسقة والتصاعدية */
+        /* شبكة عرض الأسئلة - عمودين في ورقة A4 */
         .questions-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 6px;
         }
 
         .question-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            padding: 8px 10px;
+            padding: 6px 8px;
             border-radius: 8px;
         }
 
@@ -170,24 +170,26 @@
             display: inline-block;
             background: #1d4ed8;
             color: #bfdbfe;
-            padding: 1px 6px;
+            padding: 1px 5px;
             border-radius: 4px;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: bold;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .question-title {
             font-weight: 700;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             color: var(--text-main);
-            margin-bottom: 6px;
-            line-height: 1.25;
+            margin-bottom: 4px;
+            line-height: 1.2;
         }
 
+        /* تنسيق الاختيارات عمودياً داخل نموذج الاختبار */
         .options-container {
             display: flex;
-            gap: 4px;
+            flex-direction: column;
+            gap: 3px;
         }
 
         .option-label {
@@ -200,60 +202,68 @@
             font-size: 0.68rem;
             font-weight: 600;
             color: var(--text-main);
-            flex: 1;
-            justify-content: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            width: 100%;
+            box-sizing: border-box;
         }
 
-        /* كروت التصحيح */
+        /* كروت التصحيح (دوائر بجانب بعض بشكل منظم) */
         .grading-card {
             background: linear-gradient(to bottom, #1e293b, #1e1b4b);
             border: 1.5px solid #4338ca;
-            padding: 14px;
+            padding: 12px;
             border-radius: var(--border-radius);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
+        }
+
+        .grading-options-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
         }
 
         .grading-option-label {
             display: flex;
             align-items: center;
             background: #0f172a;
-            border: 2px solid #475569;
-            padding: 10px 12px;
-            border-radius: 8px;
+            border: 1.5px solid #475569;
+            padding: 6px 10px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 0.88rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: #f8fafc;
-            margin-top: 6px;
+            flex: 1 1 45%;
+            box-sizing: border-box;
+            justify-content: space-between;
         }
 
         .grading-option-label input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
-            width: 22px;
-            height: 22px;
+            width: 18px;
+            height: 18px;
             border: 2px solid #94a3b8;
             border-radius: 50%;
-            margin-left: 10px;
+            margin-left: 6px;
             background: #1e293b;
+            flex-shrink: 0;
         }
 
         .grading-option-label input[type="radio"]:checked {
             border-color: var(--success);
             background-color: #065f46;
+            box-shadow: inset 0 0 0 3px #0f172a;
         }
 
         .correct-indicator {
-            margin-right: auto;
             background-color: #065f46;
             color: #34d399;
-            padding: 3px 8px;
+            padding: 2px 6px;
             border-radius: 4px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: bold;
+            margin-right: auto;
         }
 
         .chart-container {
@@ -346,11 +356,11 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة لضمان ظهور كل شيء في ورقة A4 واحدة بإطار منسق تماماً */
+        /* تنسيق الطباعة لضمان ظهور الاختبار في ورقة A4 واحدة بإطار منسق تماماً */
         @media print {
             @page { 
                 size: A4 portrait; 
-                margin: 0.3cm; 
+                margin: 0.4cm; 
             }
             body * { visibility: hidden; }
             
@@ -360,6 +370,7 @@
                 left: 0; 
                 top: 0; 
                 width: 100%; 
+                height: 100vh;
                 border: 2px solid #0f172a;
                 padding: 6px;
                 box-sizing: border-box;
@@ -399,7 +410,7 @@
             .question-title { color: #0f172a !important; font-size: 6.8pt !important; margin-bottom: 2px !important; }
             .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 5.5pt !important; padding: 0px 2px !important; }
             .options-container { gap: 2px !important; }
-            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 6pt !important; padding: 1px 2px !important; }
+            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 6pt !important; padding: 1px 3px !important; }
         }
     </style>
 </head>
@@ -684,7 +695,7 @@
                 optionsGradingHtml += `
                     <label class="grading-option-label">
                         <input type="radio" name="q_${qNum}" value="${optIdx}">
-                        <span>${opt}</span>
+                        <span style="overflow:hidden; text-overflow:ellipsis;">${opt}</span>
                         ${indicator}
                     </label>
                 `;
@@ -694,7 +705,7 @@
                 <div class="grading-card">
                     <span class="domain-tag">${item.domain}</span>
                     <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-size:0.75rem; color:#94a3b8; font-weight:normal;">المهارة: ${item.skill}</span></div>
-                    <div style="display:flex; flex-direction:column; gap:8px;">
+                    <div class="grading-options-group">
                         ${optionsGradingHtml}
                     </div>
                 </div>
