@@ -12,7 +12,6 @@
             --primary: #3b82f6;
             --success: #10b981;
             --danger: #ef4444;
-            --warning: #f59e0b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --border-color: #475569;
@@ -136,30 +135,6 @@
             box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
         }
 
-        /* كليشة الاختبار */
-        .exam-header {
-            background: #f1f5f9;
-            border: 1.5px solid #3b82f6;
-            padding: 6px 10px;
-            border-radius: 6px;
-            margin-bottom: 6px;
-            color: #0f172a;
-        }
-
-        .exam-header p {
-            margin: 2px 0;
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-
-        .question-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 4px 8px;
-            border-radius: 6px;
-            margin-bottom: 4px;
-        }
-
         .grading-card {
             background: linear-gradient(to bottom, #1e293b, #1e1b4b);
             border: 1.5px solid #4338ca;
@@ -172,19 +147,19 @@
             display: inline-block;
             background: #1d4ed8;
             color: #bfdbfe;
-            padding: 1px 4px;
-            border-radius: 3px;
-            font-size: 0.6rem;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
             font-weight: bold;
-            margin-bottom: 2px;
+            margin-bottom: 3px;
         }
 
         .question-title {
             font-weight: 700;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-main);
-            margin-bottom: 2px;
-            line-height: 1.2;
+            margin-bottom: 4px;
+            line-height: 1.3;
         }
 
         .grading-option-label {
@@ -224,29 +199,6 @@
             border-radius: 4px;
             font-size: 0.7rem;
             font-weight: bold;
-        }
-
-        .options-container {
-            display: flex;
-            flex-wrap: nowrap;
-            gap: 3px;
-        }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-size: 0.65rem;
-            font-weight: 600;
-            color: var(--text-main);
-            flex: 1;
-            justify-content: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .chart-container {
@@ -339,11 +291,11 @@
             background-color: var(--panel-bg);
         }
 
-        /* قواعد الطباعة الصارمة لورقة A4 واحدة بإطار أنيق ومتناسق تماماً */
+        /* الطباعة المحكمة لورقة A4 واحدة بإطار منسق */
         @media print {
             @page { 
                 size: A4 portrait; 
-                margin: 0.4cm; 
+                margin: 0.3cm; 
             }
             body * { visibility: hidden; }
             
@@ -353,10 +305,6 @@
                 left: 0; 
                 top: 0; 
                 width: 100%; 
-                border: 2px solid #0f172a;
-                padding: 6px;
-                box-sizing: border-box;
-                background: white !important;
             }
 
             body.print-single #studentDeepAnalysisBox, body.print-single #studentDeepAnalysisBox * { visibility: visible; }
@@ -368,32 +316,74 @@
             .no-print { display: none !important; }
             .section-panel { background: white !important; color: black !important; box-shadow: none !important; border: none !important; padding: 0 !important; display: block !important; }
             
-            .exam-header { 
-                background: #f8fafc !important; 
-                border: 1px solid #94a3b8 !important; 
-                color: black !important; 
-                padding: 4px 8px !important; 
-                margin-bottom: 4px !important; 
+            .exam-page-frame {
+                border: 2px solid #1e293b !important;
+                padding: 6px !important;
+                box-sizing: border-box;
+                background: #ffffff !important;
+                width: 100% !important;
             }
-            .exam-header p { color: black !important; font-size: 7.5pt !important; margin: 1px 0 !important; }
-            
-            .questions-grid-print {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 3px;
+
+            .print-header-table {
+                width: 100%;
+                border-collapse: collapse;
+                background: #f8fafc !important;
+                border: 1.5px solid #64748b !important;
+                margin-bottom: 4px;
             }
-            .question-card { 
-                background: #ffffff !important; 
-                border: 1px solid #cbd5e1 !important; 
-                color: black !important; 
-                padding: 3px 6px !important; 
-                margin-bottom: 2px !important; 
-                page-break-inside: avoid;
+            .print-header-table td {
+                padding: 4px 6px !important;
+                font-size: 7.5pt !important;
+                color: #0f172a !important;
+                font-weight: bold;
+                border: none !important;
+                text-align: right;
             }
-            .question-title { color: #0f172a !important; font-size: 6.8pt !important; margin-bottom: 2px !important; }
-            .domain-tag { background: #e2e8f0 !important; color: #1e293b !important; font-size: 5.5pt !important; padding: 0px 2px !important; }
-            .options-container { gap: 2px !important; }
-            .option-label { background: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #1e293b !important; font-size: 6.2pt !important; padding: 1px 3px !important; }
+
+            .exam-questions-table {
+                width: 100%;
+                border-collapse: separate;
+                border-spacing: 3px;
+            }
+            .exam-q-cell {
+                width: 50%;
+                vertical-align: top;
+                background: #ffffff !important;
+                border: 1px solid #94a3b8 !important;
+                border-radius: 4px;
+                padding: 4px 6px !important;
+            }
+            .p-domain {
+                background: #e2e8f0 !important;
+                color: #1e293b !important;
+                font-size: 5.5pt !important;
+                padding: 1px 3px !important;
+                border-radius: 2px;
+                display: inline-block;
+                font-weight: bold;
+                margin-bottom: 2px;
+            }
+            .p-qtitle {
+                color: #0f172a !important;
+                font-size: 6.8pt !important;
+                font-weight: bold;
+                margin-bottom: 3px;
+                line-height: 1.2;
+            }
+            .p-opts-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .p-opt-td {
+                background: #f8fafc !important;
+                border: 1px solid #cbd5e1 !important;
+                color: #1e293b !important;
+                font-size: 6pt !important;
+                padding: 2px 3px !important;
+                text-align: center;
+                width: 25%;
+                font-weight: 600;
+            }
         }
     </style>
 </head>
@@ -419,13 +409,13 @@
         <button class="action-btn" onclick="saveStudentsList()">حفظ قائمة الطلاب</button>
     </div>
 
-    <!-- 2. إعداد الاختبار (نموذج واحد منسق بإطار في ورقة واحدة) -->
+    <!-- 2. إعداد الاختبار -->
     <div id="exam-gen" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">توليد نموذج الاختبار (نموذج واحد منسق في ورقة A4)</h2>
+        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">توليد نموذج الاختبار (ورقة A4 واحدة ومنسقة تماماً)</h2>
         
         <div class="form-group no-print">
             <label for="domainFilterSelect">اختر المجال المستهدف للاختبار:</label>
-            <select id="domainFilterSelect" onchange="generateExamByDomain()">
+            <select id="domainFilterSelect" onchange="generateNewExam()">
                 <option value="all">جميع المجالات (اختبار شامل 10 أسئلة يغطي المجالات الأربعة)</option>
                 <option value="علوم الحياة">مجال: علوم الحياة</option>
                 <option value="العلوم الفيزيائية والكيميائية">مجال: العلوم الفيزيائية والكيميائية</option>
@@ -434,12 +424,10 @@
             </select>
         </div>
 
-        <button class="action-btn no-print" onclick="printExam()" style="margin-bottom: 15px;">🖨️ طباعة نموذج الاختبار (ورقة A4 واحدة ومنسقة بإطار)</button>
+        <button class="action-btn no-print" onclick="printExam()" style="margin-bottom: 15px;">🖨️ طباعة نموذج الاختبار (A4 واحدة بإطار منسق)</button>
         
         <div id="print-section">
-            <div id="singleExamContainer">
-                <!-- النموذج الواحد المنسق -->
-            </div>
+            <div id="singleExamContainer"></div>
         </div>
     </div>
 
@@ -540,7 +528,7 @@
     let currentDomainLabel = "شامل جميع المجالات";
 
     window.onload = function() {
-        generateExamByDomain();
+        loadOrGenerateExam();
         loadStudentsDropdowns();
         loadAnalyticsData();
     };
@@ -581,7 +569,20 @@
         });
     }
 
-    function generateExamByDomain() {
+    // استرجاع الاختبار المحفوظ أو توليد جديد عند تغيير القائمة
+    function loadOrGenerateExam() {
+        let savedExam = JSON.parse(localStorage.getItem('saved_active_exam_v4') || 'null');
+        if (savedExam && savedExam.indices && savedExam.indices.length > 0) {
+            currentExamIndices = savedExam.indices;
+            currentDomainLabel = savedExam.domainLabel;
+            document.getElementById('domainFilterSelect').value = savedExam.domainVal || 'all';
+            renderSystem();
+        } else {
+            generateNewExam();
+        }
+    }
+
+    function generateNewExam() {
         const selectedDomain = document.getElementById('domainFilterSelect').value;
         let filteredIndices = [];
         
@@ -617,6 +618,14 @@
         }
 
         currentExamIndices = filteredIndices;
+
+        // حفظ الاختبار الحالي تلقائياً لئلا يتغير عند تحديث الصفحة
+        localStorage.setItem('saved_active_exam_v4', JSON.stringify({
+            indices: currentExamIndices,
+            domainLabel: currentDomainLabel,
+            domainVal: selectedDomain
+        }));
+
         renderSystem();
     }
 
@@ -624,30 +633,66 @@
         let singleCont = document.getElementById('singleExamContainer');
         
         let examHtml = `
-            <div class="exam-header">
-                <p><strong>المدرسة:</strong> مدرسة داؤود بن عروة الثقفي الابتدائية &nbsp;&nbsp;|&nbsp;&nbsp; <strong>المادة:</strong> العلوم - الصف السادس</p>
-                <p><strong>اسم الطالب:</strong> .............................................................. &nbsp;&nbsp;|&nbsp;&nbsp; <strong>النوع:</strong> ${currentDomainLabel}</p>
-            </div>
-            <div class="questions-grid-print">
+            <div class="exam-page-frame">
+                <table class="print-header-table">
+                    <tr>
+                        <td>المدرسة: مدرسة داؤود بن عروة الثقفي الابتدائية &nbsp;|&nbsp; المادة: العلوم (الصف السادس)</td>
+                        <td style="text-align: left;">النوع: ${currentDomainLabel}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">اسم الطالب: ........................................................................................</td>
+                    </tr>
+                </table>
+                
+                <table class="exam-questions-table">
         `;
 
-        currentExamIndices.forEach((dataIdx, qNum) => {
-            let item = skillsData[dataIdx];
+        for (let i = 0; i < currentExamIndices.length; i += 2) {
+            let idx1 = currentExamIndices[i];
+            let item1 = skillsData[idx1];
+            
+            examHtml += `<tr>`;
+            
             examHtml += `
-                <div class="question-card">
-                    <span class="domain-tag">${item.domain}</span>
-                    <div class="question-title">س${qNum+1}: ${item.q}</div>
-                    <div class="options-container">
-                        <div class="option-label">${item.options[0]}</div>
-                        <div class="option-label">${item.options[1]}</div>
-                        <div class="option-label">${item.options[2]}</div>
-                        <div class="option-label">${item.options[3]}</div>
-                    </div>
-                </div>
+                <td class="exam-q-cell">
+                    <div class="p-domain">${item1.domain}</div>
+                    <div class="p-qtitle">س${i+1}: ${item1.q}</div>
+                    <table class="p-opts-table">
+                        <tr>
+                            <td class="p-opt-td">${item1.options[0]}</td>
+                            <td class="p-opt-td">${item1.options[1]}</td>
+                            <td class="p-opt-td">${item1.options[2]}</td>
+                            <td class="p-opt-td">${item1.options[3]}</td>
+                        </tr>
+                    </table>
+                </td>
             `;
-        });
 
-        examHtml += `</div>`;
+            if (i + 1 < currentExamIndices.length) {
+                let idx2 = currentExamIndices[i+1];
+                let item2 = skillsData[idx2];
+                examHtml += `
+                    <td class="exam-q-cell">
+                        <div class="p-domain">${item2.domain}</div>
+                        <div class="p-qtitle">س${i+2}: ${item2.q}</div>
+                        <table class="p-opts-table">
+                            <tr>
+                                <td class="p-opt-td">${item2.options[0]}</td>
+                                <td class="p-opt-td">${item2.options[1]}</td>
+                                <td class="p-opt-td">${item2.options[2]}</td>
+                                <td class="p-opt-td">${item2.options[3]}</td>
+                            </tr>
+                        </table>
+                    </td>
+                `;
+            } else {
+                examHtml += `<td class="exam-q-cell" style="border:none; background:transparent !important;"></td>`;
+            }
+
+            examHtml += `</tr>`;
+        }
+
+        examHtml += `</table></div>`;
         singleCont.innerHTML = examHtml;
 
         let gradingCont = document.getElementById('gradingQuestionsContainer');
@@ -671,7 +716,7 @@
                 <div class="grading-card">
                     <span class="domain-tag">${item.domain}</span>
                     <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-size:0.75rem; color:#94a3b8; font-weight:normal;">المهارة: ${item.skill}</span></div>
-                    <div class="options-container-grading">
+                    <div style="display:flex; flex-direction:column; gap:8px;">
                         ${optionsGradingHtml}
                     </div>
                 </div>
