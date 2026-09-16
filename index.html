@@ -136,7 +136,6 @@
             box-shadow: 0 3px 8px rgba(5, 150, 105, 0.3);
         }
 
-        /* كليشة الاختبار */
         .exam-header {
             background: linear-gradient(135deg, #f8fafc, #e2e8f0);
             border: 1.5px solid #3b82f6;
@@ -152,7 +151,6 @@
             font-weight: 700;
         }
 
-        /* شبكة عرض الأسئلة - 3 أعمدة متناسقة */
         .questions-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -205,7 +203,7 @@
             box-sizing: border-box;
         }
 
-        /* --- تنسيقات التصحيح السريع (سؤال بسؤال) --- */
+        /* --- تنسيقات التصحيح السريع (سؤال بسؤال المنظمة) --- */
         .touch-grading-card {
             background: linear-gradient(to bottom, #1e293b, #1e1b4b);
             border: 2px solid #4338ca;
@@ -216,7 +214,6 @@
             transition: background 0.4s ease, border-color 0.4s ease;
         }
 
-        /* تأثير تغير اللون التنبيهي عند الانتقال للطالب التالي */
         .touch-grading-card.student-changed {
             background: #065f46 !important;
             border-color: #34d399 !important;
@@ -260,10 +257,11 @@
             line-height: 1.6;
         }
 
+        /* تنسيق شبكي مرتب ومنتظم تماماً للخيارات */
         .options-grid-fast {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            grid-template-columns: 1fr;
+            gap: 8px;
             margin-top: 12px;
         }
 
@@ -271,17 +269,21 @@
             background: var(--panel-bg);
             border: 2px solid var(--border-color);
             color: var(--text-main);
-            padding: 12px;
+            padding: 12px 16px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
             cursor: pointer;
             text-align: right;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             transition: 0.1s;
         }
 
         .opt-fast-btn:hover {
             background: #475569;
+            border-color: var(--primary);
         }
 
         .opt-fast-btn.correct-choice {
@@ -294,6 +296,14 @@
             background: #7f1d1d !important;
             border-color: #f87171 !important;
             color: #ffffff !important;
+        }
+
+        .correct-badge-text {
+            background: #047857;
+            color: #a7f3d0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
         }
 
         .navigation-btns {
@@ -392,7 +402,6 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة الذكي */
         @media print {
             @page { 
                 size: A4 landscape; 
@@ -508,7 +517,6 @@
             </select>
         </div>
         
-        <!-- كارت التصحيح السريع الفردي -->
         <div id="touchGradingCard" class="touch-grading-card">
             <div id="studentHeaderBadge" class="student-title-badge"></div>
             
@@ -602,7 +610,6 @@
     let currentExamIndices = [];
     let currentDomainLabel = "شامل جميع المجالات";
 
-    // المتغيرات الخاصة بجلسة التصحيح الفردي السريع
     let currentQuestionStep = 0;
     let studentAnswers = {};
 
@@ -737,7 +744,6 @@
         singleCont.innerHTML = examHtml;
     }
 
-    // --- نظام التصحيح السريع الجديد (سؤال بسؤال) ---
     function startTouchGradingSession() {
         const studentName = document.getElementById('studentSelect').value;
         if (!studentName) {
@@ -772,8 +778,12 @@
         item.options.forEach((opt, optIdx) => {
             let isSelected = (savedOpt === optIdx);
             let btnClass = isSelected ? (optIdx === item.correct ? 'correct-choice' : 'wrong-choice') : '';
+            let indicator = optIdx === item.correct ? `<span class="correct-badge-text">الإجابة النموذجية</span>` : '';
             optionsHtml += `
-                <button type="button" class="opt-fast-btn ${btnClass}" onclick="selectFastOpt(${qNum}, ${optIdx}, this)">${opt}</button>
+                <button type="button" class="opt-fast-btn ${btnClass}" onclick="selectFastOpt(${qNum}, ${optIdx}, this)">
+                    <span>${opt}</span>
+                    ${indicator}
+                </button>
             `;
         });
 
@@ -809,7 +819,6 @@
             });
         }
 
-        // الانتقال التلقائي للسؤال التالي بسرعة بعد نصف ثانية إذا لم يكن الأخير
         setTimeout(() => {
             if (currentQuestionStep < currentExamIndices.length - 1) {
                 currentQuestionStep++;
@@ -896,7 +905,6 @@
         localStorage.setItem('science_records_v4', JSON.stringify(records));
         loadAnalyticsData();
 
-        // الانتقال التلقائي للطالب التالي في القائمة مع تأثير تغير اللون التنبيهي
         let nextIndex = studentSelect.selectedIndex + 1;
         if (nextIndex < studentSelect.options.length) {
             const card = document.getElementById('touchGradingCard');
