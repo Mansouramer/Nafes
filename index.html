@@ -185,7 +185,6 @@
             line-height: 1.2;
         }
 
-        /* تنسيق الاختيارات عمودياً داخل نموذج الاختبار */
         .options-container {
             display: flex;
             flex-direction: column;
@@ -206,64 +205,101 @@
             box-sizing: border-box;
         }
 
-        /* كروت التصحيح */
-        .grading-card {
+        /* --- تنسيقات التصحيح السريع (سؤال بسؤال) --- */
+        .touch-grading-card {
             background: linear-gradient(to bottom, #1e293b, #1e1b4b);
-            border: 1.5px solid #4338ca;
-            padding: 12px;
+            border: 2px solid #4338ca;
+            padding: 15px;
             border-radius: var(--border-radius);
-            margin-bottom: 12px;
+            margin-top: 15px;
+            display: none;
+            transition: background 0.4s ease, border-color 0.4s ease;
         }
 
-        .grading-options-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 8px;
+        /* تأثير تغير اللون التنبيهي عند الانتقال للطالب التالي */
+        .touch-grading-card.student-changed {
+            background: #065f46 !important;
+            border-color: #34d399 !important;
         }
 
-        .grading-option-label {
+        .student-title-badge {
             display: flex;
+            justify-content: space-between;
             align-items: center;
             background: #0f172a;
-            border: 1.5px solid #475569;
-            padding: 6px 10px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #f8fafc;
-            flex: 1 1 45%;
-            box-sizing: border-box;
-            justify-content: space-between;
-        }
-
-        .grading-option-label input[type="radio"] {
-            appearance: none;
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid #94a3b8;
-            border-radius: 50%;
-            margin-left: 6px;
-            background: #1e293b;
-            flex-shrink: 0;
-        }
-
-        .grading-option-label input[type="radio"]:checked {
-            border-color: var(--success);
-            background-color: #065f46;
-            box-shadow: inset 0 0 0 3px #0f172a;
-        }
-
-        .correct-indicator {
-            background-color: #065f46;
-            color: #34d399;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.65rem;
+            padding: 10px 15px;
+            border-radius: 8px;
             font-weight: bold;
-            margin-right: auto;
+            color: #93c5fd;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .live-score-box {
+            background: var(--success);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .single-step-question-box {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .single-step-question-box h4 {
+            margin-top: 0;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .options-grid-fast {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .opt-fast-btn {
+            background: var(--panel-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: right;
+            transition: 0.1s;
+        }
+
+        .opt-fast-btn:hover {
+            background: #475569;
+        }
+
+        .opt-fast-btn.correct-choice {
+            background: #065f46 !important;
+            border-color: #34d399 !important;
+            color: #ffffff !important;
+        }
+
+        .opt-fast-btn.wrong-choice {
+            background: #7f1d1d !important;
+            border-color: #f87171 !important;
+            color: #ffffff !important;
+        }
+
+        .navigation-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .chart-container {
@@ -356,7 +392,7 @@
             background-color: var(--panel-bg);
         }
 
-        /* تنسيق الطباعة الذكي لضمان صفحة واحدة بدقة */
+        /* تنسيق الطباعة الذكي */
         @media print {
             @page { 
                 size: A4 landscape; 
@@ -460,17 +496,29 @@
 
     <!-- 3. التصحيح والرصد -->
     <div id="grading" class="section-panel">
-        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">تصحيح الاختبار ورصد النتيجة</h2>
+        <h2 style="font-size: 1rem; margin-top:0; margin-bottom:12px;">تصحيح الاختبار (سؤال بسؤال لسرعة الإنجاز)</h2>
+        <p style="font-size: 0.85rem; color:var(--text-muted); margin-bottom: 12px;">
+            تظهر الأسئلة سؤالاً تلو الآخر؛ اضغط إجابة الطالب لينتقل النظام تلقائياً للسؤال التالي بسرعة فائقة:
+        </p>
         
         <div class="form-group">
-            <label for="studentSelect">اختر اسم الطالب:</label>
-            <select id="studentSelect">
-                <option value="">-- اضغط لحفظ أسماء الطلاب أولاً --</option>
+            <label for="studentSelect">اختر اسم الطالب للبدء:</label>
+            <select id="studentSelect" onchange="startTouchGradingSession()">
+                <option value="">-- اضغط لاختيار طالب وبدء التصحيح --</option>
             </select>
         </div>
         
-        <div id="gradingQuestionsContainer"></div>
-        <button class="action-btn" onclick="saveStudentGrade()">حفظ ورصد نتيجة الطالب وتحليل المجالات</button>
+        <!-- كارت التصحيح السريع الفردي -->
+        <div id="touchGradingCard" class="touch-grading-card">
+            <div id="studentHeaderBadge" class="student-title-badge"></div>
+            
+            <div id="singleQuestionContainer"></div>
+            
+            <div class="navigation-btns" style="justify-content: space-between;">
+                <button class="action-btn" style="background: #475569; width: 48%;" onclick="prevQuestionStep()">⬅ السؤال السابق</button>
+                <button class="action-btn" style="background: var(--success); width: 48%;" onclick="nextQuestionStepOrFinish()">التالي / حفظ ➡</button>
+            </div>
+        </div>
     </div>
 
     <!-- 4. التحليل والرسوم البيانية -->
@@ -554,6 +602,10 @@
     let currentExamIndices = [];
     let currentDomainLabel = "شامل جميع المجالات";
 
+    // المتغيرات الخاصة بجلسة التصحيح الفردي السريع
+    let currentQuestionStep = 0;
+    let studentAnswers = {};
+
     window.onload = function() {
         loadOrGenerateExam();
         loadStudentsDropdowns();
@@ -584,7 +636,7 @@
         let studentSelect = document.getElementById('studentSelect');
         let querySelect = document.getElementById('queryStudentSelect');
         
-        studentSelect.innerHTML = '<option value="">-- اختر اسم الطالب --</option>';
+        studentSelect.innerHTML = '<option value="">-- اضغط لاختيار طالب وبدء التصحيح --</option>';
         querySelect.innerHTML = '<option value="">-- اختر طالباً للعرض الفردي --</option>';
         
         let savedText = students.join('\n');
@@ -683,43 +735,109 @@
 
         examHtml += `</div>`;
         singleCont.innerHTML = examHtml;
-
-        let gradingCont = document.getElementById('gradingQuestionsContainer');
-        gradingCont.innerHTML = '';
-
-        currentExamIndices.forEach((dataIdx, qNum) => {
-            let item = skillsData[dataIdx];
-            let optionsGradingHtml = '';
-            item.options.forEach((opt, optIdx) => {
-                let indicator = optIdx === item.correct ? `<span class="correct-indicator">الإجابة النموذجية</span>` : '';
-                optionsGradingHtml += `
-                    <label class="grading-option-label">
-                        <input type="radio" name="q_${qNum}" value="${optIdx}">
-                        <span style="overflow:hidden; text-overflow:ellipsis;">${opt}</span>
-                        ${indicator}
-                    </label>
-                `;
-            });
-
-            let gradingHtml = `
-                <div class="grading-card">
-                    <span class="domain-tag">${item.domain}</span>
-                    <div class="question-title">س${qNum+1}: ${item.q}<br><span style="font-size:0.75rem; color:#94a3b8; font-weight:normal;">المهارة: ${item.skill}</span></div>
-                    <div class="grading-options-group">
-                        ${optionsGradingHtml}
-                    </div>
-                </div>
-            `;
-            gradingCont.innerHTML += gradingHtml;
-        });
     }
 
-    function saveStudentGrade() {
+    // --- نظام التصحيح السريع الجديد (سؤال بسؤال) ---
+    function startTouchGradingSession() {
         const studentName = document.getElementById('studentSelect').value;
         if (!studentName) {
-            alert('يرجى اختيار اسم الطالب من القائمة.');
+            document.getElementById('touchGradingCard').style.display = 'none';
             return;
         }
+
+        if (currentExamIndices.length === 0) {
+            generateNewExam();
+        }
+
+        currentQuestionStep = 0;
+        studentAnswers = {};
+        document.getElementById('touchGradingCard').style.display = 'block';
+        renderCurrentStepView();
+    }
+
+    function renderCurrentStepView() {
+        const studentName = document.getElementById('studentSelect').value;
+        
+        document.getElementById('studentHeaderBadge').innerHTML = `
+            <span>👤 الطالب: ${studentName}</span>
+            <div class="live-score-box">السؤال ${currentQuestionStep + 1} / ${currentExamIndices.length}</div>
+        `;
+
+        let dataIdx = currentExamIndices[currentQuestionStep];
+        let item = skillsData[dataIdx];
+        let qNum = currentQuestionStep + 1;
+        let savedOpt = studentAnswers[qNum] !== undefined ? studentAnswers[qNum] : '';
+
+        let optionsHtml = '';
+        item.options.forEach((opt, optIdx) => {
+            let isSelected = (savedOpt === optIdx);
+            let btnClass = isSelected ? (optIdx === item.correct ? 'correct-choice' : 'wrong-choice') : '';
+            optionsHtml += `
+                <button type="button" class="opt-fast-btn ${btnClass}" onclick="selectFastOpt(${qNum}, ${optIdx}, this)">${opt}</button>
+            `;
+        });
+
+        const container = document.getElementById('singleQuestionContainer');
+        container.innerHTML = `
+            <div class="single-step-question-box">
+                <span class="domain-tag">${item.domain}</span>
+                <h4>س${qNum}: ${item.q}</h4>
+                <p style="font-size:0.75rem; color:var(--text-muted); margin:0 0 10px 0;">المهارة: ${item.skill}</p>
+                <div class="options-grid-fast">
+                    ${optionsHtml}
+                </div>
+            </div>
+        `;
+    }
+
+    function selectFastOpt(qNum, optIdx, btn) {
+        studentAnswers[qNum] = optIdx;
+        let dataIdx = currentExamIndices[qNum - 1];
+        let item = skillsData[dataIdx];
+
+        const parentGrid = btn.parentElement;
+        parentGrid.querySelectorAll('.opt-fast-btn').forEach(b => {
+            b.classList.remove('correct-choice', 'wrong-choice');
+        });
+
+        if (optIdx === item.correct) {
+            btn.classList.add('correct-choice');
+        } else {
+            btn.classList.add('wrong-choice');
+            parentGrid.querySelectorAll('.opt-fast-btn').forEach((b, idx) => {
+                if (idx === item.correct) b.classList.add('correct-choice');
+            });
+        }
+
+        // الانتقال التلقائي للسؤال التالي بسرعة بعد نصف ثانية إذا لم يكن الأخير
+        setTimeout(() => {
+            if (currentQuestionStep < currentExamIndices.length - 1) {
+                currentQuestionStep++;
+                renderCurrentStepView();
+            }
+        }, 300);
+    }
+
+    function prevQuestionStep() {
+        if (currentQuestionStep > 0) {
+            currentQuestionStep--;
+            renderCurrentStepView();
+        }
+    }
+
+    function nextQuestionStepOrFinish() {
+        if (currentQuestionStep < currentExamIndices.length - 1) {
+            currentQuestionStep++;
+            renderCurrentStepView();
+        } else {
+            saveStudentGradeAndProceed();
+        }
+    }
+
+    function saveStudentGradeAndProceed() {
+        const studentSelect = document.getElementById('studentSelect');
+        const studentName = studentSelect.value;
+        if (!studentName) return;
 
         let score = 0;
         let failedDetails = [];
@@ -732,15 +850,16 @@
             "علم الفلك": { total: 0, correct: 0 }
         };
 
-        currentExamIndices.forEach((dataIdx, qNum) => {
+        currentExamIndices.forEach((dataIdx, qNumIndex) => {
             let item = skillsData[dataIdx];
+            let qNum = qNumIndex + 1;
             if (!domainStats[item.domain]) {
                 domainStats[item.domain] = { total: 0, correct: 0 };
             }
             domainStats[item.domain].total++;
 
-            const selectedOpt = document.querySelector(`input[name="q_${qNum}"]:checked`);
-            if (selectedOpt && parseInt(selectedOpt.value) === item.correct) {
+            let studentChoice = studentAnswers[qNum];
+            if (studentChoice !== undefined && studentChoice === item.correct) {
                 score++;
                 domainStats[item.domain].correct++;
             } else {
@@ -775,10 +894,24 @@
         });
 
         localStorage.setItem('science_records_v4', JSON.stringify(records));
-        alert('تم رصد النتيجة وتحليل المجالات بنجاح!');
-        document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
-        document.getElementById('studentSelect').value = '';
         loadAnalyticsData();
+
+        // الانتقال التلقائي للطالب التالي في القائمة مع تأثير تغير اللون التنبيهي
+        let nextIndex = studentSelect.selectedIndex + 1;
+        if (nextIndex < studentSelect.options.length) {
+            const card = document.getElementById('touchGradingCard');
+            card.classList.add('student-changed');
+
+            setTimeout(() => {
+                card.classList.remove('student-changed');
+                studentSelect.selectedIndex = nextIndex;
+                startTouchGradingSession();
+            }, 500);
+        } else {
+            alert('🎉 تم الانتهاء من تصحيح ورصد جميع طلاب القائمة بنجاح!');
+            document.getElementById('touchGradingCard').style.display = 'none';
+            studentSelect.value = '';
+        }
     }
 
     function loadAnalyticsData() {
@@ -921,3 +1054,4 @@
 
 </body>
 </html>
+
